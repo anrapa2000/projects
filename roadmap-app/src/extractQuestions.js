@@ -50,3 +50,47 @@ function extractLeetCodeProblems() {
 // Use the function
 const problems = extractLeetCodeProblems();
 console.log(problems);
+
+function extractNeetCodeProblems() {
+  const results = {};
+  
+  // Select all the accordion containers (one for each topic)
+  const accordionContainers = document.querySelectorAll('.accordion-container');
+
+  accordionContainers.forEach(container => {
+      // Get the topic title
+      const topicTitleElement = container.querySelector('.accordion p');
+      const topicTitle = topicTitleElement ? topicTitleElement.textContent.trim() : 'Unknown Topic';
+
+      // Initialize the array for this topic if it doesn't exist
+      if (!results[topicTitle]) {
+          results[topicTitle] = [];
+      }
+
+      // Find all the problems in the current accordion
+      const rows = container.querySelectorAll('tr.ng-star-inserted');
+      rows.forEach(row => {
+          // Extract the title, href, and difficulty
+          const titleLink = row.querySelector('a.table-text');
+          const diffButton = row.querySelector('button.table-button');
+          if (titleLink && diffButton) {
+              const title = titleLink.textContent.trim();
+              const href = titleLink.getAttribute('href').trim();
+              const difficulty = diffButton.textContent.trim();
+
+              // Push the extracted info into the corresponding topic category
+              results[topicTitle].push({
+                  title: title,
+                  href: href,
+                  difficulty: difficulty
+              });
+          }
+      });
+  });
+
+  return results;
+}
+
+// Example usage: Call this function to get categorized problems
+const categorizedProblems = extractNeetCodeProblems();
+console.log(categorizedProblems);
