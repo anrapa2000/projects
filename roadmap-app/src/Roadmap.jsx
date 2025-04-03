@@ -230,11 +230,15 @@ const edges = [
   { id: "e16-18", source: "16", target: "18" },
 ];
 
-export default function Roadmap({ problemsData }) {
+export default function Roadmap({ problemsData, companyName }) {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [completedProblems, setCompletedProblems] = useState(() => {
     const savedState = localStorage.getItem("completedProblems");
     return savedState ? JSON.parse(savedState) : {}; // Parse saved data or initialize as empty
+  });
+  const [lastUpdated, setLastUpdated] = useState(() => {
+    const savedState = localStorage.getItem("lastUpdated");
+    return savedState ? JSON.parse(savedState) : {};
   });
 
   useEffect(() => {
@@ -242,11 +246,21 @@ export default function Roadmap({ problemsData }) {
     if (savedState) {
       setCompletedProblems(JSON.parse(savedState));
     }
+
+    const savedDate = localStorage.getItem("lastUpdated");
+    console.log("savedDate", savedDate);
+    if (savedDate) {
+      setLastUpdated(JSON.parse(savedDate));
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("completedProblems", JSON.stringify(completedProblems));
-  }, [completedProblems]);
+    localStorage.setItem(
+      "completedProblems",
+      JSON.stringify(completedProblems)
+    );
+    localStorage.setItem("lastUpdated", JSON.stringify(lastUpdated));
+  }, [completedProblems, lastUpdated]);
 
   const handleNodeClick = (_, node) => {
     setSelectedTopic(node.data.label);
@@ -265,6 +279,50 @@ export default function Roadmap({ problemsData }) {
         [topic]: updatedTopicCompleted,
       };
     });
+  };
+
+  // const handleUpdateDate = (problemIndex) => {
+  //   if (selectedTopic) {
+  //     const newDate = new Date().toLocaleString(); // Get the current date and time
+  //     setLastUpdated((prev) => ({
+  //       ...prev,
+  //       [selectedTopic]: {
+  //         ...prev[selectedTopic],
+  //         [problemIndex]: newDate, // Update only for the specific problem
+  //       },
+  //     }));
+
+  //     // Update localStorage for that specific topic and problem
+  //     localStorage.setItem("lastUpdated", JSON.stringify({
+  //       ...lastUpdated,
+  //       [selectedTopic]: {
+  //         ...lastUpdated[selectedTopic],
+  //         [problemIndex]: newDate // Store the new date for the specific problem
+  //       }
+  //     }));
+  //   }
+  // };
+
+  const handleUpdateDate = (company, problemIndex) => {
+    if (selectedTopic) {
+      const newDate = new Date().toLocaleString(); // Get the current date and time
+
+      setLastUpdated((prev) => {
+        const updatedState = {
+          ...prev,
+          [company]: {
+            ...prev[company], // Retain all existing entries for the current company
+            [selectedTopic]: {
+              ...prev[company]?.[selectedTopic], // Retain all existing entries for the current topic within the company
+              [problemIndex]: newDate, // Update only for the specific problem
+            },
+          },
+        };
+
+        localStorage.setItem("lastUpdated", JSON.stringify(updatedState));
+        return updatedState; // Return the newly updated state
+      });
+    }
   };
 
   return (
@@ -322,6 +380,24 @@ export default function Roadmap({ problemsData }) {
                     <p>
                       <strong>Frequency:</strong> {problem.frequency || "N/A"}
                     </p>
+                    <div className="mt-6">
+                      <h3 className="text-lg font-semibold">
+                        Last Updated Date:
+                      </h3>
+                      <p className="text-gray-400">
+                        {lastUpdated[companyName]
+                          ? lastUpdated[companyName][selectedTopic]?.[index] ||
+                            "null"
+                          : "null"}
+                      </p>
+                      <button
+                        className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+                        onClick={() => handleUpdateDate(companyName, index)}
+                        disabled={!selectedTopic}
+                      >
+                        Update Date
+                      </button>
+                    </div>
                   </div>
                 </div>
               </li>

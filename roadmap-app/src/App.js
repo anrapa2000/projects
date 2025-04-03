@@ -12,11 +12,15 @@ const App = () => {
         <Route path="/" element={<CompanyList />} />
         <Route
           path="/roadmap/neetcode"
-          element={<Roadmap problemsData={neetcodeData} />}
+          element={
+            <Roadmap problemsData={neetcodeData} companyName={"neetcode"} />
+          }
         />
         <Route
           path="/roadmap/general"
-          element={<Roadmap problemsData={problemsData} />}
+          element={
+            <Roadmap problemsData={problemsData} companyName={"general"} />
+          }
         />
       </Routes>
     </Router>
