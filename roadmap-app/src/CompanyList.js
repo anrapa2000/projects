@@ -1,12 +1,12 @@
 // CompanyList.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import './CompanyList.css'; // Import the CSS file
+import "./CompanyList.css"; // Import the CSS file
 
 const companies = [
   { id: 1, routeName: "neetcode", name: "NeetCode 250" },
-  { id: 2, routeName: "amazon", name: "Amazon" },
-  { id: 3, routeName: "general", name: "General" },
+  { id: 2, routeName: "general", name: "General" },
+  { id: 3, routeName: "amazon", name: "Amazon" },
   // Add more companies as needed
 ];
 

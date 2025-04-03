@@ -230,11 +230,9 @@ const edges = [
   { id: "e16-18", source: "16", target: "18" },
 ];
 
-export default function Roadmap(problemsData) {
-  problemsData = problemsData.problemsData
+export default function Roadmap({ problemsData }) {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [completedProblems, setCompletedProblems] = useState(() => {
-    // Retrieve data from localStorage on the initial render
     const savedState = localStorage.getItem("completedProblems");
     return savedState ? JSON.parse(savedState) : {}; // Parse saved data or initialize as empty
   });
@@ -247,10 +245,7 @@ export default function Roadmap(problemsData) {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(
-      "completedProblems",
-      JSON.stringify(completedProblems)
-    );
+    localStorage.setItem("completedProblems", JSON.stringify(completedProblems));
   }, [completedProblems]);
 
   const handleNodeClick = (_, node) => {
@@ -275,13 +270,13 @@ export default function Roadmap(problemsData) {
   return (
     <div className="flex h-screen bg-gradient-to-r from-gray-900 via-blue-900 to-black text-white">
       {/* Roadmap Visualization */}
-      <div className="w-3/4 h-screen p-4 bg-gray-950 shadow-lg rounded-lg border border-blue-400">
+      <div className="w-3/4 h-screen p-6 bg-gray-800 shadow-lg rounded-lg border border-blue-500">
         <ReactFlow nodes={nodes} edges={edges} onNodeClick={handleNodeClick} />
       </div>
 
       {/* Sidebar for Problems */}
-      <div className="w-1/4 bg-gradient-to-b from-blue-800 to-gray-800 p-4 overflow-y-auto shadow-xl rounded-lg border border-blue-500">
-        <h2 className="text-xl font-bold mb-4 text-blue-300">
+      <div className="w-1/4 h-screen p-6 bg-gradient-to-b from-blue-800 to-gray-800 overflow-y-auto shadow-xl rounded-lg border border-blue-500">
+        <h2 className="text-2xl font-bold mb-4 text-blue-300">
           {selectedTopic || "Select a Topic"}
         </h2>
         {selectedTopic && problemsData[selectedTopic] ? (
@@ -289,12 +284,12 @@ export default function Roadmap(problemsData) {
             {problemsData[selectedTopic].map((problem, index) => (
               <li
                 key={index}
-                className="p-4 bg-gray-900 rounded-lg shadow-md hover:bg-gray-800 flex items-start"
+                className="p-4 bg-gray-900 rounded-lg shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-lg flex items-start"
               >
                 {/* Checkbox for Completion */}
                 <input
                   type="checkbox"
-                  className="mr-2 mt-1"
+                  className="mr-2 mt-1 text-blue-500 ring-blue-300 focus:ring-2"
                   checked={completedProblems[selectedTopic]?.[index] || false}
                   onChange={() => handleCheckboxChange(selectedTopic, index)}
                 />
@@ -304,7 +299,7 @@ export default function Roadmap(problemsData) {
                     href={problem.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-lg text-blue-200 hover:text-blue-400 hover:underline"
+                    className="text-lg text-blue-200 hover:text-blue-400 hover:underline font-medium"
                   >
                     {problem.title}
                   </a>
@@ -325,8 +320,7 @@ export default function Roadmap(problemsData) {
                       </span>
                     </p>
                     <p>
-                      <strong>Frequency:</strong>{" "}
-                      {problem.frequency ? `${problem.frequency}` : "N/A"}
+                      <strong>Frequency:</strong> {problem.frequency || "N/A"}
                     </p>
                   </div>
                 </div>
