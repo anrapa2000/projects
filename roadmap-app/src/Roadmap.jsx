@@ -241,6 +241,11 @@ export default function Roadmap({ problemsData, companyName }) {
     return savedState ? JSON.parse(savedState) : {};
   });
 
+  const [notes, setNotes] = useState(() => {
+    const savedNotes = localStorage.getItem("problemNotes");
+    return savedNotes ? JSON.parse(savedNotes) : {}; // Parse saved notes or initialize as empty
+  });
+
   useEffect(() => {
     const savedState = localStorage.getItem("completedProblems");
     if (savedState) {
@@ -252,6 +257,11 @@ export default function Roadmap({ problemsData, companyName }) {
     if (savedDate) {
       setLastUpdated(JSON.parse(savedDate));
     }
+
+    const savedNotes = localStorage.getItem("problemNotes");
+    if (savedNotes) {
+      setNotes(JSON.parse(savedNotes));
+    }
   }, []);
 
   useEffect(() => {
@@ -260,7 +270,8 @@ export default function Roadmap({ problemsData, companyName }) {
       JSON.stringify(completedProblems)
     );
     localStorage.setItem("lastUpdated", JSON.stringify(lastUpdated));
-  }, [completedProblems, lastUpdated]);
+    localStorage.setItem("problemNotes", JSON.stringify(notes));
+  }, [completedProblems, lastUpdated, notes]);
 
   const handleNodeClick = (_, node) => {
     setSelectedTopic(node.data.label);
@@ -281,28 +292,6 @@ export default function Roadmap({ problemsData, companyName }) {
     });
   };
 
-  // const handleUpdateDate = (problemIndex) => {
-  //   if (selectedTopic) {
-  //     const newDate = new Date().toLocaleString(); // Get the current date and time
-  //     setLastUpdated((prev) => ({
-  //       ...prev,
-  //       [selectedTopic]: {
-  //         ...prev[selectedTopic],
-  //         [problemIndex]: newDate, // Update only for the specific problem
-  //       },
-  //     }));
-
-  //     // Update localStorage for that specific topic and problem
-  //     localStorage.setItem("lastUpdated", JSON.stringify({
-  //       ...lastUpdated,
-  //       [selectedTopic]: {
-  //         ...lastUpdated[selectedTopic],
-  //         [problemIndex]: newDate // Store the new date for the specific problem
-  //       }
-  //     }));
-  //   }
-  // };
-
   const handleUpdateDate = (company, problemIndex) => {
     if (selectedTopic) {
       const newDate = new Date().toLocaleString(); // Get the current date and time
@@ -321,6 +310,52 @@ export default function Roadmap({ problemsData, companyName }) {
 
         localStorage.setItem("lastUpdated", JSON.stringify(updatedState));
         return updatedState; // Return the newly updated state
+      });
+    }
+  };
+
+  const handleResetDate = (company, problemIndex) => {
+    if (selectedTopic) {
+      const newDate = null;
+
+      setLastUpdated((prev) => {
+        const updatedState = {
+          ...prev,
+          [company]: {
+            ...prev[company], // Retain all existing entries for the current company
+            [selectedTopic]: {
+              ...prev[company]?.[selectedTopic], // Retain all existing entries for the current topic within the company
+              [problemIndex]: newDate, // Update only for the specific problem
+            },
+          },
+        };
+
+        localStorage.setItem("lastUpdated", JSON.stringify(updatedState));
+        return updatedState; // Return the newly updated state
+      });
+    }
+  };
+
+  const handleNoteChange = (problemIndex, value) => {
+    if (selectedTopic) {
+      setNotes((prevNotes) => {
+        const companyNotes = prevNotes[companyName] || {};
+        const topicNotes = companyNotes[selectedTopic] || {};
+        const updatedTopicNotes = {
+          ...topicNotes,
+          [problemIndex]: value,
+        };
+
+        const updatedNotes = {
+          ...prevNotes,
+          [companyName]: {
+            ...companyNotes,
+            [selectedTopic]: updatedTopicNotes,
+          },
+        };
+
+        localStorage.setItem("problemNotes", JSON.stringify(updatedNotes));
+        return updatedNotes;
       });
     }
   };
@@ -381,9 +416,9 @@ export default function Roadmap({ problemsData, companyName }) {
                       <strong>Frequency:</strong> {problem.frequency || "N/A"}
                     </p>
                     <div className="mt-6">
-                      <h3 className="text-lg font-semibold">
+                      <h4 className="text-lg font-semibold">
                         Last Updated Date:
-                      </h3>
+                      </h4>
                       <p className="text-gray-400">
                         {lastUpdated[companyName]
                           ? lastUpdated[companyName][selectedTopic]?.[index] ||
@@ -397,7 +432,24 @@ export default function Roadmap({ problemsData, companyName }) {
                       >
                         Update Date
                       </button>
+                      <div style={{ marginLeft: "12px" }} />
+                      <button
+                        className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+                        onClick={() => handleResetDate(companyName, index)}
+                        disabled={!selectedTopic}
+                      >
+                        Reset Date
+                      </button>
                     </div>
+                  </div>
+                  <div style={{ marginTop: "12px" }}>
+                    <textarea
+                      rows="3"
+                      className="w-full p-2 border border-gray-700 bg-gray-800 text-gray-300 rounded-md focus:outline-none resize-none"
+                      placeholder="Write your notes here..."
+                      value={notes[companyName]?.[selectedTopic]?.[index] || ""}
+                      onChange={(e) => handleNoteChange(index, e.target.value)}
+                    />
                   </div>
                 </div>
               </li>

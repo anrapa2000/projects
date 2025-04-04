@@ -53,39 +53,43 @@ console.log(problems);
 
 function extractNeetCodeProblems() {
   const results = {};
-  
-  // Select all the accordion containers (one for each topic)
-  const accordionContainers = document.querySelectorAll('.accordion-container');
 
-  accordionContainers.forEach(container => {
-      // Get the topic title
-      const topicTitleElement = container.querySelector('.accordion p');
-      const topicTitle = topicTitleElement ? topicTitleElement.textContent.trim() : 'Unknown Topic';
+  // Select all accordion containers (one for each topic)
+  const accordionContainers = document.querySelectorAll(".accordion-container");
 
-      // Initialize the array for this topic if it doesn't exist
-      if (!results[topicTitle]) {
-          results[topicTitle] = [];
+  accordionContainers.forEach((container) => {
+    // Get the topic title
+    const topicTitleElement = container.querySelector(".accordion p");
+    const topicTitle = topicTitleElement
+      ? topicTitleElement.textContent.trim()
+      : "Unknown Topic";
+
+    // Initialize the array for this topic if it doesn't exist
+    if (!results[topicTitle]) {
+      results[topicTitle] = [];
+    }
+
+    // Find all the rows in the current accordion container
+    const rows = container.querySelectorAll("tr.ng-star-inserted");
+    rows.forEach((row) => {
+      // Extract the title, href, and difficulty of each problem
+      const titleLink = row.querySelector("a.table-text.text-color"); // Grab the first <a> for the title link
+      const externalLink = row.querySelector('a[target="_blank"]'); // Specific selector for external link
+      const diffButton = row.querySelector("button.table-button"); // Extract difficulty
+
+      if (titleLink && externalLink && diffButton) {
+        const title = titleLink.textContent.trim();
+        const href = externalLink.getAttribute("href").trim(); // Extract the href from the external link
+        const difficulty = diffButton.textContent.trim();
+
+        // Push the extracted info into the corresponding topic category
+        results[topicTitle].push({
+          title: title,
+          href: href,
+          difficulty: difficulty,
+        });
       }
-
-      // Find all the problems in the current accordion
-      const rows = container.querySelectorAll('tr.ng-star-inserted');
-      rows.forEach(row => {
-          // Extract the title, href, and difficulty
-          const titleLink = row.querySelector('a.table-text');
-          const diffButton = row.querySelector('button.table-button');
-          if (titleLink && diffButton) {
-              const title = titleLink.textContent.trim();
-              const href = titleLink.getAttribute('href').trim();
-              const difficulty = diffButton.textContent.trim();
-
-              // Push the extracted info into the corresponding topic category
-              results[topicTitle].push({
-                  title: title,
-                  href: href,
-                  difficulty: difficulty
-              });
-          }
-      });
+    });
   });
 
   return results;
