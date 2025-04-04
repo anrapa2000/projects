@@ -5,6 +5,7 @@ import Roadmap from "./Roadmap";
 import problemsData from "./companyWiseData/problemsData";
 import neetcodeData from "./companyWiseData/Neetcode250ProblemsData";
 import neetcode150Data from "./companyWiseData/Neetcode150Problems";
+import blind75Problems from "./companyWiseData/blind75Problems";
 
 const App = () => {
   return (
@@ -29,6 +30,15 @@ const App = () => {
             <Roadmap
               problemsData={neetcode150Data}
               companyName={"neetcode150"}
+            />
+          }
+        />
+        <Route
+          path="/roadmap/blind75"
+          element={
+            <Roadmap
+              problemsData={blind75Problems}
+              companyName={"blind75"}
             />
           }
         />
