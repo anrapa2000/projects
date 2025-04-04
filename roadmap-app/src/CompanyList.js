@@ -8,7 +8,7 @@ const companies = [
   { id: 2, routeName: "general", name: "General" },
   { id: 3, routeName: "amazon", name: "Amazon" },
   { id: 4, routeName: "neetcode150", name: "NeetCode 150" },
-  { id: 4, routeName: "blind75", name: "Blind 75" },
+  { id: 5, routeName: "blind75", name: "Blind 75" },
   // Add more companies as needed
 ];
 
