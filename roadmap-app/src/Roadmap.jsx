@@ -230,11 +230,11 @@ const edges = [
   { id: "e16-18", source: "16", target: "18" },
 ];
 
-export default function Roadmap({ problemsData, companyName }) {
-  const [selectedTopic, setSelectedTopic] = useState(null);
+export default function Roadmap({ problemsData }) {
+  // States for progress, notes, and last updated dates
   const [completedProblems, setCompletedProblems] = useState(() => {
     const savedState = localStorage.getItem("completedProblems");
-    return savedState ? JSON.parse(savedState) : {}; // Parse saved data or initialize as empty
+    return savedState ? JSON.parse(savedState) : {};
   });
 
   const [lastUpdated, setLastUpdated] = useState(() => {
@@ -244,117 +244,87 @@ export default function Roadmap({ problemsData, companyName }) {
 
   const [notes, setNotes] = useState(() => {
     const savedNotes = localStorage.getItem("problemNotes");
-    return savedNotes ? JSON.parse(savedNotes) : {}; // Parse saved notes or initialize as empty
+    return savedNotes ? JSON.parse(savedNotes) : {};
   });
 
-  useEffect(() => {
-    const savedCompleted = localStorage.getItem("completedProblems");
-    if (savedCompleted) {
-      setCompletedProblems(JSON.parse(savedCompleted));
-    }
+  const [selectedTopic, setSelectedTopic] = useState(null); // Stores the currently selected topic
 
-    const savedLastUpdated = localStorage.getItem("lastUpdated");
-    if (savedLastUpdated) {
-      setLastUpdated(JSON.parse(savedLastUpdated));
-    }
-
-    const savedNotes = localStorage.getItem("problemNotes");
-    if (savedNotes) {
-      setNotes(JSON.parse(savedNotes));
-    }
-  }, []);
-
+  // Persist data to localStorage when state changes
   useEffect(() => {
     localStorage.setItem(
       "completedProblems",
       JSON.stringify(completedProblems)
     );
-    localStorage.setItem("lastUpdated", JSON.stringify(lastUpdated));
-    localStorage.setItem("problemNotes", JSON.stringify(notes));
-  }, [completedProblems, lastUpdated, notes]);
+  }, [completedProblems]);
 
+  useEffect(() => {
+    localStorage.setItem("lastUpdated", JSON.stringify(lastUpdated));
+  }, [lastUpdated]);
+
+  useEffect(() => {
+    localStorage.setItem("problemNotes", JSON.stringify(notes));
+  }, [notes]);
+
+  // Handle topic selection (when a node is clicked)
   const handleNodeClick = (_, node) => {
     setSelectedTopic(node.data.label);
   };
 
-  const handleCheckboxChange = (topic, problemIndex) => {
-    if (selectedTopic) {
-      setCompletedProblems((prev) => {
-        const updatedState = {
-          ...prev,
-          [companyName]: {
-            ...prev[companyName], // Retain existing company data
-            [topic]: {
-              ...prev[companyName]?.[topic], // Retain existing topic data
-              [problemIndex]: !prev[companyName]?.[topic]?.[problemIndex], // Toggle checkbox state
-            },
-          },
-        };
-
-        localStorage.setItem("completedProblems", JSON.stringify(updatedState)); // Save to localStorage
-        return updatedState; // Update state with new structure
-      });
-    }
+  // Toggle completion state for a problem (using problem title as key)
+  const handleCheckboxChange = (topic, problemName) => {
+    setCompletedProblems((prev) => {
+      const updatedState = {
+        ...prev,
+        [topic]: {
+          ...prev[topic], // Retain existing entries for this topic
+          [problemName]: !prev[topic]?.[problemName], // Toggle completion state for this problem
+        },
+      };
+      return updatedState;
+    });
   };
 
-  const handleUpdateDate = (company, problemIndex) => {
-    if (selectedTopic) {
-      const newDate = new Date().toLocaleString(); // Get the current date and time
-
-      setLastUpdated((prev) => {
-        const updatedState = {
-          ...prev,
-          [company]: {
-            ...prev[company], // Retain all existing entries for the current company
-            [selectedTopic]: {
-              ...prev[company]?.[selectedTopic], // Retain all existing entries for the current topic within the company
-              [problemIndex]: newDate, // Update only for the specific problem
-            },
-          },
-        };
-
-        localStorage.setItem("lastUpdated", JSON.stringify(updatedState)); // Save to localStorage
-        return updatedState; // Return the newly updated state
-      });
-    }
+  // Update the last solved date for a problem
+  const handleUpdateDate = (topic, problemName) => {
+    const newDate = new Date().toLocaleString(); // Current timestamp
+    setLastUpdated((prev) => {
+      const updatedState = {
+        ...prev,
+        [topic]: {
+          ...prev[topic],
+          [problemName]: newDate, // Update date for this problem
+        },
+      };
+      return updatedState;
+    });
   };
 
-  const handleResetDate = (company, problemIndex) => {
-    if (selectedTopic) {
-      setLastUpdated((prev) => {
-        const updatedState = {
-          ...prev,
-          [company]: {
-            ...prev[company],
-            [selectedTopic]: {
-              ...prev[company]?.[selectedTopic],
-              [problemIndex]: null, // Reset to null
-            },
-          },
-        };
-
-        localStorage.setItem("lastUpdated", JSON.stringify(updatedState)); // Save to localStorage
-        return updatedState;
-      });
-    }
+  // Reset the last solved date for a problem
+  const handleResetDate = (topic, problemName) => {
+    setLastUpdated((prev) => {
+      const updatedState = {
+        ...prev,
+        [topic]: {
+          ...prev[topic],
+          [problemName]: null, // Reset the date
+        },
+      };
+      return updatedState;
+    });
   };
 
-  const handleNoteChange = (problemIndex, value) => {
+  // Update notes for a specific problem
+  const handleNoteChange = (problemName, value) => {
     if (selectedTopic) {
       setNotes((prevNotes) => {
         const updatedNotes = {
           ...prevNotes,
-          [companyName]: {
-            ...prevNotes[companyName],
-            [selectedTopic]: {
-              ...prevNotes[companyName]?.[selectedTopic],
-              [problemIndex]: value,
-            },
+          [selectedTopic]: {
+            ...prevNotes[selectedTopic], // Retain notes for this topic
+            [problemName]: value, // Update note for this problem
           },
         };
-
-        localStorage.setItem("problemNotes", JSON.stringify(updatedNotes)); // Save to localStorage
-        return updatedNotes; // Update state with new structure
+        return updatedNotes;
       });
     }
   };
@@ -373,9 +343,9 @@ export default function Roadmap({ problemsData, companyName }) {
         </h2>
         {selectedTopic && problemsData[selectedTopic] ? (
           <ul className="space-y-4">
-            {problemsData[selectedTopic].map((problem, index) => (
+            {problemsData[selectedTopic].map((problem) => (
               <li
-                key={index}
+                key={problem.title}
                 className="p-4 bg-gray-900 rounded-lg shadow-md transition-transform transform hover:-translate-y-1 hover:shadow-lg flex items-start"
               >
                 {/* Checkbox for Completion */}
@@ -383,10 +353,11 @@ export default function Roadmap({ problemsData, companyName }) {
                   type="checkbox"
                   className="mr-2 mt-1 text-blue-500 ring-blue-300 focus:ring-2"
                   checked={
-                    completedProblems[companyName]?.[selectedTopic]?.[index] ||
-                    false
+                    completedProblems[selectedTopic]?.[problem.title] || false
                   }
-                  onChange={() => handleCheckboxChange(selectedTopic, index)}
+                  onChange={() =>
+                    handleCheckboxChange(selectedTopic, problem.title)
+                  }
                 />
                 <div>
                   <a
@@ -420,18 +391,21 @@ export default function Roadmap({ problemsData, companyName }) {
                         Last Updated Date:
                       </h4>
                       <p className="text-gray-400">
-                        {lastUpdated[companyName]?.[selectedTopic]?.[index] ||
-                          "null"}
+                        {lastUpdated[selectedTopic]?.[problem.title] || "null"}
                       </p>
                       <button
                         className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
-                        onClick={() => handleUpdateDate(companyName, index)}
+                        onClick={() =>
+                          handleUpdateDate(selectedTopic, problem.title)
+                        }
                       >
                         Update Date
                       </button>
                       <button
                         className="mt-2 ml-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
-                        onClick={() => handleResetDate(companyName, index)}
+                        onClick={() =>
+                          handleResetDate(selectedTopic, problem.title)
+                        }
                       >
                         Reset Date
                       </button>
@@ -442,8 +416,10 @@ export default function Roadmap({ problemsData, companyName }) {
                       rows="3"
                       className="w-full p-2 border border-gray-700 bg-gray-800 text-gray-300 rounded-md focus:outline-none resize-none"
                       placeholder="Write your notes here..."
-                      value={notes[companyName]?.[selectedTopic]?.[index] || ""}
-                      onChange={(e) => handleNoteChange(index, e.target.value)}
+                      value={notes[selectedTopic]?.[problem.title] || ""}
+                      onChange={(e) =>
+                        handleNoteChange(problem.title, e.target.value)
+                      }
                     />
                   </div>
                 </div>
