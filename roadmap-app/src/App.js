@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import CompanyList from "./CompanyList";
 import Roadmap from "./Roadmap";
 import problemsData from "./companyWiseData/problemsData";
-import neetcodeData from "./companyWiseData/NeetcodeProblemsData";
+import neetcodeData from "./companyWiseData/Neetcode250ProblemsData";
+import neetcode150Data from "./companyWiseData/Neetcode150Problems";
 
 const App = () => {
   return (
@@ -20,6 +21,15 @@ const App = () => {
           path="/roadmap/general"
           element={
             <Roadmap problemsData={problemsData} companyName={"general"} />
+          }
+        />
+        <Route
+          path="/roadmap/neetcode150"
+          element={
+            <Roadmap
+              problemsData={neetcode150Data}
+              companyName={"neetcode150"}
+            />
           }
         />
       </Routes>

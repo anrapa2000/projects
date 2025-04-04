@@ -236,6 +236,7 @@ export default function Roadmap({ problemsData, companyName }) {
     const savedState = localStorage.getItem("completedProblems");
     return savedState ? JSON.parse(savedState) : {}; // Parse saved data or initialize as empty
   });
+
   const [lastUpdated, setLastUpdated] = useState(() => {
     const savedState = localStorage.getItem("lastUpdated");
     return savedState ? JSON.parse(savedState) : {};
@@ -247,15 +248,14 @@ export default function Roadmap({ problemsData, companyName }) {
   });
 
   useEffect(() => {
-    const savedState = localStorage.getItem("completedProblems");
-    if (savedState) {
-      setCompletedProblems(JSON.parse(savedState));
+    const savedCompleted = localStorage.getItem("completedProblems");
+    if (savedCompleted) {
+      setCompletedProblems(JSON.parse(savedCompleted));
     }
 
-    const savedDate = localStorage.getItem("lastUpdated");
-    console.log("savedDate", savedDate);
-    if (savedDate) {
-      setLastUpdated(JSON.parse(savedDate));
+    const savedLastUpdated = localStorage.getItem("lastUpdated");
+    if (savedLastUpdated) {
+      setLastUpdated(JSON.parse(savedLastUpdated));
     }
 
     const savedNotes = localStorage.getItem("problemNotes");
@@ -278,18 +278,23 @@ export default function Roadmap({ problemsData, companyName }) {
   };
 
   const handleCheckboxChange = (topic, problemIndex) => {
-    setCompletedProblems((prevCompleted) => {
-      const topicCompleted = prevCompleted[topic] || {};
-      const updatedTopicCompleted = {
-        ...topicCompleted,
-        [problemIndex]: !topicCompleted[problemIndex], // Toggle checkbox state
-      };
+    if (selectedTopic) {
+      setCompletedProblems((prev) => {
+        const updatedState = {
+          ...prev,
+          [companyName]: {
+            ...prev[companyName], // Retain existing company data
+            [topic]: {
+              ...prev[companyName]?.[topic], // Retain existing topic data
+              [problemIndex]: !prev[companyName]?.[topic]?.[problemIndex], // Toggle checkbox state
+            },
+          },
+        };
 
-      return {
-        ...prevCompleted,
-        [topic]: updatedTopicCompleted,
-      };
-    });
+        localStorage.setItem("completedProblems", JSON.stringify(updatedState)); // Save to localStorage
+        return updatedState; // Update state with new structure
+      });
+    }
   };
 
   const handleUpdateDate = (company, problemIndex) => {
@@ -308,7 +313,7 @@ export default function Roadmap({ problemsData, companyName }) {
           },
         };
 
-        localStorage.setItem("lastUpdated", JSON.stringify(updatedState));
+        localStorage.setItem("lastUpdated", JSON.stringify(updatedState)); // Save to localStorage
         return updatedState; // Return the newly updated state
       });
     }
@@ -316,22 +321,20 @@ export default function Roadmap({ problemsData, companyName }) {
 
   const handleResetDate = (company, problemIndex) => {
     if (selectedTopic) {
-      const newDate = null;
-
       setLastUpdated((prev) => {
         const updatedState = {
           ...prev,
           [company]: {
-            ...prev[company], // Retain all existing entries for the current company
+            ...prev[company],
             [selectedTopic]: {
-              ...prev[company]?.[selectedTopic], // Retain all existing entries for the current topic within the company
-              [problemIndex]: newDate, // Update only for the specific problem
+              ...prev[company]?.[selectedTopic],
+              [problemIndex]: null, // Reset to null
             },
           },
         };
 
-        localStorage.setItem("lastUpdated", JSON.stringify(updatedState));
-        return updatedState; // Return the newly updated state
+        localStorage.setItem("lastUpdated", JSON.stringify(updatedState)); // Save to localStorage
+        return updatedState;
       });
     }
   };
@@ -339,23 +342,19 @@ export default function Roadmap({ problemsData, companyName }) {
   const handleNoteChange = (problemIndex, value) => {
     if (selectedTopic) {
       setNotes((prevNotes) => {
-        const companyNotes = prevNotes[companyName] || {};
-        const topicNotes = companyNotes[selectedTopic] || {};
-        const updatedTopicNotes = {
-          ...topicNotes,
-          [problemIndex]: value,
-        };
-
         const updatedNotes = {
           ...prevNotes,
           [companyName]: {
-            ...companyNotes,
-            [selectedTopic]: updatedTopicNotes,
+            ...prevNotes[companyName],
+            [selectedTopic]: {
+              ...prevNotes[companyName]?.[selectedTopic],
+              [problemIndex]: value,
+            },
           },
         };
 
-        localStorage.setItem("problemNotes", JSON.stringify(updatedNotes));
-        return updatedNotes;
+        localStorage.setItem("problemNotes", JSON.stringify(updatedNotes)); // Save to localStorage
+        return updatedNotes; // Update state with new structure
       });
     }
   };
@@ -383,11 +382,13 @@ export default function Roadmap({ problemsData, companyName }) {
                 <input
                   type="checkbox"
                   className="mr-2 mt-1 text-blue-500 ring-blue-300 focus:ring-2"
-                  checked={completedProblems[selectedTopic]?.[index] || false}
+                  checked={
+                    completedProblems[companyName]?.[selectedTopic]?.[index] ||
+                    false
+                  }
                   onChange={() => handleCheckboxChange(selectedTopic, index)}
                 />
                 <div>
-                  {/* Problem Title */}
                   <a
                     href={problem.link}
                     target="_blank"
@@ -396,7 +397,6 @@ export default function Roadmap({ problemsData, companyName }) {
                   >
                     {problem.title}
                   </a>
-                  {/* Difficulty and Frequency */}
                   <div className="mt-2 text-sm text-gray-400">
                     <p>
                       <strong>Difficulty:</strong>{" "}
@@ -420,23 +420,18 @@ export default function Roadmap({ problemsData, companyName }) {
                         Last Updated Date:
                       </h4>
                       <p className="text-gray-400">
-                        {lastUpdated[companyName]
-                          ? lastUpdated[companyName][selectedTopic]?.[index] ||
-                            "null"
-                          : "null"}
+                        {lastUpdated[companyName]?.[selectedTopic]?.[index] ||
+                          "null"}
                       </p>
                       <button
                         className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
                         onClick={() => handleUpdateDate(companyName, index)}
-                        disabled={!selectedTopic}
                       >
                         Update Date
                       </button>
-                      <div style={{ marginLeft: "12px" }} />
                       <button
-                        className="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+                        className="mt-2 ml-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
                         onClick={() => handleResetDate(companyName, index)}
-                        disabled={!selectedTopic}
                       >
                         Reset Date
                       </button>
