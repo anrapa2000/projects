@@ -36,10 +36,7 @@ const App = () => {
         <Route
           path="/roadmap/blind75"
           element={
-            <Roadmap
-              problemsData={blind75Problems}
-              companyName={"blind75"}
-            />
+            <Roadmap problemsData={blind75Problems} companyName={"blind75"} />
           }
         />
       </Routes>
