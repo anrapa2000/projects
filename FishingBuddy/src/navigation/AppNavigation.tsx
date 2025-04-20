@@ -7,9 +7,13 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../services/firebase";
 import LogCatchScreen from "../screens/LogCatchScreen";
 import CatchHistoryScreen from "../screens/CatchHistoryScreen";
+import WelcomeScreen from "../screens/WelcomeScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 export type RootStackParamList = {
+  Welcome: undefined;
   Login: undefined;
+  Signup: undefined;
   Home: undefined;
   LogCatch: undefined;
   CatchHistory: undefined;
@@ -41,11 +45,15 @@ export default function AppNavigator() {
             <Stack.Screen name="CatchHistory" component={CatchHistoryScreen} />
           </>
         ) : (
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
+          <>
+            <Stack.Screen
+              name="Welcome"
+              component={WelcomeScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
