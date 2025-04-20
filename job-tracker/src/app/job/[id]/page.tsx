@@ -1,14 +1,18 @@
 // src/app/job/[id]/page.tsx
-import { prisma } from '@/lib/prisma'
-import Image from 'next/image'
-import { notFound } from 'next/navigation'
+import { prisma } from "@/lib/prisma";
+import Image from "next/image";
+import { notFound } from "next/navigation";
 
-export default async function JobDetailPage({ params }: { params: { id: string } }) {
+export default async function JobDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const job = await prisma.job.findUnique({
     where: { id: params.id },
-  })
+  });
 
-  if (!job) return notFound()
+  if (!job) return notFound();
 
   return (
     <div className="max-w-3xl mx-auto p-6">
@@ -26,7 +30,9 @@ export default async function JobDetailPage({ params }: { params: { id: string }
 
       <div className="mb-4">
         <h2 className="text-lg font-semibold">Full Description</h2>
-        <p className="text-gray-700 whitespace-pre-line">{job.longDescription}</p>
+        <p className="text-gray-700 whitespace-pre-line">
+          {job.longDescription}
+        </p>
       </div>
 
       {job.notes && (
@@ -38,12 +44,14 @@ export default async function JobDetailPage({ params }: { params: { id: string }
 
       <div className="mb-4">
         <h2 className="text-lg font-semibold">Resume Used</h2>
-        <p className="text-blue-600">{job.resumeFile || 'None uploaded'}</p>
+        <p className="text-blue-600">{job.resumeFile || "None uploaded"}</p>
       </div>
 
       <div className="mb-4">
         <h2 className="text-lg font-semibold">Cover Letter</h2>
-        <p className="text-blue-600">{job.coverLetterFile || 'None uploaded'}</p>
+        <p className="text-blue-600">
+          {job.coverLetterFile || "None uploaded"}
+        </p>
       </div>
 
       {job.images && job.images.length > 0 && (
@@ -62,5 +70,5 @@ export default async function JobDetailPage({ params }: { params: { id: string }
         </div>
       )}
     </div>
-  )
+  );
 }
