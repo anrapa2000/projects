@@ -9,17 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { getCatches } from "../services/storage";
-
-type CatchEntry = {
-  image: string;
-  fishType: string;
-  size: string;
-  timestamp: string;
-  location: {
-    lat: number;
-    lon: number;
-  };
-};
+import { CatchEntry } from "../types/NavigationTypes";
 
 export default function CatchHistoryScreen() {
   const [catches, setCatches] = useState<CatchEntry[]>([]);
