@@ -8,12 +8,16 @@ import {
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
+import { FISHING_SPOTS } from "../data/fishingSpots";
+import { getDistanceInKm } from "../utility/distance";
 
 export default function MapScreen() {
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [nearbySpots, setNearbySpots] = useState<typeof FISHING_SPOTS>([]);
+  const radiusInKm = 20;
 
   useEffect(() => {
     (async () => {
@@ -31,6 +35,20 @@ export default function MapScreen() {
         },
         (loc) => {
           setLocation(loc);
+          const userLatitude = loc.coords.latitude;
+          const userLongitude = loc.coords.longitude;
+          // TODO: Try to use a more efficient algorithm to find nearby spots without using predefined data
+          const nearby = FISHING_SPOTS.filter((spot) => {
+            const distance = getDistanceInKm(
+              userLatitude,
+              userLongitude,
+              spot.lat,
+              spot.lon
+            );
+            return distance <= radiusInKm;
+          });
+          console.log("Nearby spots:", nearby);
+          setNearbySpots(nearby);
         }
       );
 
@@ -61,7 +79,7 @@ export default function MapScreen() {
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        showsUserLocation={true}
+        showsUserLocation
         region={{
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
@@ -69,6 +87,20 @@ export default function MapScreen() {
           longitudeDelta: 0.01,
         }}
       >
+        {nearbySpots.map((spot) => (
+          <Marker
+            key={spot.id}
+            coordinate={{ latitude: spot.lat, longitude: spot.lon }}
+            title={spot.name}
+            description={`Distance: ${getDistanceInKm(
+              location.coords.latitude,
+              location.coords.longitude,
+              spot.lat,
+              spot.lon
+            ).toFixed(2)} km`}
+            pinColor="blue"
+          />
+        ))}
         <Marker
           coordinate={{
             latitude: location.coords.latitude,
@@ -77,17 +109,18 @@ export default function MapScreen() {
           title="You"
         />
       </MapView>
+      <View style={styles.overlay}>
+        <Text style={styles.spotInfo}>
+          There are {nearbySpots.length} spot(s) within {radiusInKm} km
+        </Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  center: { flex: 1, justifyContent: "center", alignItems: "center" },
   map: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,
@@ -104,6 +137,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "600",
+  },
+  spotInfo: {
+    color: "#00ffcc",
+    fontSize: 14,
+    marginTop: 4,
+    textAlign: "center",
   },
 });
 
