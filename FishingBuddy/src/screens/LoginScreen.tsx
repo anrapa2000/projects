@@ -9,10 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import {
-  signInWithEmailAndPassword,
-  fetchSignInMethodsForEmail,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -42,30 +39,26 @@ export default function LoginScreen() {
     }
 
     try {
-      const methods = await fetchSignInMethodsForEmail(auth, email);
-
-      if (methods.includes("password")) {
-        // User exists → Login
-        await signInWithEmailAndPassword(auth, email, password);
-        console.log("✅ Signed in");
-      } else if (methods.length === 0) {
-        Alert.alert(
-          "User not found",
-          "No account exists for this email. Try signing up."
-        );
-      } else {
-        Alert.alert(
-          "Account type mismatch",
-          "This email is registered with a different login method (e.g., Google)."
-        );
-      }
+      await signInWithEmailAndPassword(auth, email, password);
+      console.log("✅ Successfully logged in");
     } catch (error: any) {
-      console.error("❌ Auth error:", error.code, error.message);
-
-      if (error.code === "auth/wrong-password") {
-        Alert.alert("Incorrect password", "Try again or reset your password.");
-      } else {
-        Alert.alert("Login failed", error.message);
+      console.error("❌ Auth error:", error.code);
+      switch (error.code) {
+        case "auth/user-not-found":
+          Alert.alert(
+            "User Not Found",
+            "No account found for this email. Please sign up first."
+          );
+          break;
+        case "auth/wrong-password":
+          Alert.alert("Incorrect Password", "The password is incorrect.");
+          break;
+        case "auth/invalid-email":
+          Alert.alert("Invalid Email", "The email address is not valid.");
+          break;
+        default:
+          Alert.alert("Login Error", error.message);
+          break;
       }
     }
   };
@@ -95,7 +88,7 @@ export default function LoginScreen() {
       <View style={{ marginTop: 16 }}>
         <Button
           title="Don't have an account? Sign Up"
-          onPress={() => navigation.navigate("Signup")}
+          onPress={() => navigation.navigate(SCREENS.Signup)}
         />
       </View>
     </KeyboardAvoidingView>
