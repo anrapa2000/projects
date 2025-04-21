@@ -20,6 +20,7 @@ export default function LogCatchScreen() {
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
+  const [address, setAddress] = useState<string | null>(null);
   const [timestamp, setTimestamp] = useState<Date>(new Date());
 
   useEffect(() => {
@@ -35,6 +36,19 @@ export default function LogCatchScreen() {
 
       const loc = await Location.getCurrentPositionAsync({});
       setLocation(loc);
+
+      const reversedAddress = await Location.reverseGeocodeAsync({
+        latitude: loc.coords.latitude,
+        longitude: loc.coords.longitude,
+      });
+
+      if (reversedAddress.length > 0) {
+        const geoCodedAddress = reversedAddress[0];
+        const formattedAddress = `${geoCodedAddress.street}, ${geoCodedAddress.city}, ${geoCodedAddress.region}, ${geoCodedAddress.country}, ${geoCodedAddress.postalCode}`;
+        setAddress(formattedAddress);
+      } else {
+        console.log("📍 Unable to fetch location");
+      }
     })();
   }, []);
 
@@ -135,8 +149,7 @@ export default function LogCatchScreen() {
 
       {location ? (
         <Text style={styles.label}>
-          Location: {location.coords.latitude.toFixed(4)},{" "}
-          {location.coords.longitude.toFixed(4)}
+          Location: {address}
         </Text>
       ) : (
         <Text style={styles.label}>Fetching location...</Text>
@@ -166,3 +179,5 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 });
+
+// TODO: Error handling for location and image picking
