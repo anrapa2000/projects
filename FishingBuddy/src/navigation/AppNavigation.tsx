@@ -23,7 +23,7 @@ export default function AppNavigator() {
   return (
     <NavigationContainer ref={navigationRef}>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        <RootStack.Screen name="Login" component={LoginStackNavigator} />
+        <RootStack.Screen name="Entry" component={LoginStackNavigator} />
         <RootStack.Screen name="Main" component={MainStackNavigator} />
       </RootStack.Navigator>
     </NavigationContainer>

@@ -1,4 +1,7 @@
-import { createNavigationContainerRef, CommonActions } from "@react-navigation/native";
+import {
+  createNavigationContainerRef,
+  CommonActions,
+} from "@react-navigation/native";
 
 export const navigationRef = createNavigationContainerRef();
 
@@ -18,7 +21,7 @@ export function resetToLogin() {
     navigationRef.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: "Login" }],
+        routes: [{ name: "Entry" }],
       })
     );
   }

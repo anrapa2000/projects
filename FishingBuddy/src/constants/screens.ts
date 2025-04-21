@@ -14,3 +14,8 @@ export const LOGIN_SCREENS = {
   Signup: "Signup",
   Login: "Login",
 } as const;
+
+export const ROOT_SCREENS = {
+  Entry: "Entry",
+  Main: "Main",
+};
