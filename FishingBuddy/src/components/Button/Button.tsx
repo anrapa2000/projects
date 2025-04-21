@@ -18,6 +18,7 @@ interface Props {
   variant?: "primary" | "secondary";
   icon?: string;
   text?: string;
+  disabled?: boolean;
 }
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
@@ -27,19 +28,31 @@ export default function Button({
   variant = "primary",
   icon = "log-in-outline",
   text = "Login",
+  disabled = false,
 }: Props) {
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
+    opacity: disabled ? 0.5 : 1,
   }));
 
   const handlePressIn = () => {
-    scale.value = withSpring(0.95);
+    if (!disabled) {
+      scale.value = withSpring(0.95);
+    }
   };
 
   const handlePressOut = () => {
-    scale.value = withSpring(1);
+    if (!disabled) {
+      scale.value = withSpring(1);
+    }
+  };
+
+  const handlePress = (event: GestureResponderEvent) => {
+    if (!disabled) {
+      onPress(event);
+    }
   };
 
   if (variant === "primary") {
@@ -48,10 +61,10 @@ export default function Button({
         style={[styles.primaryButton, animatedStyle]}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        onPress={onPress}
+        onPress={handlePress}
       >
         <LinearGradient
-          colors={["#00b4d8", "#0077b6"]}
+          colors={disabled ? ["#666", "#444"] : ["#00b4d8", "#0077b6"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.gradient}
@@ -68,10 +81,14 @@ export default function Button({
       style={[styles.secondaryButton, animatedStyle]}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      onPress={onPress}
+      onPress={handlePress}
     >
-      <Icon name={icon} size={20} color="#00b4d8" />
-      <Text style={styles.secondaryText}>{text}</Text>
+      <Icon name={icon} size={20} color={disabled ? "#666" : "#00b4d8"} />
+      <Text
+        style={[styles.secondaryText, { color: disabled ? "#666" : "#00b4d8" }]}
+      >
+        {text}
+      </Text>
     </AnimatedTouchable>
   );
 }

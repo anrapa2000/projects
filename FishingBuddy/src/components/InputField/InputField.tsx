@@ -8,8 +8,9 @@ interface Props {
   placeholder: string;
   secure?: boolean;
   value: string;
-  onChangeText: (text: string) => void;
+  onChangeText?: (text: string) => void;
   onFocus?: () => void;
+  readOnly?: boolean;
 }
 
 export default function InputField({
@@ -19,6 +20,7 @@ export default function InputField({
   value,
   onChangeText,
   onFocus,
+  readOnly = false,
 }: Props) {
   return (
     <View style={styles.wrapper}>
@@ -26,14 +28,15 @@ export default function InputField({
         <View style={styles.inner}>
           <Icon name={icon} size={20} color="#00b4d8" style={styles.icon} />
           <TextInput
-            style={styles.input}
+            style={[styles.input, readOnly && styles.readOnlyInput]}
             placeholder={placeholder}
             placeholderTextColor="rgba(255,255,255,0.6)"
             secureTextEntry={secure}
             value={value}
-            onChangeText={onChangeText}
+            onChangeText={readOnly ? undefined : onChangeText}
             onFocus={onFocus}
             autoCapitalize="none"
+            editable={!readOnly}
           />
         </View>
       </BlurView>
@@ -66,5 +69,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "500",
+  },
+  readOnlyInput: {
+    opacity: 0.8,
   },
 });

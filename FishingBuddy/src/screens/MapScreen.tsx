@@ -9,7 +9,7 @@ import {
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { FISHING_SPOTS } from "../data/fishingSpots";
-import { getDistanceInKm } from "../utility/distance";
+import { getDistanceInKm } from "../utils/distance";
 
 export default function MapScreen() {
   const [location, setLocation] = useState<Location.LocationObject | null>(

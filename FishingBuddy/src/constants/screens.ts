@@ -8,7 +8,7 @@ export const SCREENS = {
 };
 
 export const LOGIN_SCREENS = {
-  ProfileSetupBasic: "ProfileSetupBasic",
+  ProfileSetupUserAccount: "ProfileSetupUserAccount",
   ProfileSetupPreferences: "ProfileSetupPreferences",
   ProfileSetupExperience: "ProfileSetupExperience",
   Signup: "Signup",

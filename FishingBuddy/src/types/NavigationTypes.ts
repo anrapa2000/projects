@@ -5,7 +5,7 @@ export type MainStackParamList = {
 };
 
 export type LoginStackParamList = {
-  ProfileSetupBasic: undefined;
+  ProfileSetupUserAccount: undefined;
   ProfileSetupPreferences: {
     basicProfile: {
       name: string;

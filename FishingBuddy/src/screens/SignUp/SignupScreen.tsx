@@ -22,7 +22,7 @@ export default function SignupScreen() {
   };
 
   const handleCreateProfile = () => {
-    navigation.navigate(LOGIN_SCREENS.ProfileSetupBasic);
+    navigation.navigate(LOGIN_SCREENS.ProfileSetupUserAccount);
   };
 
   return (
