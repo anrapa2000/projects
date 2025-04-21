@@ -9,15 +9,8 @@ import LogCatchScreen from "../screens/LogCatchScreen";
 import CatchHistoryScreen from "../screens/CatchHistoryScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import SignupScreen from "../screens/SignupScreen";
-
-export type RootStackParamList = {
-  Welcome: undefined;
-  Login: undefined;
-  Signup: undefined;
-  Home: undefined;
-  LogCatch: undefined;
-  CatchHistory: undefined;
-};
+import { RootStackParamList } from "../types/NavigationTypes";
+import { SCREENS } from "../constants/screens";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -34,28 +27,35 @@ export default function AppNavigator() {
   }, []);
 
   if (loading) return null;
+  // TODO: Add a loading screen
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
           <>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="LogCatch" component={LogCatchScreen} />
-            <Stack.Screen name="CatchHistory" component={CatchHistoryScreen} />
+            <Stack.Screen name={SCREENS.Home} component={HomeScreen} />
+            <Stack.Screen name={SCREENS.LogCatch} component={LogCatchScreen} />
+            <Stack.Screen
+              name={SCREENS.CatchHistory}
+              component={CatchHistoryScreen}
+            />
           </>
         ) : (
           <>
             <Stack.Screen
-              name="Welcome"
+              name={SCREENS.Welcome}
               component={WelcomeScreen}
               options={{ headerShown: false }}
             />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name={SCREENS.Login} component={LoginScreen} />
+            <Stack.Screen name={SCREENS.Signup} component={SignupScreen} />
           </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
+// TODO: Should I separate authenticated and unauthenticated stacks?
+// TODO: Lazy loading screens?

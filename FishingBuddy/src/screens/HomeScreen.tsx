@@ -3,10 +3,14 @@ import { View, Text, Button, StyleSheet } from "react-native";
 import { signOut } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigation/AppNavigation";
+import { RootStackParamList } from "../types/NavigationTypes";
 import { useNavigation } from "@react-navigation/native";
+import { SCREENS } from "../constants/screens";
 
-type HomeScreenNavProp = NativeStackNavigationProp<RootStackParamList, "Home">;
+type HomeScreenNavProp = NativeStackNavigationProp<
+  RootStackParamList,
+  typeof SCREENS.Home
+>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavProp>();
@@ -40,7 +44,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', padding: 20 },
-    title: { fontSize: 28, textAlign: 'center', marginBottom: 24 },
-    buttonContainer: { marginBottom: 12 },
-  });
+  container: { flex: 1, justifyContent: "center", padding: 20 },
+  title: { fontSize: 28, textAlign: "center", marginBottom: 24 },
+  buttonContainer: { marginBottom: 12 },
+});

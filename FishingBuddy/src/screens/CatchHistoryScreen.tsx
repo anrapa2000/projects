@@ -40,9 +40,7 @@ export default function CatchHistoryScreen() {
       <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.fish}>{item.fishType}</Text>
       <Text>Size: {item.size}</Text>
-      <Text>
-        Date: {new Date(item.timestamp).toLocaleString()}
-      </Text>
+      <Text>Date: {new Date(item.timestamp).toLocaleString()}</Text>
       <Text>
         Location: {item.location.lat.toFixed(2)}, {item.location.lon.toFixed(2)}
       </Text>
@@ -71,7 +69,12 @@ export default function CatchHistoryScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: "#fff" },
-  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20, textAlign: "center" },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
   card: {
     marginBottom: 20,
     padding: 16,

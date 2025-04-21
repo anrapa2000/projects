@@ -2,11 +2,15 @@ import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigation/AppNavigation";
+import { RootStackParamList } from "../types/NavigationTypes";
 import { signInAnonymously } from "firebase/auth";
 import { auth } from "../services/firebase";
+import { SCREENS } from "../constants/screens";
 
-type WelcomeNavProp = NativeStackNavigationProp<RootStackParamList, "Welcome">;
+type WelcomeNavProp = NativeStackNavigationProp<
+  RootStackParamList,
+  typeof SCREENS.Welcome
+>;
 
 export default function WelcomeScreen() {
   const navigation = useNavigation<WelcomeNavProp>();

@@ -16,11 +16,12 @@ import {
 import { auth } from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigation/AppNavigation";
+import { RootStackParamList } from "../types/NavigationTypes";
+import { SCREENS } from "../constants/screens";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  "Login"
+  typeof SCREENS.Login
 >;
 
 export default function LoginScreen() {

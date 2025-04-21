@@ -11,20 +11,25 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
-import { getCatches, saveCatch } from "../services/storage";
+import { saveCatch } from "../services/storage";
 
 export default function LogCatchScreen() {
   const [image, setImage] = useState<string | null>(null);
   const [fishType, setFishType] = useState("");
   const [size, setSize] = useState("");
-  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
   const [timestamp, setTimestamp] = useState<Date>(new Date());
 
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        Alert.alert("Permission Denied", "Location access is required to tag catch.");
+        Alert.alert(
+          "Permission Denied",
+          "Location access is required to tag catch."
+        );
         return;
       }
 
@@ -33,24 +38,28 @@ export default function LogCatchScreen() {
     })();
   }, []);
 
-  // 📸 Pick image from camera or gallery
+  // Pick image from camera or gallery
   const pickImage = async () => {
     try {
-      const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
-  
+      const cameraPermission =
+        await ImagePicker.requestCameraPermissionsAsync();
+
       if (cameraPermission.status !== "granted") {
-        Alert.alert("Permission Denied", "Camera access is required to take a photo.");
+        Alert.alert(
+          "Permission Denied",
+          "Camera access is required to take a photo."
+        );
         return;
       }
-  
+
       console.log("Opening camera...");
-  
+
       const result = await ImagePicker.launchCameraAsync({
         mediaTypes: ["images"],
         allowsEditing: true,
         quality: 0.7,
       });
-  
+
       if (!result.canceled) {
         const photoUri = result.assets[0].uri;
         console.log("📸 Photo URI:", photoUri);
@@ -60,17 +69,22 @@ export default function LogCatchScreen() {
       }
     } catch (error) {
       console.error("Camera error:", error);
-      Alert.alert("Camera Error", "Something went wrong while trying to open the camera.");
+      Alert.alert(
+        "Camera Error",
+        "Something went wrong while trying to open the camera."
+      );
     }
   };
-  
 
   const handleSave = async () => {
     if (!image || !fishType || !size || !location) {
-      Alert.alert("Missing info", "Please fill out all fields and take a photo.");
+      Alert.alert(
+        "Missing info",
+        "Please fill out all fields and take a photo."
+      );
       return;
     }
-  
+
     const catchData = {
       image,
       fishType,
@@ -81,14 +95,12 @@ export default function LogCatchScreen() {
         lon: location.coords.longitude,
       },
     };
-  
+
     await saveCatch(catchData);
-    all = await getCatches();
-    console.log("All catches so far:", all);
-  
+
     Alert.alert("Success", "Catch saved locally!");
-    setFishType('');
-    setSize('');
+    setFishType("");
+    setSize("");
     setImage(null);
     // TODO: Firebase can be integrated later on
   };
@@ -99,7 +111,10 @@ export default function LogCatchScreen() {
 
       {image && <Image source={{ uri: image }} style={styles.image} />}
 
-      <Button title={image ? "Retake Photo" : "Take Photo"} onPress={pickImage} />
+      <Button
+        title={image ? "Retake Photo" : "Take Photo"}
+        onPress={pickImage}
+      />
 
       <TextInput
         placeholder="Type of Fish"
@@ -120,7 +135,8 @@ export default function LogCatchScreen() {
 
       {location ? (
         <Text style={styles.label}>
-          Location: {location.coords.latitude.toFixed(4)}, {location.coords.longitude.toFixed(4)}
+          Location: {location.coords.latitude.toFixed(4)},{" "}
+          {location.coords.longitude.toFixed(4)}
         </Text>
       ) : (
         <Text style={styles.label}>Fetching location...</Text>
