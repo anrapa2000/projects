@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 export default function LoginStackNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: true }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={LOGIN_SCREENS.Signup} component={SignupScreen} />
       <Stack.Screen name={LOGIN_SCREENS.Login} component={LoginScreen} />
       <Stack.Screen
