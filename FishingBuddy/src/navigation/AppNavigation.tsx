@@ -11,6 +11,7 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import SignupScreen from "../screens/SignupScreen";
 import { RootStackParamList } from "../types/NavigationTypes";
 import { SCREENS } from "../constants/screens";
+import MapScreen from "../screens/MapScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -40,6 +41,7 @@ export default function AppNavigator() {
               name={SCREENS.CatchHistory}
               component={CatchHistoryScreen}
             />
+            <Stack.Screen name={SCREENS.Map} component={MapScreen} />
           </>
         ) : (
           <>

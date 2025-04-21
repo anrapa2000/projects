@@ -25,14 +25,21 @@ export default function HomeScreen() {
       <View style={styles.buttonContainer}>
         <Button
           title="➕ Log a Catch"
-          onPress={() => navigation.navigate("LogCatch")}
+          onPress={() => navigation.navigate(SCREENS.LogCatch)}
         />
       </View>
 
       <View style={styles.buttonContainer}>
         <Button
           title="📜 View Catch History"
-          onPress={() => navigation.navigate("CatchHistory")}
+          onPress={() => navigation.navigate(SCREENS.CatchHistory)}
+        />
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <Button
+          title="🗺️ View Map"
+          onPress={() => navigation.navigate(SCREENS.Map)}
         />
       </View>
 

@@ -5,4 +5,5 @@ export const SCREENS = {
   Home: "Home",
   LogCatch: "LogCatch",
   CatchHistory: "CatchHistory",
+  Map: "Map",
 };
