@@ -4,7 +4,7 @@ import { LOGIN_SCREENS } from "../constants/screens";
 import ProfileSetupBasicScreen from "../screens/ProfileSetup/ProfileSetupBasicScreen";
 import ProfileSetupPreferencesScreen from "../screens/ProfileSetup/ProfileSetupPreferencesScreen";
 import ProfileSetupExperienceScreen from "../screens/ProfileSetup/ProfileSetupExperiencesScreen";
-import SignupScreen from "../screens/SignupScreen";
+import SignupScreen from "../screens/SignUp/SignupScreen";
 import LoginScreen from "../screens/Login/LoginScreen";
 
 const Stack = createNativeStackNavigator();

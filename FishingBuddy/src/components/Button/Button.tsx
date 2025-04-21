@@ -15,39 +15,69 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 interface Props {
   onPress: (event: GestureResponderEvent) => void;
+  variant?: "primary" | "secondary";
+  icon?: string;
+  text?: string;
 }
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
-export default function Button({ onPress }: Props) {
+export default function Button({
+  onPress,
+  variant = "primary",
+  icon = "log-in-outline",
+  text = "Login",
+}: Props) {
   const scale = useSharedValue(1);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
+  const handlePressIn = () => {
+    scale.value = withSpring(0.95);
+  };
+
+  const handlePressOut = () => {
+    scale.value = withSpring(1);
+  };
+
+  if (variant === "primary") {
+    return (
+      <AnimatedTouchable
+        style={[styles.primaryButton, animatedStyle]}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onPress={onPress}
+      >
+        <LinearGradient
+          colors={["#00b4d8", "#0077b6"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.gradient}
+        >
+          <Icon name={icon} size={20} color="#fff" />
+          <Text style={styles.primaryText}>{text}</Text>
+        </LinearGradient>
+      </AnimatedTouchable>
+    );
+  }
+
   return (
     <AnimatedTouchable
-      style={[styles.button, animatedStyle]}
-      onPressIn={() => (scale.value = withSpring(0.95))}
-      onPressOut={() => (scale.value = withSpring(1))}
+      style={[styles.secondaryButton, animatedStyle]}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
       onPress={onPress}
     >
-      <LinearGradient
-        colors={["#00b4d8", "#0077b6"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.gradient}
-      >
-        <Icon name="log-in-outline" size={20} color="#fff" />
-        <Text style={styles.text}>Login</Text>
-      </LinearGradient>
+      <Icon name={icon} size={20} color="#00b4d8" />
+      <Text style={styles.secondaryText}>{text}</Text>
     </AnimatedTouchable>
   );
 }
 
 const styles = StyleSheet.create({
-  button: {
+  primaryButton: {
     width: "100%",
     borderRadius: 20,
     overflow: "hidden",
@@ -58,15 +88,32 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 8,
   },
+  secondaryButton: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1.5,
+    borderColor: "#00b4d8",
+    paddingVertical: 12,
+    borderRadius: 20,
+    marginBottom: 12,
+  },
   gradient: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 14,
+    paddingVertical: 12,
     borderRadius: 20,
   },
-  text: {
+  primaryText: {
     color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+    marginLeft: 8,
+  },
+  secondaryText: {
+    color: "#00b4d8",
     fontSize: 16,
     fontWeight: "600",
     marginLeft: 8,
