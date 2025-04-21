@@ -1,7 +1,45 @@
 import { SCREENS } from "../constants/screens";
 
-export type RootStackParamList = {
+export type MainStackParamList = {
   [key in (typeof SCREENS)[keyof typeof SCREENS]]: undefined;
+};
+
+export type LoginStackParamList = {
+  ProfileSetupBasic: undefined;
+  ProfileSetupPreferences: {
+    basicProfile: {
+      name: string;
+      email: string;
+      age?: number;
+      photo?: string | null;
+      location?: {
+        latitude: number;
+        longitude: number;
+      } | null;
+    };
+  };
+  ProfileSetupExperience: {
+    profile: {
+      name: string;
+      email: string;
+      password: string;
+      age?: number;
+      photo?: string | null;
+      location?: {
+        latitude: number;
+        longitude: number;
+      } | null;
+      preferences: {
+        level: string | null;
+        fishSpecies: string[];
+        fishingTypes: string[];
+        gear: string[];
+        desiredCatch: string[];
+      };
+    };
+  };
+  Signup: undefined;
+  Login: undefined;
 };
 
 export type CatchEntry = {

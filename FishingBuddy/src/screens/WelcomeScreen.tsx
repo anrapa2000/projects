@@ -2,13 +2,13 @@ import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types/NavigationTypes";
+import { MainStackParamList } from "../types/NavigationTypes";
 import { signInAnonymously } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { SCREENS } from "../constants/screens";
 
 type WelcomeNavProp = NativeStackNavigationProp<
-  RootStackParamList,
+MainStackParamList,
   typeof SCREENS.Welcome
 >;
 

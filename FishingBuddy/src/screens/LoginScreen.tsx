@@ -13,12 +13,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../types/NavigationTypes";
-import { SCREENS } from "../constants/screens";
+import { LoginStackParamList } from "../types/NavigationTypes";
+import { LOGIN_SCREENS, SCREENS } from "../constants/screens";
+import { resetToMain } from "../navigation/RootNavigation";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  typeof SCREENS.Login
+  LoginStackParamList,
+  typeof LOGIN_SCREENS.Login
 >;
 
 export default function LoginScreen() {
@@ -41,6 +42,7 @@ export default function LoginScreen() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("✅ Successfully logged in");
+      resetToMain()
     } catch (error: any) {
       console.error("❌ Auth error:", error.code);
       switch (error.code) {
@@ -88,7 +90,7 @@ export default function LoginScreen() {
       <View style={{ marginTop: 16 }}>
         <Button
           title="Don't have an account? Sign Up"
-          onPress={() => navigation.navigate(SCREENS.Signup)}
+          onPress={() => navigation.navigate(LOGIN_SCREENS.Signup)}
         />
       </View>
     </KeyboardAvoidingView>

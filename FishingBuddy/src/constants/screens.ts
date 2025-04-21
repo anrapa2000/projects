@@ -1,9 +1,16 @@
 export const SCREENS = {
   Welcome: "Welcome",
-  Login: "Login",
-  Signup: "Signup",
   Home: "Home",
   LogCatch: "LogCatch",
   CatchHistory: "CatchHistory",
   Map: "Map",
+  Profile: "Profile",
 };
+
+export const LOGIN_SCREENS = {
+  ProfileSetupBasic: "ProfileSetupBasic",
+  ProfileSetupPreferences: "ProfileSetupPreferences",
+  ProfileSetupExperience: "ProfileSetupExperience",
+  Signup: "Signup",
+  Login: "Login",
+} as const;

@@ -1,54 +1,43 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../services/firebase";
+import React from "react";
+import { View, Text, Button, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { LoginStackParamList } from "../types/NavigationTypes";
+import { LOGIN_SCREENS } from "../constants/screens";
+
+type NavigationProp = NativeStackNavigationProp<
+  LoginStackParamList,
+  typeof LOGIN_SCREENS.Signup
+>;
 
 export default function SignupScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSignup = async () => {
-    if (!email || !password) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error: any) {
-      alert(error.message);
-    }
-  };
+  const navigation = useNavigation<NavigationProp>();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        autoCapitalize="none"
-        onChangeText={setEmail}
-        value={email}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        onChangeText={setPassword}
-        value={password}
-      />
-      <Button title="Create Account" onPress={handleSignup} />
+      <Text style={styles.title}>🎣 Welcome to Fishing Buddy</Text>
+      <Text style={styles.subtitle}>Start fresh or log into an existing profile</Text>
+
+      <View style={styles.buttonWrapper}>
+        <Button
+          title="🔐 Log In"
+          onPress={() => navigation.navigate(LOGIN_SCREENS.Login)}
+        />
+      </View>
+
+      <View style={styles.buttonWrapper}>
+        <Button
+          title="🆕 Create Profile"
+          onPress={() => navigation.navigate(LOGIN_SCREENS.ProfileSetupBasic)}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", padding: 20 },
-  title: { fontSize: 24, marginBottom: 24, textAlign: "center" },
-  input: {
-    backgroundColor: "#f1f1f1",
-    marginBottom: 12,
-    padding: 12,
-    borderRadius: 8,
-  },
+  container: { flex: 1, justifyContent: "center", padding: 24, backgroundColor: "#fff" },
+  title: { fontSize: 28, fontWeight: "600", textAlign: "center", marginBottom: 12 },
+  subtitle: { fontSize: 16, textAlign: "center", marginBottom: 24, color: "#666" },
+  buttonWrapper: { marginVertical: 8 },
 });
