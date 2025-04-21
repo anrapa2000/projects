@@ -5,7 +5,7 @@ import ProfileSetupBasicScreen from "../screens/ProfileSetup/ProfileSetupBasicSc
 import ProfileSetupPreferencesScreen from "../screens/ProfileSetup/ProfileSetupPreferencesScreen";
 import ProfileSetupExperienceScreen from "../screens/ProfileSetup/ProfileSetupExperiencesScreen";
 import SignupScreen from "../screens/SignupScreen";
-import LoginScreen from "../screens/LoginScreen";
+import LoginScreen from "../screens/Login/LoginScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,16 +18,16 @@ export default function LoginStackNavigator() {
         contentStyle: { backgroundColor: "black" },
       }}
     >
-      <Stack.Screen 
-        name={LOGIN_SCREENS.Signup} 
+      <Stack.Screen
+        name={LOGIN_SCREENS.Signup}
         component={SignupScreen}
         options={{
           animation: "fade",
           contentStyle: { backgroundColor: "black" },
         }}
       />
-      <Stack.Screen 
-        name={LOGIN_SCREENS.Login} 
+      <Stack.Screen
+        name={LOGIN_SCREENS.Login}
         component={LoginScreen}
         options={{
           animation: "fade",
