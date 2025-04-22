@@ -67,6 +67,11 @@ export default function HomeScreen() {
         />
       </View>
 
+      <Button
+        title="Helpful Links"
+        onPress={() => navigation.navigate(SCREENS.HelpFulLinks)}
+      />
+
       <View style={styles.buttonContainer}>
         <Button title="🚪 Log Out" color="#d9534f" onPress={handleLogout} />
       </View>

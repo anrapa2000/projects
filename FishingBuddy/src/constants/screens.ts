@@ -6,6 +6,7 @@ export const SCREENS = {
   Map: "Map",
   Profile: "Profile",
   Dashboard: "Dashboard",
+  HelpFulLinks: "HelpFulLinks",
 };
 
 export const LOGIN_SCREENS = {
