@@ -20,3 +20,13 @@ export const ROOT_SCREENS = {
   Entry: "Entry",
   Main: "Main",
 };
+
+export const TRIP_SCREENS = {
+  TripIntro: "TripIntro",
+  TripChecklist: "TripChecklist",
+  TripLocation: "TripLocation",
+  TripWeather: "TripWeather",
+  TripLicense: "TripLicense",
+  TripEndTime: "TripEndTime",
+  TripStart: "TripStart",
+} as const;

@@ -9,10 +9,11 @@ import {
   SafeAreaView,
   Button,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import WeatherCard from "../components/WeatherCard/WeatherCard";
 import { mockWeather, mockUser } from "../data/mockData";
-import { SCREENS } from "../constants/screens";
+import { SCREENS, TRIP_SCREENS } from "../constants/screens";
 import {
   getWeatherForCoordinatesWithCache,
   WeatherData,
@@ -31,6 +32,7 @@ import Animated, {
   withSequence,
   withRepeat,
 } from "react-native-reanimated";
+import { useRoute } from "@react-navigation/native";
 
 type DashboardScreenNavigationProp = NativeStackNavigationProp<
   MainStackParamList,
@@ -48,6 +50,9 @@ export default function HomeDashboardScreen() {
   >([]);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation<DashboardScreenNavigationProp>();
+  const route = useRoute<any>();
+  const { tripStarted, selectedSpot, weather, endTime, logCatches, startTime } =
+    route.params || {};
 
   // Animation values
   const opacity = useSharedValue(0);
@@ -150,6 +155,28 @@ export default function HomeDashboardScreen() {
     opacity: opacity.value,
   }));
 
+  const handleStopTrip = () => {
+    Alert.alert("End Trip", "Are you sure you want to stop your trip?", [
+      {
+        text: "Cancel",
+        style: "cancel",
+      },
+      {
+        text: "Yes, End Trip",
+        style: "destructive",
+        onPress: () => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Dashboard" }], // trip reset
+          });
+
+          // Optional: Navigate to trip summary or log catch screen
+          // navigation.navigate("LogCatch", { tripEnded: true });
+        },
+      },
+    ]);
+  };
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -169,6 +196,45 @@ export default function HomeDashboardScreen() {
               </View>
             </View>
           </Animated.View>
+
+          {tripStarted && (
+            <>
+              <View style={styles.tripBanner}>
+                <Text style={styles.tripText}>
+                  🎣 Trip in progress at {selectedSpot?.name}
+                </Text>
+                <Text style={styles.tripText}>
+                  Started at: {new Date(startTime).toLocaleTimeString()}
+                </Text>
+                {endTime && (
+                  <Text style={styles.tripText}>
+                    Ends at: {new Date(endTime).toLocaleTimeString()}
+                  </Text>
+                )}
+              </View>
+              <View style={styles.tripActions}>
+                <Text style={styles.tripText}>
+                  🎣 Fishing at {selectedSpot.name}
+                </Text>
+                <Button
+                  title="🛑 Stop Trip"
+                  color="#d9534f"
+                  onPress={handleStopTrip}
+                />
+              </View>
+            </>
+          )}
+
+          <View style={{ marginTop: 24 }}>
+            <Button
+              title="🎣 Ready to Catch Fish?"
+              onPress={() =>
+                navigation.navigate("TripFlow", {
+                  screen: TRIP_SCREENS.TripIntro,
+                })
+              }
+            />
+          </View>
 
           <Animated.View style={[styles.weatherSection, weatherStyle]}>
             <WeatherCard
@@ -190,7 +256,9 @@ export default function HomeDashboardScreen() {
             {loading ? (
               <View style={styles.loadingContainer}>
                 <ActivityIndicator size="large" color="#60a5fa" />
-                <Text style={styles.loadingText}>Catching the latest weather...</Text>
+                <Text style={styles.loadingText}>
+                  Catching the latest weather...
+                </Text>
               </View>
             ) : favoritesWithWeather.length === 0 ? (
               <View style={styles.emptyState}>
@@ -209,7 +277,8 @@ export default function HomeDashboardScreen() {
               >
                 {favoritesWithWeather.map((spot) => {
                   const image = SPOT_IMAGES[spot.name];
-                  const amazing = spot.weather && isAmazingWeather(spot.weather);
+                  const amazing =
+                    spot.weather && isAmazingWeather(spot.weather);
 
                   return (
                     <Animated.View
@@ -234,7 +303,8 @@ export default function HomeDashboardScreen() {
                           <View style={styles.weatherInfo}>
                             <Ionicons name="cloud" size={16} color="#e0f2fe" />
                             <Text style={styles.weather}>
-                              {spot.weather.description}, {spot.weather.temperature}
+                              {spot.weather.description},{" "}
+                              {spot.weather.temperature}
                               °C, Wind: {spot.weather.windSpeed} km/h
                             </Text>
                           </View>
@@ -248,7 +318,11 @@ export default function HomeDashboardScreen() {
                           <>
                             <View style={styles.goFishContainer}>
                               <Animated.View style={fishStyle}>
-                                <Ionicons name="fish" size={20} color="#4ade80" />
+                                <Ionicons
+                                  name="fish"
+                                  size={20}
+                                  color="#4ade80"
+                                />
                               </Animated.View>
                               <Text style={styles.goFish}>
                                 Great weather to go fish!
@@ -257,7 +331,10 @@ export default function HomeDashboardScreen() {
                             <Button
                               title="Go Fish 🎣"
                               onPress={() => {
-                                console.log("🎣 Start fishing trip at", spot.name);
+                                console.log(
+                                  "🎣 Start fishing trip at",
+                                  spot.name
+                                );
                               }}
                             />
                           </>
@@ -435,5 +512,23 @@ const styles = StyleSheet.create({
   },
   favoritesScroll: {
     marginTop: 8,
+  },
+  tripBanner: {
+    backgroundColor: "#e6faff",
+    padding: 12,
+    borderRadius: 10,
+    marginBottom: 20,
+  },
+  tripText: {
+    fontSize: 14,
+    color: "#007AFF",
+    textAlign: "center",
+  },
+  tripActions: {
+    marginTop: 20,
+    padding: 12,
+    backgroundColor: "#ffeef0",
+    borderRadius: 10,
+    alignItems: "center",
   },
 });

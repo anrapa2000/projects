@@ -8,6 +8,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import { MainStackParamList } from "../types/NavigationTypes";
 import LogCatchScreen from "../screens/LogCatchScreen";
 import HomeDashboardScreen from "../screens/Dashboard";
+import TripStackNavigator from "./TripStackNavigator";
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
@@ -23,6 +24,7 @@ export default function MainStackNavigator() {
         component={CatchHistoryScreen}
       />
       <Stack.Screen name={SCREENS.Profile} component={ProfileScreen} />
+      <Stack.Screen name="TripFlow" component={TripStackNavigator} />
     </Stack.Navigator>
   );
 }
