@@ -1,5 +1,5 @@
 import React from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, KeyboardTypeOptions } from "react-native";
 import { BlurView } from "expo-blur";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -11,6 +11,8 @@ interface Props {
   onChangeText?: (text: string) => void;
   onFocus?: () => void;
   readOnly?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  multiline?: boolean;
 }
 
 export default function InputField({
@@ -21,14 +23,20 @@ export default function InputField({
   onChangeText,
   onFocus,
   readOnly = false,
+  keyboardType = "default",
+  multiline = false,
 }: Props) {
   return (
     <View style={styles.wrapper}>
       <BlurView intensity={25} tint="dark" style={styles.blur}>
-        <View style={styles.inner}>
+        <View style={[styles.inner, multiline && { alignItems: "flex-start" }]}>
           <Icon name={icon} size={20} color="#00b4d8" style={styles.icon} />
           <TextInput
-            style={[styles.input, readOnly && styles.readOnlyInput]}
+            style={[
+              styles.input,
+              readOnly && styles.readOnlyInput,
+              multiline && { height: 80, textAlignVertical: "top" },
+            ]}
             placeholder={placeholder}
             placeholderTextColor="rgba(255,255,255,0.6)"
             secureTextEntry={secure}
@@ -37,6 +45,8 @@ export default function InputField({
             onFocus={onFocus}
             autoCapitalize="none"
             editable={!readOnly}
+            keyboardType={keyboardType}
+            multiline={multiline}
           />
         </View>
       </BlurView>
