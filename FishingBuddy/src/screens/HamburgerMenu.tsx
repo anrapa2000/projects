@@ -12,13 +12,13 @@ import { deleteProfile } from "../services/profileStorage";
 
 type HomeScreenNavProp = NativeStackNavigationProp<
   MainStackParamList,
-  typeof SCREENS.Home
+  typeof SCREENS.HamburgerMenu
 >;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavProp>();
   const handleLogout = async () => {
-    console.log("🚪 Logging out...");
+    console.log("Logging out...");
     await deleteProfile();
     await signOut(auth);
     resetToLogin();

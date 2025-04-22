@@ -182,6 +182,14 @@ export default function HomeDashboardScreen() {
       <SafeAreaView style={styles.safeArea}>
         <StatusBar barStyle="light-content" />
         <ScrollView contentContainerStyle={styles.content}>
+          <View style={styles.headerRow}>
+            <Ionicons
+              name="menu"
+              size={28}
+              color="#333"
+              onPress={() => navigation.navigate("HamburgerMenu")}
+            />
+          </View>
           <Animated.View style={[styles.header, headerStyle]}>
             <View style={styles.greetingContainer}>
               <Text style={styles.greeting}>{greeting},</Text>
@@ -530,5 +538,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffeef0",
     borderRadius: 10,
     alignItems: "center",
+  },
+  headerRow: {
+    position: "absolute",
+    top: 50,
+    left: 20,
+    zIndex: 10,
   },
 });

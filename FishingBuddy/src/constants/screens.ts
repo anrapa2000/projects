@@ -1,6 +1,6 @@
 export const SCREENS = {
   Welcome: "Welcome",
-  Home: "Home",
+  HamburgerMenu: "HamburgerMenu",
   LogCatch: "LogCatch",
   CatchHistory: "CatchHistory",
   Map: "Map",

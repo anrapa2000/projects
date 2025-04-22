@@ -41,7 +41,7 @@ export function TripEndTimeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>⏱️ Set Trip End Time</Text>
+      <Text style={styles.title}>Set Trip End Time</Text>
       <Text style={styles.subtitle}>
         When would you like to end your fishing trip?
       </Text>

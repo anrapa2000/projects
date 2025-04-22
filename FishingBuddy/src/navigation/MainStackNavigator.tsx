@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SCREENS } from "../constants/screens";
 
-import HomeScreen from "../screens/HomeScreen";
+import HamburgerMenu from "../screens/HamburgerMenu";
 import MapScreen from "../screens/MapScreen";
 import CatchHistoryScreen from "../screens/CatchHistoryScreen";
 import ProfileScreen from "../screens/ProfileScreen";
@@ -16,7 +16,7 @@ export default function MainStackNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={SCREENS.Dashboard} component={HomeDashboardScreen} />
-      <Stack.Screen name={SCREENS.Home} component={HomeScreen} />
+      <Stack.Screen name={SCREENS.HamburgerMenu} component={HamburgerMenu} />
       <Stack.Screen name={SCREENS.LogCatch} component={LogCatchScreen} />
       <Stack.Screen name={SCREENS.Map} component={MapScreen} />
       <Stack.Screen
