@@ -5,11 +5,18 @@ import {
   StyleSheet,
   Dimensions,
   ActivityIndicator,
+  Platform,
+  ToastAndroid,
+  Alert,
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { FISHING_SPOTS } from "../data/fishingSpots";
 import { getDistanceInKm } from "../utils/distance";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+const FAVORITES_KEY = "favouriteSpots";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function MapScreen() {
   const [location, setLocation] = useState<Location.LocationObject | null>(
@@ -17,7 +24,9 @@ export default function MapScreen() {
   );
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [nearbySpots, setNearbySpots] = useState<typeof FISHING_SPOTS>([]);
+  const [favoriteSpots, setFavoriteSpots] = useState<string[]>([]);
   const radiusInKm = 20;
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -52,6 +61,13 @@ export default function MapScreen() {
         }
       );
 
+      (async () => {
+        const saved = await AsyncStorage.getItem(FAVORITES_KEY);
+        if (saved) {
+          setFavoriteSpots(JSON.parse(saved));
+        }
+      })();
+
       return () => subscription.remove();
     })();
   }, []);
@@ -75,8 +91,42 @@ export default function MapScreen() {
     );
   }
 
+  const toggleFavorite = async (spotId: string) => {
+    let updated: string[];
+
+    if (favoriteSpots.includes(spotId)) {
+      updated = favoriteSpots.filter((id) => id !== spotId);
+    } else {
+      updated = [...favoriteSpots, spotId];
+    }
+
+    setFavoriteSpots(updated);
+    await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(updated));
+    showToast(
+      updated.includes(spotId)
+        ? "Spot added to favorites"
+        : "Removed from favorites"
+    );
+  };
+
+  const showToast = (message: string) => {
+    if (Platform.OS === "android") {
+      ToastAndroid.show(message, ToastAndroid.SHORT);
+    } else {
+      Alert.alert("Notice", message);
+    }
+  };
+
   return (
     <View style={styles.container}>
+      <View style={styles.backButton}>
+        <Ionicons
+          name="arrow-back"
+          size={28}
+          color="#fff"
+          onPress={() => navigation.goBack()}
+        />
+      </View>
       <MapView
         style={styles.map}
         showsUserLocation
@@ -97,8 +147,11 @@ export default function MapScreen() {
               location.coords.longitude,
               spot.lat,
               spot.lon
-            ).toFixed(2)} km`}
-            pinColor="blue"
+            ).toFixed(2)} km\nTap to ${
+              favoriteSpots.includes(spot.id) ? "remove from" : "add to"
+            } favorites`}
+            pinColor={favoriteSpots.includes(spot.id) ? "gold" : "blue"}
+            onCalloutPress={() => toggleFavorite(spot.id)}
           />
         ))}
         <Marker
@@ -113,6 +166,7 @@ export default function MapScreen() {
         <Text style={styles.spotInfo}>
           There are {nearbySpots.length} spot(s) within {radiusInKm} km
         </Text>
+        <Text style={styles.tipText}>Tap on a marker to mark as favorite</Text>
       </View>
     </View>
   );
@@ -143,6 +197,23 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 4,
     textAlign: "center",
+  },
+  tipText: {
+    color: "#fff",
+    fontSize: 13,
+    marginTop: 4,
+    textAlign: "center",
+    fontStyle: "italic",
+    opacity: 0.8,
+  },
+  backButton: {
+    position: "absolute",
+    top: 50,
+    left: 20,
+    zIndex: 10,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    padding: 8,
+    borderRadius: 24,
   },
 });
 

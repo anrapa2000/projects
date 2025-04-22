@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,14 +8,79 @@ import {
   Image,
   SafeAreaView,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import WeatherCard from "../components/WeatherCard/WeatherCard";
 import { mockWeather, mockUser } from "../data/mockData";
 import { SCREENS } from "../constants/screens";
+import {
+  getWeatherForCoordinatesWithCache,
+  WeatherData,
+} from "../services/weather";
+import { FISHING_SPOTS, SPOT_IMAGES } from "../data/fishingSpots";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useNavigation } from "@react-navigation/native";
 
 export default function HomeDashboardScreen() {
+  const [favoritesWithWeather, setFavoritesWithWeather] = useState<
+    {
+      id: string;
+      name: string;
+      weather: WeatherData;
+      updatedAgo: string;
+    }[]
+  >([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadWeatherForFavorites = async () => {
+      const saved = await AsyncStorage.getItem("favouriteSpots");
+      if (!saved) {
+        setLoading(false);
+        return;
+      }
+
+      const favoriteIds: string[] = JSON.parse(saved);
+
+      const results = await Promise.all(
+        favoriteIds.map(async (id) => {
+          const spot = FISHING_SPOTS.find((s) => s.id === id);
+          if (!spot) return null;
+
+          const weather = await getWeatherForCoordinatesWithCache(
+            spot.lat,
+            spot.lon,
+            spot.id
+          );
+          if (weather) {
+            const ageMinutes = Math.round(
+              (Date.now() - weather.timestamp) / 60000
+            );
+            return {
+              id: spot.id,
+              name: spot.name,
+              weather: weather.data,
+              updatedAgo: `${ageMinutes} min${ageMinutes !== 1 ? "s" : ""} ago`,
+            };
+          }
+        })
+      );
+
+      const filtered = results.filter(Boolean) as {
+        id: string;
+        name: string;
+        weather: WeatherData;
+        updatedAgo: string;
+      }[];
+
+      setFavoritesWithWeather(filtered);
+      setLoading(false);
+    };
+
+    loadWeatherForFavorites();
+  }, []);
+
   const navigation = useNavigation();
   const currentHour = new Date().getHours();
   const greeting =
@@ -24,6 +89,15 @@ export default function HomeDashboardScreen() {
       : currentHour < 18
       ? "Good Afternoon"
       : "Good Evening";
+
+  const isAmazingWeather = (weather: WeatherData) => {
+    return (
+      ["clear sky", "few clouds"].includes(weather.description.toLowerCase()) &&
+      weather.temperature >= 18 &&
+      weather.temperature <= 28 &&
+      weather.windSpeed <= 10
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -58,6 +132,71 @@ export default function HomeDashboardScreen() {
             title="Go to Home Screen"
             onPress={() => navigation.navigate(SCREENS.Home)}
           />
+          <ScrollView contentContainerStyle={styles.container}>
+            <Text style={styles.heading}>🎣 Your Favorite Spots</Text>
+
+            {loading ? (
+              <ActivityIndicator size="large" color="#007AFF" />
+            ) : favoritesWithWeather.length === 0 ? (
+              <Text style={styles.text}>
+                You haven’t saved any favorites yet.
+              </Text>
+            ) : (
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {favoritesWithWeather.map((spot) => {
+                  const image = SPOT_IMAGES[spot.name];
+                  const amazing =
+                    spot.weather && isAmazingWeather(spot.weather);
+
+                  return (
+                    <View key={spot.id} style={styles.card}>
+                      <Text style={styles.spotTitle}>{spot.name}</Text>
+
+                      {image && (
+                        <Image
+                          source={{ uri: image }}
+                          style={styles.image}
+                          resizeMode="cover"
+                        />
+                      )}
+
+                      {spot.weather ? (
+                        <Text style={styles.weather}>
+                          {spot.weather.description}, {spot.weather.temperature}
+                          °C, Wind: {spot.weather.windSpeed} km/h
+                        </Text>
+                      ) : (
+                        <Text style={styles.weather}>
+                          ❌ Weather unavailable
+                        </Text>
+                      )}
+
+                      {amazing && (
+                        <>
+                          <Text style={styles.goFish}>
+                            🌟 Great weather to go fish!
+                          </Text>
+                          <Button
+                            title="Go Fish 🎣"
+                            onPress={() => {
+                              // Replace this with navigation to Checklist later
+                              console.log(
+                                "🎣 Start fishing trip at",
+                                spot.name
+                              );
+                            }}
+                          />
+                        </>
+                      )}
+                      <Text style={styles.updatedText}>
+                        ⏱️ Updated {spot.updatedAgo}
+                      </Text>
+                    </View>
+                  );
+                })}
+              </ScrollView>
+            )}
+          </ScrollView>
 
           {/* TODO: Catch Stats, etc. */}
         </ScrollView>
@@ -130,5 +269,57 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     backgroundColor: "rgba(255, 255, 255, 0.05)",
+  },
+  heading: {
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  spotCard: {
+    marginBottom: 16,
+    padding: 16,
+    borderRadius: 10,
+    backgroundColor: "#f0f8ff",
+    borderColor: "#007AFF",
+    borderWidth: 1,
+  },
+  spotTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    marginBottom: 4,
+  },
+  text: {
+    fontSize: 14,
+  },
+  goFish: {
+    marginTop: 8,
+    fontSize: 16,
+    fontWeight: "600",
+    color: "green",
+  },
+  image: {
+    width: 250,
+    height: 150,
+    borderRadius: 10,
+    marginBottom: 8,
+  },
+  card: {
+    width: 280,
+    marginRight: 16,
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: "#f0f8ff",
+    borderColor: "#007AFF",
+    borderWidth: 1,
+  },
+  weather: {
+    fontSize: 14,
+    marginBottom: 6,
+  },
+  updatedText: {
+    fontSize: 12,
+    color: "#666",
+    marginTop: 4,
+    fontStyle: "italic",
   },
 });

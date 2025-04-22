@@ -1,3 +1,5 @@
+import { WeatherData } from "../services/weather";
+
 export const FISHING_SPOTS = [
   {
     id: "1",
@@ -60,3 +62,18 @@ export const FISHING_SPOTS = [
     lon: -117.8265,
   },
 ];
+
+export const SPOT_IMAGES: Record<string, string> = {
+  "Oak Creek Fishing Spot": "https://source.unsplash.com/600x400/?lake,forest",
+  "Quail Hill Pond": "https://source.unsplash.com/600x400/?pond,trees",
+  "San Joaquin Marsh": "https://source.unsplash.com/600x400/?marsh,wetlands",
+  "Woodbridge Lake": "https://source.unsplash.com/600x400/?lake,california",
+  "Lower Peters Canyon Reservoir": "https://source.unsplash.com/600x400/?reservoir,california",
+  "Laguna Canyon Creek": "https://source.unsplash.com/600x400/?stream,creek",
+  "Crystal Cove Park Fishing Area": "https://source.unsplash.com/600x400/?beach,ocean",
+  "Irvine Regional Lake": "https://source.unsplash.com/600x400/?lake,irvine",
+  "North Lake": "https://source.unsplash.com/600x400/?fishing,lake",
+  "University Park Pond": "https://source.unsplash.com/600x400/?pond,fishing",
+};
+
+// TODO: Images don't work in the app, need to find a way to load them

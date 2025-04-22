@@ -8,9 +8,8 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, CommonActions } from "@react-navigation/native";
 import { loadProfile, deleteProfile } from "../services/profileStorage";
-import { CommonActions } from "@react-navigation/native";
 
 export default function ProfileScreen() {
   const [profile, setProfile] = useState<any | null>(null);
@@ -19,7 +18,17 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     loadProfile().then((data) => {
-      console.log(data);
+      if (!data) {
+        Alert.alert("Profile Not Found", "Redirecting to setup...");
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "Entry" }],
+          })
+        );
+        return;
+      }
+
       setProfile(data);
       setLoading(false);
     });
@@ -36,7 +45,7 @@ export default function ProfileScreen() {
           navigation.dispatch(
             CommonActions.reset({
               index: 0,
-              routes: [{ name: "Login" }], // must match root stack name for LoginStack
+              routes: [{ name: "Entry" }],
             })
           );
         },
@@ -48,6 +57,14 @@ export default function ProfileScreen() {
     return (
       <View style={styles.center}>
         <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <View style={styles.center}>
+        <Text>⚠️ No profile data found.</Text>
       </View>
     );
   }
