@@ -14,7 +14,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
 import { LoginStackParamList } from "../../../types/NavigationTypes";
 import { LOGIN_SCREENS } from "../../../constants/screens";
-import { preferencesStyles as styles } from "./styles";
+import { preferencesStyles as styles } from "../styles";
 
 type PreferencesScreenNav = NativeStackNavigationProp<
   LoginStackParamList,
