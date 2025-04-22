@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LOGIN_SCREENS } from "../constants/screens";
-import ProfileSetupPreferencesScreen from "../screens/ProfileSetup/ProfileSetupPreferencesScreen";
+import ProfilePreferences from "../screens/ProfileSetup/Preferences/ProfilePreferences";
 import ProfileSetupExperienceScreen from "../screens/ProfileSetup/ProfileSetupExperiencesScreen";
 import SignupScreen from "../screens/SignUp/SignupScreen";
 import LoginScreen from "../screens/Login/LoginScreen";
@@ -43,7 +43,7 @@ export default function LoginStackNavigator() {
       />
       <Stack.Screen
         name={LOGIN_SCREENS.ProfileSetupPreferences}
-        component={ProfileSetupPreferencesScreen}
+        component={ProfilePreferences}
         options={{
           animation: "fade",
           contentStyle: { backgroundColor: "black" },
