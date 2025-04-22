@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   ScrollView,
   Alert,
   ImageBackground,
   StatusBar,
-  TouchableOpacity,
 } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -19,6 +17,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../services/firebase";
 import { resetToMain } from "../../../navigation/RootNavigation";
 import { preferencesStyles as styles } from "../styles";
+import Button from "../../../components/Button/Button";
+import InputField from "../../../components/InputField/InputField";
 
 type ExperienceRouteProp = RouteProp<
   LoginStackParamList,
@@ -102,28 +102,20 @@ export default function ProfileSetupExperienceScreen() {
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Total Catches</Text>
-              <TextInput
-                style={[
-                  styles.tag,
-                  { padding: 12, backgroundColor: "rgba(255, 255, 255, 0.1)" },
-                ]}
+              <InputField
+                icon="fish-outline"
                 placeholder="e.g. 50"
-                placeholderTextColor="rgba(255, 255, 255, 0.5)"
-                keyboardType="numeric"
                 value={totalCaught}
                 onChangeText={setTotalCaught}
+                keyboardType="numeric"
               />
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Biggest Catch</Text>
-              <TextInput
-                style={[
-                  styles.tag,
-                  { padding: 12, backgroundColor: "rgba(255, 255, 255, 0.1)" },
-                ]}
+              <InputField
+                icon="trophy-outline"
                 placeholder="e.g. 15lb Trout"
-                placeholderTextColor="rgba(255, 255, 255, 0.5)"
                 value={biggestCatch}
                 onChangeText={setBiggestCatch}
               />
@@ -131,27 +123,20 @@ export default function ProfileSetupExperienceScreen() {
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Locations You've Fished</Text>
-              <TextInput
-                style={[
-                  styles.tag,
-                  {
-                    padding: 12,
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    height: 80,
-                    textAlignVertical: "top",
-                  },
-                ]}
+              <InputField
+                icon="location-outline"
                 placeholder="e.g. Lake Tahoe, Silver River, etc."
-                placeholderTextColor="rgba(255, 255, 255, 0.5)"
                 value={locationsFished}
                 onChangeText={setLocationsFished}
                 multiline
               />
             </View>
 
-            <TouchableOpacity style={styles.nextButton} onPress={handleFinish}>
-              <Text style={styles.nextButtonText}>Finish</Text>
-            </TouchableOpacity>
+            <Button
+              onPress={handleFinish}
+              text="Finish"
+              icon="checkmark-circle-outline"
+            />
           </View>
         </ScrollView>
       </View>
