@@ -5,6 +5,7 @@ export const SCREENS = {
   CatchHistory: "CatchHistory",
   Map: "Map",
   Profile: "Profile",
+  Dashboard: "Dashboard",
 };
 
 export const LOGIN_SCREENS = {
