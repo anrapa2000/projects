@@ -19,8 +19,23 @@ import {
 } from "../services/weather";
 import { FISHING_SPOTS, SPOT_IMAGES } from "../data/fishingSpots";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { MainStackParamList } from "../types/NavigationTypes";
+import { Ionicons } from "@expo/vector-icons";
+import Animated, {
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+  useSharedValue,
+  withSequence,
+  withRepeat,
+} from "react-native-reanimated";
+
+type DashboardScreenNavigationProp = NativeStackNavigationProp<
+  MainStackParamList,
+  typeof SCREENS.Dashboard
+>;
 
 export default function HomeDashboardScreen() {
   const [favoritesWithWeather, setFavoritesWithWeather] = useState<
@@ -32,6 +47,12 @@ export default function HomeDashboardScreen() {
     }[]
   >([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation<DashboardScreenNavigationProp>();
+
+  // Animation values
+  const opacity = useSharedValue(0);
+  const scale = useSharedValue(0.8);
+  const fishY = useSharedValue(0);
 
   useEffect(() => {
     const loadWeatherForFavorites = async () => {
@@ -76,12 +97,23 @@ export default function HomeDashboardScreen() {
 
       setFavoritesWithWeather(filtered);
       setLoading(false);
+
+      // Start animations
+      opacity.value = withTiming(1, { duration: 1000 });
+      scale.value = withSpring(1, { damping: 8, stiffness: 40 });
+      fishY.value = withRepeat(
+        withSequence(
+          withTiming(10, { duration: 2000 }),
+          withTiming(0, { duration: 2000 })
+        ),
+        -1,
+        true
+      );
     };
 
     loadWeatherForFavorites();
   }, []);
 
-  const navigation = useNavigation();
   const currentHour = new Date().getHours();
   const greeting =
     currentHour < 12
@@ -99,15 +131,34 @@ export default function HomeDashboardScreen() {
     );
   };
 
+  // Animated styles
+  const headerStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ scale: scale.value }],
+  }));
+
+  const weatherStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ scale: scale.value }],
+  }));
+
+  const fishStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: fishY.value }],
+  }));
+
+  const cardStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <StatusBar barStyle="light-content" />
         <ScrollView contentContainerStyle={styles.content}>
-          <View style={styles.header}>
+          <Animated.View style={[styles.header, headerStyle]}>
             <View style={styles.greetingContainer}>
               <Text style={styles.greeting}>{greeting},</Text>
-              <Text style={styles.tagline}>Ready to catch some fish?</Text>
+              <Text style={styles.tagline}>Ready to catch some fish? 🎣</Text>
             </View>
             <View style={styles.profileContainer}>
               <View style={styles.profileImageWrapper}>
@@ -117,88 +168,113 @@ export default function HomeDashboardScreen() {
                 />
               </View>
             </View>
-          </View>
+          </Animated.View>
 
-          <View style={styles.weatherSection}>
+          <Animated.View style={[styles.weatherSection, weatherStyle]}>
             <WeatherCard
               location={mockWeather.location}
               temperature={mockWeather.temp}
               condition={mockWeather.condition}
               suggestion={mockWeather.suggestion}
             />
-          </View>
-          {/* {Temporary Button} */}
-          <Button
-            title="Go to Home Screen"
-            onPress={() => navigation.navigate(SCREENS.Home)}
-          />
-          <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.heading}>🎣 Your Favorite Spots</Text>
+          </Animated.View>
+
+          <View style={styles.favoritesSection}>
+            <View style={styles.sectionHeader}>
+              <Animated.View style={fishStyle}>
+                <Ionicons name="fish" size={24} color="#60a5fa" />
+              </Animated.View>
+              <Text style={styles.heading}>Your Favorite Spots</Text>
+            </View>
 
             {loading ? (
-              <ActivityIndicator size="large" color="#007AFF" />
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#60a5fa" />
+                <Text style={styles.loadingText}>Catching the latest weather...</Text>
+              </View>
             ) : favoritesWithWeather.length === 0 ? (
-              <Text style={styles.text}>
-                You haven’t saved any favorites yet.
-              </Text>
+              <View style={styles.emptyState}>
+                <Animated.View style={fishStyle}>
+                  <Ionicons name="fish-outline" size={48} color="#60a5fa" />
+                </Animated.View>
+                <Text style={styles.emptyStateText}>
+                  No favorite spots yet. Time to cast your net! 🎣
+                </Text>
+              </View>
             ) : (
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                style={styles.favoritesScroll}
+              >
                 {favoritesWithWeather.map((spot) => {
                   const image = SPOT_IMAGES[spot.name];
-                  const amazing =
-                    spot.weather && isAmazingWeather(spot.weather);
+                  const amazing = spot.weather && isAmazingWeather(spot.weather);
 
                   return (
-                    <View key={spot.id} style={styles.card}>
-                      <Text style={styles.spotTitle}>{spot.name}</Text>
+                    <Animated.View
+                      key={spot.id}
+                      style={[styles.card, cardStyle]}
+                    >
+                      <View style={styles.cardContent}>
+                        <View style={styles.cardHeader}>
+                          <Ionicons name="location" size={20} color="#60a5fa" />
+                          <Text style={styles.spotTitle}>{spot.name}</Text>
+                        </View>
 
-                      {image && (
-                        <Image
-                          source={{ uri: image }}
-                          style={styles.image}
-                          resizeMode="cover"
-                        />
-                      )}
-
-                      {spot.weather ? (
-                        <Text style={styles.weather}>
-                          {spot.weather.description}, {spot.weather.temperature}
-                          °C, Wind: {spot.weather.windSpeed} km/h
-                        </Text>
-                      ) : (
-                        <Text style={styles.weather}>
-                          ❌ Weather unavailable
-                        </Text>
-                      )}
-
-                      {amazing && (
-                        <>
-                          <Text style={styles.goFish}>
-                            🌟 Great weather to go fish!
-                          </Text>
-                          <Button
-                            title="Go Fish 🎣"
-                            onPress={() => {
-                              // Replace this with navigation to Checklist later
-                              console.log(
-                                "🎣 Start fishing trip at",
-                                spot.name
-                              );
-                            }}
+                        {image && (
+                          <Image
+                            source={{ uri: image }}
+                            style={styles.image}
+                            resizeMode="cover"
                           />
-                        </>
-                      )}
-                      <Text style={styles.updatedText}>
-                        ⏱️ Updated {spot.updatedAgo}
-                      </Text>
-                    </View>
+                        )}
+
+                        {spot.weather ? (
+                          <View style={styles.weatherInfo}>
+                            <Ionicons name="cloud" size={16} color="#e0f2fe" />
+                            <Text style={styles.weather}>
+                              {spot.weather.description}, {spot.weather.temperature}
+                              °C, Wind: {spot.weather.windSpeed} km/h
+                            </Text>
+                          </View>
+                        ) : (
+                          <Text style={styles.weather}>
+                            ❌ Weather unavailable
+                          </Text>
+                        )}
+
+                        {amazing && (
+                          <>
+                            <View style={styles.goFishContainer}>
+                              <Animated.View style={fishStyle}>
+                                <Ionicons name="fish" size={20} color="#4ade80" />
+                              </Animated.View>
+                              <Text style={styles.goFish}>
+                                Great weather to go fish!
+                              </Text>
+                            </View>
+                            <Button
+                              title="Go Fish 🎣"
+                              onPress={() => {
+                                console.log("🎣 Start fishing trip at", spot.name);
+                              }}
+                            />
+                          </>
+                        )}
+                        <View style={styles.updatedContainer}>
+                          <Ionicons name="time" size={14} color="#94a3b8" />
+                          <Text style={styles.updatedText}>
+                            Updated {spot.updatedAgo}
+                          </Text>
+                        </View>
+                      </View>
+                    </Animated.View>
                   );
                 })}
               </ScrollView>
             )}
-          </ScrollView>
-
-          {/* TODO: Catch Stats, etc. */}
+          </View>
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -208,7 +284,7 @@ export default function HomeDashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f172a", // Deep navy
+    backgroundColor: "#0f172a",
   },
   safeArea: {
     flex: 1,
@@ -231,9 +307,6 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "800",
     marginBottom: 8,
-    textShadowColor: "rgba(0, 0, 0, 0.2)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
   },
   tagline: {
     color: "#e0f2fe",
@@ -248,11 +321,10 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    justifyContent: "center",
-    alignItems: "center",
+    overflow: "hidden",
     borderWidth: 2,
     borderColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
   profileImage: {
     width: 50,
@@ -263,63 +335,105 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     borderRadius: 20,
     overflow: "hidden",
-    elevation: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+  },
+  favoritesSection: {
+    marginTop: 16,
+  },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
   },
   heading: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 16,
-  },
-  spotCard: {
-    marginBottom: 16,
-    padding: 16,
-    borderRadius: 10,
-    backgroundColor: "#f0f8ff",
-    borderColor: "#007AFF",
-    borderWidth: 1,
-  },
-  spotTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 4,
-  },
-  text: {
-    fontSize: 14,
-  },
-  goFish: {
-    marginTop: 8,
-    fontSize: 16,
-    fontWeight: "600",
-    color: "green",
-  },
-  image: {
-    width: 250,
-    height: 150,
-    borderRadius: 10,
-    marginBottom: 8,
+    color: "#ffffff",
+    marginLeft: 8,
   },
   card: {
     width: 280,
     marginRight: 16,
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+  },
+  cardContent: {
     padding: 16,
+    borderRadius: 16,
+  },
+  cardHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  spotTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#ffffff",
+    marginLeft: 8,
+  },
+  image: {
+    width: "100%",
+    height: 150,
     borderRadius: 12,
-    backgroundColor: "#f0f8ff",
-    borderColor: "#007AFF",
-    borderWidth: 1,
+    marginBottom: 12,
+  },
+  weatherInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 8,
   },
   weather: {
     fontSize: 14,
-    marginBottom: 6,
+    color: "#e0f2fe",
+    marginLeft: 8,
+  },
+  goFishContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  goFish: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#4ade80",
+    marginLeft: 8,
+  },
+  updatedContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 4,
   },
   updatedText: {
     fontSize: 12,
-    color: "#666",
-    marginTop: 4,
+    color: "#94a3b8",
+    marginLeft: 4,
     fontStyle: "italic",
+  },
+  loadingContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  loadingText: {
+    color: "#e0f2fe",
+    marginTop: 12,
+    fontSize: 16,
+  },
+  emptyState: {
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  emptyStateText: {
+    color: "#e0f2fe",
+    fontSize: 16,
+    textAlign: "center",
+    marginTop: 12,
+  },
+  favoritesScroll: {
+    marginTop: 8,
   },
 });

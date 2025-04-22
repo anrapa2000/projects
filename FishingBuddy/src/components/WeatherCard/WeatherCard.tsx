@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { View, Text, StyleSheet, Image, Animated } from "react-native";
 
 type Props = {
   location: string;
@@ -14,6 +14,29 @@ export default function WeatherCard({
   condition,
   suggestion,
 }: Props) {
+  const spinValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const animation = Animated.loop(
+      Animated.timing(spinValue, {
+        toValue: 1,
+        duration: 7000,
+        useNativeDriver: true,
+      })
+    );
+
+    animation.start();
+
+    return () => {
+      animation.stop();
+    };
+  }, [spinValue]);
+
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
+
   const weatherIcon =
     condition === "Sunny"
       ? require("../../assets/icons/sun.png")
@@ -23,7 +46,10 @@ export default function WeatherCard({
     <View style={styles.card}>
       <View style={styles.header}>
         <Text style={styles.location}>{location}</Text>
-        <Image source={weatherIcon} style={styles.icon} />
+        <Animated.Image
+          source={weatherIcon}
+          style={[styles.icon, { transform: [{ rotate: spin }] }]}
+        />
       </View>
       <View style={styles.temperatureContainer}>
         <Text style={styles.temp}>{temperature}°C</Text>
