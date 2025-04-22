@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   ScrollView,
   TouchableOpacity,
   ImageBackground,
   StatusBar,
-  Dimensions,
 } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -15,6 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { LoginStackParamList } from "../../../types/NavigationTypes";
 import { LOGIN_SCREENS } from "../../../constants/screens";
 import { preferencesStyles as styles } from "../styles";
+import Button from "../../../components/Button/Button";
 
 type PreferencesScreenNav = NativeStackNavigationProp<
   LoginStackParamList,
@@ -74,6 +73,20 @@ export default function ProfilePreferences() {
     });
   };
 
+  const renderTag = (
+    value: string,
+    isSelected: boolean,
+    onPress: () => void
+  ) => (
+    <TouchableOpacity
+      key={value}
+      style={[styles.tag, isSelected && styles.tagSelected]}
+      onPress={onPress}
+    >
+      <Text style={styles.tagText}>{value}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <ImageBackground
       source={require("../../../assets/images/fishingHero.jpg")}
@@ -110,96 +123,69 @@ export default function ProfilePreferences() {
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Experience Level</Text>
               <View style={styles.buttonRow}>
-                {OPTIONS.level.map((l) => (
-                  <TouchableOpacity
-                    key={l}
-                    style={[styles.tag, level === l && styles.tagSelected]}
-                    onPress={() => setLevel(l)}
-                  >
-                    <Text style={styles.tagText}>{l}</Text>
-                  </TouchableOpacity>
-                ))}
+                {OPTIONS.level.map((l) =>
+                  renderTag(l, level === l, () => setLevel(l))
+                )}
               </View>
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Favorite Fish Species</Text>
               <View style={styles.buttonRow}>
-                {OPTIONS.fishSpecies.map((species) => (
-                  <TouchableOpacity
-                    key={species}
-                    style={[
-                      styles.tag,
-                      fishSpecies.includes(species) && styles.tagSelected,
-                    ]}
-                    onPress={() =>
-                      toggleSelection(species, fishSpecies, setFishSpecies)
-                    }
-                  >
-                    <Text style={styles.tagText}>{species}</Text>
-                  </TouchableOpacity>
-                ))}
+                {OPTIONS.fishSpecies.map((species) =>
+                  renderTag(
+                    species,
+                    fishSpecies.includes(species),
+                    () => toggleSelection(species, fishSpecies, setFishSpecies)
+                  )
+                )}
               </View>
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Preferred Fishing Type</Text>
               <View style={styles.buttonRow}>
-                {OPTIONS.fishingTypes.map((type) => (
-                  <TouchableOpacity
-                    key={type}
-                    style={[
-                      styles.tag,
-                      fishingTypes.includes(type) && styles.tagSelected,
-                    ]}
-                    onPress={() =>
-                      toggleSelection(type, fishingTypes, setFishingTypes)
-                    }
-                  >
-                    <Text style={styles.tagText}>{type}</Text>
-                  </TouchableOpacity>
-                ))}
+                {OPTIONS.fishingTypes.map((type) =>
+                  renderTag(
+                    type,
+                    fishingTypes.includes(type),
+                    () => toggleSelection(type, fishingTypes, setFishingTypes)
+                  )
+                )}
               </View>
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Gear You Use</Text>
               <View style={styles.buttonRow}>
-                {OPTIONS.gear.map((g) => (
-                  <TouchableOpacity
-                    key={g}
-                    style={[styles.tag, gear.includes(g) && styles.tagSelected]}
-                    onPress={() => toggleSelection(g, gear, setGear)}
-                  >
-                    <Text style={styles.tagText}>{g}</Text>
-                  </TouchableOpacity>
-                ))}
+                {OPTIONS.gear.map((g) =>
+                  renderTag(
+                    g,
+                    gear.includes(g),
+                    () => toggleSelection(g, gear, setGear)
+                  )
+                )}
               </View>
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Your Goal When Fishing</Text>
               <View style={styles.buttonRow}>
-                {OPTIONS.desiredCatch.map((c) => (
-                  <TouchableOpacity
-                    key={c}
-                    style={[
-                      styles.tag,
-                      desiredCatch.includes(c) && styles.tagSelected,
-                    ]}
-                    onPress={() =>
-                      toggleSelection(c, desiredCatch, setDesiredCatch)
-                    }
-                  >
-                    <Text style={styles.tagText}>{c}</Text>
-                  </TouchableOpacity>
-                ))}
+                {OPTIONS.desiredCatch.map((c) =>
+                  renderTag(
+                    c,
+                    desiredCatch.includes(c),
+                    () => toggleSelection(c, desiredCatch, setDesiredCatch)
+                  )
+                )}
               </View>
             </View>
 
-            <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
-              <Text style={styles.nextButtonText}>Next ➡️</Text>
-            </TouchableOpacity>
+            <Button
+              onPress={handleNext}
+              text="Next"
+              icon="arrow-forward-outline"
+            />
           </View>
         </ScrollView>
       </View>
