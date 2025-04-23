@@ -15,6 +15,8 @@ export const LOGIN_SCREENS = {
   ProfileSetupExperience: "ProfileSetupExperience",
   Signup: "Signup",
   Login: "Login",
+  AppInformation: "AppInformation",
+  ResetPassword: "ResetPassword",
 } as const;
 
 export const ROOT_SCREENS = {
@@ -31,3 +33,13 @@ export const TRIP_SCREENS = {
   TripEndTime: "TripEndTime",
   TripStart: "TripStart",
 } as const;
+
+export const TRIP_FLOW_STEPS = [
+  "TripIntro",
+  "TripChecklist",
+  "TripLocation",
+  "TripWeather",
+  "TripLicense",
+  "TripEndTime",
+  "TripStart",
+];

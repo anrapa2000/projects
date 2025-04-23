@@ -1,3 +1,4 @@
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SCREENS } from "../constants/screens";
 import { TRIP_SCREENS } from "../constants/screens";
 
@@ -121,7 +122,14 @@ export type LoginStackParamList = {
   };
   Signup: undefined;
   Login: undefined;
+  AppInformation: undefined;
+  ResetPassword: undefined;
 };
+
+export type TripIntroScreenNavigationProp = NativeStackNavigationProp<
+  TripStackParamList,
+  typeof TRIP_SCREENS.TripIntro
+>;
 
 export type CatchEntry = {
   image: string;
