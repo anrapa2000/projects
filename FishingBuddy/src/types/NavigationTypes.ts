@@ -140,3 +140,10 @@ export type TripLocationScreenNavigationProp = NativeStackNavigationProp<
   TripStackParamList,
   typeof TRIP_SCREENS.TripLocation
 >;
+
+type TripWeatherScreenNavigationProp = NativeStackNavigationProp<
+  TripStackParamList,
+  typeof TRIP_SCREENS.TripWeather
+>;
+
+export type TripWeatherNavigationProp = TripWeatherScreenNavigationProp & NativeStackNavigationProp<MainStackParamList>;

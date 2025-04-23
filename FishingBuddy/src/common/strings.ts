@@ -53,5 +53,17 @@ export const strings = {
         noSpot: "No spot selected",
       },
     },
+    weather: {
+      title: "Weather at {{spotName}}",
+      good: "Perfect weather to go fishing. Go Fish!",
+      bad: "⚠️ Conditions may not be ideal today.",
+      button: {
+        next: "I can handle it. Next!",
+        exit: "Exit",
+      },
+      updated: "Updated {{timeAgo}}",
+      loading: "Checking the weather...",
+      wind: "Wind: {{windSpeed}} km/h", 
+    },
   },
 };
