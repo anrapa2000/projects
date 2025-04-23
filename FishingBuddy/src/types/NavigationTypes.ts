@@ -136,13 +136,7 @@ export type TripChecklistScreenNavigationProp = NativeStackNavigationProp<
   typeof TRIP_SCREENS.TripChecklist
 >;
 
-export type CatchEntry = {
-  image: string;
-  fishType: string;
-  size: string;
-  timestamp: string;
-  location: {
-    lat: number;
-    lon: number;
-  };
-};
+export type TripLocationScreenNavigationProp = NativeStackNavigationProp<
+  TripStackParamList,
+  typeof TRIP_SCREENS.TripLocation
+>;

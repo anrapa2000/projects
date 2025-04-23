@@ -33,5 +33,25 @@ export const strings = {
       label: "Your Progress",
       percentage: "{{percentage}}% Complete",
     },
+    location: {
+      title: "Select a Fishing Spot",
+      button: {
+        next: "Next",
+        skip: "Skip",
+      },
+      key: {
+        spots: "Spots",
+        favorite: "Favorite",
+        selected: "Selected",
+        you: "You",
+      },
+      map: {
+        loading: "Loading map...",
+        yourLocation: "Your Location",
+      },
+      overlay: {
+        noSpot: "No spot selected",
+      },
+    },
   },
 };
