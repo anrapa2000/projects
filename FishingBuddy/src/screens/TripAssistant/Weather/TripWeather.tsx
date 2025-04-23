@@ -3,12 +3,11 @@ import { View, Text, StyleSheet, ActivityIndicator, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { getWeatherForCoordinatesWithCache } from "../../../services/weather";
 import { TripWeatherNavigationProp } from "../../../types/navigationTypes";
-import TripProgressBar from "../TripProgressBar";
 import Button from "../../../components/Button/Button";
 import { colors } from "../../../theme/colors";
-import { LinearGradient } from "expo-linear-gradient";
 import { strings } from "../../../common/strings";
 import { weatherStyles as styles } from "./weatherStyles";
+import { TripAssistantBase } from "../TripAssistantBase";
 
 const weatherStrings = strings.tripAssistant.weather;
 
@@ -57,15 +56,9 @@ export function TripWeather() {
   }
 
   return (
-    <LinearGradient
-      colors={[colors.map.background, colors.map.overlay]}
-      style={styles.container}
+    <TripAssistantBase
+      title={weatherStrings.title.replace("{{spotName}}", selectedSpot.name)}
     >
-      <TripProgressBar />
-      <Text style={styles.title}>
-        {weatherStrings.title.replace("{{spotName}}", selectedSpot.name)}
-      </Text>
-
       <View style={styles.weatherBox}>
         <Image
           source={{
@@ -118,6 +111,6 @@ export function TripWeather() {
           }
         />
       </View>
-    </LinearGradient>
+    </TripAssistantBase>
   );
 }

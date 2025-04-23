@@ -3,7 +3,7 @@ export const strings = {
     intro: {
       title: "Your Ultimate Fishing Trip Planner",
       subtitle:
-        "We’ve prepared a personalized guide to make sure your fishing trip is smooth, safe, and successful.",
+        "We've prepared a personalized guide to make sure your fishing trip is smooth, safe, and successful.",
       button: "Get Started",
     },
     checkList: {
@@ -63,7 +63,45 @@ export const strings = {
       },
       updated: "Updated {{timeAgo}}",
       loading: "Checking the weather...",
-      wind: "Wind: {{windSpeed}} km/h", 
+      wind: "Wind: {{windSpeed}} km/h",
+    },
+    license: {
+      title: "Fishing License Reminder",
+      text: "Depending on your region, a valid fishing license may be required.",
+      note: "Make sure you're compliant with local fishing laws before starting your trip.",
+      button: {
+        next: "I'm ready to go!",
+        exit: "Exit",
+        skip: "Skip",
+      },
+    },
+    endTime: {
+      title: "Set Trip End Time",
+      subtitle: "Would you like to set a time when your trip ends?",
+      noTime: "No time selected",
+      alert: {
+        title: "No End Time Set",
+        message: "If you skip, you won't get any reminders or safety alerts.",
+        cancel: "Cancel",
+        proceed: "Proceed Anyway",
+      },
+      button: {
+        setTime: "Set Time",
+        continue: "Continue",
+        exit: "Exit",
+        skip: "Skip",
+      },
+    },
+    start: {
+      title: "Ready to Start Your Trip!",
+      subtitle: "You're all set to start fishing at {{spotName}}",
+      weather: "Weather: {{description}}, {{temperature}}°C",
+      wind: "Wind: {{windSpeed}} km/h",
+      endTime: "Planned end time: {{time}}",
+      button: {
+        start: "Start Trip!",
+        back: "Back",
+      },
     },
   },
 };

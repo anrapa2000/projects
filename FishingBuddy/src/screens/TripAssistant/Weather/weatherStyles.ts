@@ -2,11 +2,6 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../../theme/colors";
 
 export const weatherStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-  },
   center: {
     flex: 1,
     justifyContent: "center",
@@ -17,13 +12,6 @@ export const weatherStyles = StyleSheet.create({
     color: colors.text.primary,
     marginTop: 16,
     fontSize: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "600",
-    textAlign: "center",
-    marginBottom: 20,
-    color: colors.text.primary,
   },
   weatherBox: {
     alignItems: "center",

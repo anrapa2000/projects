@@ -146,4 +146,28 @@ type TripWeatherScreenNavigationProp = NativeStackNavigationProp<
   typeof TRIP_SCREENS.TripWeather
 >;
 
-export type TripWeatherNavigationProp = TripWeatherScreenNavigationProp & NativeStackNavigationProp<MainStackParamList>;
+export type TripWeatherNavigationProp = TripWeatherScreenNavigationProp &
+  NativeStackNavigationProp<MainStackParamList>;
+
+export type TripEndTimeScreenNavigationProp = NativeStackNavigationProp<
+  TripStackParamList,
+  typeof TRIP_SCREENS.TripEndTime
+> &
+  NativeStackNavigationProp<MainStackParamList>;
+
+export type TripStartNavigationProp =
+  NativeStackNavigationProp<MainStackParamList>;
+
+export type TripLicenseScreenNavigationProp = NativeStackNavigationProp<
+  TripStackParamList & {
+    Dashboard: {
+      tripStarted: boolean;
+      selectedSpot: any;
+      weather: any;
+      endTime: number;
+      logCatches: boolean;
+      startTime: number;
+    };
+  },
+  typeof TRIP_SCREENS.TripLicense
+>;

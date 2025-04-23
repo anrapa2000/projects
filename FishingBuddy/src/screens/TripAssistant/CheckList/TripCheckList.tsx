@@ -38,7 +38,7 @@ const DEFAULT_ITEMS = [
   checkListStrings.hat,
 ];
 
-export function TripChecklistScreen() {
+export function TripChecklist() {
   const [items, setItems] = useState<string[]>([]);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [newItem, setNewItem] = useState<string>("");
