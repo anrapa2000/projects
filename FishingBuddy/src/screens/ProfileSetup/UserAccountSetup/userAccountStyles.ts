@@ -3,15 +3,10 @@ import { colors } from "../../../theme/colors";
 
 const { width, height } = Dimensions.get("window");
 
-// Layout constants
-const PADDING = 20;
-const GAP = 16;
-const INPUT_GAP = 12;
 const BORDER_RADIUS = 12;
 const PHOTO_SIZE = 120;
 
 export const userAccountStyles = StyleSheet.create({
-  // Container styles
   bg: {
     flex: 1,
     width,
@@ -25,31 +20,11 @@ export const userAccountStyles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  scroll: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-
-  // Form section styles
-  formSection: {
-    padding: PADDING,
-    gap: GAP,
-  },
   heading: {
     fontSize: 32,
     fontWeight: "bold",
     color: colors.text.primary,
     marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: colors.text.secondary,
-    marginBottom: 24,
-  },
-
-  // Input styles
-  inputsContainer: {
-    gap: INPUT_GAP,
   },
   inputWrapper: {
     backgroundColor: colors.background.input,
@@ -67,8 +42,6 @@ export const userAccountStyles = StyleSheet.create({
   inputIcon: {
     color: colors.text.secondary,
   },
-
-  // Button styles
   button: {
     backgroundColor: colors.primary,
     borderRadius: BORDER_RADIUS,
@@ -81,21 +54,6 @@ export const userAccountStyles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-
-  // Error styles
-  errorBox: {
-    backgroundColor: "rgba(255, 68, 68, 0.1)",
-    borderRadius: 8,
-    padding: 12,
-    marginTop: 8,
-  },
-  errorText: {
-    color: colors.error,
-    fontSize: 14,
-    marginTop: 4,
-  },
-
-  // Photo upload styles (currently commented out in component)
   photoSection: {
     alignItems: "center",
     marginBottom: 24,
@@ -118,5 +76,87 @@ export const userAccountStyles = StyleSheet.create({
   addPhotoText: {
     color: colors.text.primary,
     fontSize: 16,
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  },
+  container: {
+    flex: 1,
+  },
+  scroll: {
+    flexGrow: 1,
+  },
+  header: {
+    paddingTop: 40,
+    paddingHorizontal: 16,
+    alignItems: "center",
+  },
+  title: {
+    color: colors.text.primary,
+    marginBottom: 4,
+  },
+  subtitle: {
+    color: colors.text.secondary,
+    textAlign: "center",
+  },
+  formSection: {
+    paddingTop: 0,
+    paddingBottom: 20,
+    paddingHorizontal: 16,
+  },
+  inputsContainer: {
+    gap: 12,
+  },
+  errorBox: {
+    backgroundColor: "rgba(255, 0, 0, 0.1)",
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 16,
+  },
+  errorText: {
+    color: colors.error,
+    marginBottom: 4,
+  },
+  buttonContainer: {
+    marginTop: 24,
+  },
+  profileImageContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: colors.background.input,
+    marginBottom: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: colors.primary,
+    position: "relative",
+  },
+  profileImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 60,
+  },
+  profileImagePlaceholder: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 60,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  editIconContainer: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.primary,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: colors.background.input,
   },
 });

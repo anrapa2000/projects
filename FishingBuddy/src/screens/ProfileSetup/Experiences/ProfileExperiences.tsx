@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  Alert,
-  ImageBackground,
-  StatusBar,
-} from "react-native";
+import { View, Text, ScrollView, Alert, StatusBar } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { LinearGradient } from "expo-linear-gradient";
 import { LoginStackParamList } from "../../../types/navigationTypes";
 import { MainStackParamList } from "../../../types/navigationTypes";
 import { saveProfile } from "../../../services/profileStorage";
@@ -19,6 +11,7 @@ import { resetToMain } from "../../../navigation/RootNavigation";
 import { preferencesStyles as styles } from "../styles";
 import Button from "../../../components/Button/Button";
 import InputField from "../../../components/InputField/InputField";
+import Background from "../../../components/Background";
 
 type ExperienceRouteProp = RouteProp<
   LoginStackParamList,
@@ -38,7 +31,7 @@ export default function ProfileSetupExperienceScreen() {
 
   const handleFinish = async () => {
     const experience = {
-      totalCaught: Number(totalCaught),
+      totalCaught: Number(totalCaught) || 0,
       biggestCatch,
       locationsFished,
     };
@@ -47,52 +40,30 @@ export default function ProfileSetupExperienceScreen() {
       ...profile,
       experience,
     };
-
     try {
       await createUserWithEmailAndPassword(
         auth,
         finalProfile.email,
         finalProfile.password
       );
-      console.log(finalProfile);
+
       await saveProfile(finalProfile);
-      Alert.alert("✅ Profile Saved", "Welcome to Fishing Buddy!");
+      Alert.alert("Profile Saved", "Welcome to Fishing Buddy!");
       resetToMain();
     } catch (error: any) {
+      console.error("Error in handleFinish:", error);
       if (error.code === "auth/email-already-in-use") {
         Alert.alert("Account exists", "Try logging in instead.");
       } else {
-        Alert.alert("Error", error.message);
+        Alert.alert("Error", error.message || "Failed to create profile");
       }
     }
   };
 
   return (
-    <ImageBackground
-      source={require("../../../assets/images/fishingHero.jpg")}
-      resizeMode="cover"
-      style={styles.bg}
-    >
+    <Background style={styles.bg}>
       <StatusBar barStyle="light-content" />
-
-      <LinearGradient
-        colors={["rgba(0,0,0,0.7)", "transparent"]}
-        style={styles.topGradient}
-      />
-
       <View style={styles.swirlContainer}>
-        <View style={styles.swirlShape}>
-          <LinearGradient
-            colors={[
-              "transparent",
-              "rgba(0,0,0,0.2)",
-              "rgba(0,0,0,0.8)",
-              "#000",
-            ]}
-            style={styles.swirlGradient}
-          />
-        </View>
-
         <ScrollView contentContainerStyle={styles.contentContainer}>
           <View style={styles.contentWrapper}>
             <Text style={styles.heading}>Your Fishing Experience</Text>
@@ -140,6 +111,6 @@ export default function ProfileSetupExperienceScreen() {
           </View>
         </ScrollView>
       </View>
-    </ImageBackground>
+    </Background>
   );
 }

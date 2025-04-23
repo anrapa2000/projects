@@ -28,7 +28,7 @@ export default function TripStartedBanner({
       <Animated.View style={[styles.tripBanner, cardStyle]}>
         <View style={styles.tripBannerContent}>
           <Text style={styles.tripText}>
-            🎣 Trip in progress at {selectedSpot?.name}
+            Trip in progress at {selectedSpot?.name}
           </Text>
           <Text style={styles.tripSubtext}>
             Started at: {new Date(startTime).toLocaleTimeString()}
@@ -49,4 +49,4 @@ export default function TripStartedBanner({
       </Animated.View>
     )
   );
-};
+}

@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import WeatherCard from "../../components/WeatherCard/WeatherCard";
 import { mockWeather } from "../../data/mockData";
-import { SCREENS, TRIP_SCREENS } from "../../constants/screens";
+import { TRIP_SCREENS } from "../../constants/screens";
 import {
   getWeatherForCoordinatesWithCache,
   WeatherData,
@@ -35,6 +35,8 @@ import { dashboardStyles as styles } from "./dashboardStyles";
 import DashboardHeader from "./DashboardHeader";
 import Button from "../../components/Button/Button";
 import TripStartedBanner from "./TripStartedBanner";
+import { useIsFocused } from "@react-navigation/native";
+import { checkTripEndAndAlert } from "../../utils/tripMonitorAlert";
 
 export default function HomeDashboardScreen() {
   const [favoritesWithWeather, setFavoritesWithWeather] = useState<
@@ -50,12 +52,15 @@ export default function HomeDashboardScreen() {
   const route = useRoute<any>();
   const { tripStarted, selectedSpot, weather, endTime, logCatches, startTime } =
     route.params || {};
+  const isFocused = useIsFocused();
 
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.8);
   const fishY = useSharedValue(0);
 
   useEffect(() => {
+    if (!isFocused) return;
+
     const loadWeatherForFavorites = async () => {
       const saved = await AsyncStorage.getItem("favouriteSpots");
       if (!saved) {
@@ -112,9 +117,24 @@ export default function HomeDashboardScreen() {
     };
 
     loadWeatherForFavorites();
-  }, []);
+  }, [isFocused]);
 
-  const currentHour = new Date().getHours();
+  useEffect(() => {
+    if (tripStarted) {
+      const interval = setInterval(async () => {
+        try {
+          await checkTripEndAndAlert();
+        } catch (error) {
+          console.error("Error checking trip end:", error);
+        }
+      }, 60 * 1000 * 60); // Check every one hour
+      // This can be changes to checking every one minute or ten minutes
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [tripStarted]);
 
   const isAmazingWeather = (weather: WeatherData) => {
     return (
@@ -124,11 +144,6 @@ export default function HomeDashboardScreen() {
       weather.windSpeed <= 10
     );
   };
-
-  const weatherStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [{ scale: scale.value }],
-  }));
 
   const fishStyle = useAnimatedStyle(() => ({
     transform: [{ translateY: fishY.value }],
@@ -185,21 +200,15 @@ export default function HomeDashboardScreen() {
               icon="fish"
               text="Ready to Catch Fish?"
             />
-
-            <Animated.View style={[styles.weatherSection, weatherStyle]}>
-              <WeatherCard
-                location={mockWeather.location}
-                temperature={mockWeather.temp}
-                condition={mockWeather.condition}
-                suggestion={mockWeather.suggestion}
-              />
-            </Animated.View>
+            <WeatherCard
+              location={mockWeather.location}
+              temperature={mockWeather.temp}
+              condition={mockWeather.condition}
+              suggestion={mockWeather.suggestion}
+            />
 
             <View style={styles.favoritesSection}>
               <View style={styles.sectionHeader}>
-                <Animated.View style={fishStyle}>
-                  <Ionicons name="fish" size={24} color="#3182ce" />
-                </Animated.View>
                 <Text style={styles.heading}>Your Favorite Spots</Text>
               </View>
 
@@ -216,13 +225,15 @@ export default function HomeDashboardScreen() {
                     <Ionicons name="fish-outline" size={48} color="#3182ce" />
                   </Animated.View>
                   <Text style={styles.emptyStateText}>
-                    No favorite spots yet. Time to cast your net! 🎣
+                    No favorite spots yet. Time to cast your net!
                   </Text>
                 </View>
               ) : (
                 <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
+                  horizontal={favoritesWithWeather.length > 1}
+                  showsHorizontalScrollIndicator={
+                    favoritesWithWeather.length > 1
+                  }
                   style={styles.favoritesScroll}
                 >
                   {favoritesWithWeather.map((spot) => {

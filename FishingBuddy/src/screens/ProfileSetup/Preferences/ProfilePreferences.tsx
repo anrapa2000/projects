@@ -4,17 +4,15 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  ImageBackground,
   StatusBar,
 } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { LinearGradient } from "expo-linear-gradient";
 import { LoginStackParamList } from "../../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../../constants/screens";
 import { preferencesStyles as styles } from "../styles";
 import Button from "../../../components/Button/Button";
-
+import Background from "../../../components/Background";
 type PreferencesScreenNav = NativeStackNavigationProp<
   LoginStackParamList,
   typeof LOGIN_SCREENS.ProfileSetupPreferences
@@ -68,6 +66,7 @@ export default function ProfilePreferences() {
     navigation.navigate(LOGIN_SCREENS.ProfileSetupExperience, {
       profile: {
         ...basicProfile,
+        licenseImage: basicProfile.licenseImage || null,
         preferences,
       },
     });
@@ -88,31 +87,9 @@ export default function ProfilePreferences() {
   );
 
   return (
-    <ImageBackground
-      source={require("../../../assets/images/fishingHero.jpg")}
-      resizeMode="cover"
-      style={styles.bg}
-    >
+    <Background style={styles.bg}>
       <StatusBar barStyle="light-content" />
-
-      <LinearGradient
-        colors={["rgba(0,0,0,0.7)", "transparent"]}
-        style={styles.topGradient}
-      />
-
       <View style={styles.swirlContainer}>
-        <View style={styles.swirlShape}>
-          <LinearGradient
-            colors={[
-              "transparent",
-              "rgba(0,0,0,0.2)",
-              "rgba(0,0,0,0.8)",
-              "#000",
-            ]}
-            style={styles.swirlGradient}
-          />
-        </View>
-
         <ScrollView contentContainerStyle={styles.contentContainer}>
           <View style={styles.contentWrapper}>
             <Text style={styles.heading}>Your Fishing Preferences</Text>
@@ -181,6 +158,6 @@ export default function ProfilePreferences() {
           </View>
         </ScrollView>
       </View>
-    </ImageBackground>
+    </Background>
   );
 }

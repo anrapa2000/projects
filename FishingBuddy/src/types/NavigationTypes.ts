@@ -92,12 +92,14 @@ export type LoginStackParamList = {
     basicProfile: {
       name: string;
       email: string;
+      password: string;
       age?: number;
       photo?: string | null;
       location?: {
         latitude: number;
         longitude: number;
       } | null;
+      licenseImage?: string | null;
     };
   };
   ProfileSetupExperience: {
@@ -111,6 +113,7 @@ export type LoginStackParamList = {
         latitude: number;
         longitude: number;
       } | null;
+      licenseImage: string | null;
       preferences: {
         level: string | null;
         fishSpecies: string[];
@@ -118,6 +121,19 @@ export type LoginStackParamList = {
         gear: string[];
         desiredCatch: string[];
       };
+    };
+  };
+  LicenseUpload: {
+    basicProfile: {
+      name: string;
+      email: string;
+      password: string;
+      age?: number;
+      photo?: string | null;
+      location?: {
+        latitude: number;
+        longitude: number;
+      } | null;
     };
   };
   Signup: undefined;

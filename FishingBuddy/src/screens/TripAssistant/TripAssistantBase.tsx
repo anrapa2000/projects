@@ -1,9 +1,10 @@
 import { LinearGradient } from "expo-linear-gradient";
 import TripProgressBar from "./TripProgressBar";
 import { colors } from "../../theme/colors";
-import { StyleSheet, Text } from "react-native";
+import { ImageBackground, StyleSheet, Text } from "react-native";
 import BackButton from "../../components/Button/BackButton";
-
+import Background from "../../components/Background";
+import { View } from "react-native";
 export const TripAssistantBase = ({
   title,
   subtitle,
@@ -14,16 +15,15 @@ export const TripAssistantBase = ({
   children: React.ReactNode;
 }) => {
   return (
-    <LinearGradient
-      colors={[colors.map.background, colors.map.overlay]}
-      style={styles.container}
-    >
-      <BackButton />
-      <TripProgressBar />
-      <Text style={styles.title}>{title}</Text>
-      {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
-      {children}
-    </LinearGradient>
+    <Background>
+      <View style={styles.container}>
+        <BackButton />
+        <TripProgressBar />
+        <Text style={styles.title}>{title}</Text>
+        {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+        {children}
+      </View>
+    </Background>
   );
 };
 
@@ -45,5 +45,8 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     textAlign: "center",
     color: colors.text.secondary,
+  },
+  backgroundImage: {
+    flex: 1,
   },
 });
