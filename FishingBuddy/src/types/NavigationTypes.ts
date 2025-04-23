@@ -131,6 +131,11 @@ export type TripIntroScreenNavigationProp = NativeStackNavigationProp<
   typeof TRIP_SCREENS.TripIntro
 >;
 
+export type TripChecklistScreenNavigationProp = NativeStackNavigationProp<
+  TripStackParamList,
+  typeof TRIP_SCREENS.TripChecklist
+>;
+
 export type CatchEntry = {
   image: string;
   fishType: string;

@@ -21,7 +21,7 @@ import { FISHING_SPOTS, SPOT_IMAGES } from "../../data/fishingSpots";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MainStackParamList } from "../../types/NavigationTypes";
+import { MainStackParamList } from "../../types/navigationTypes";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
   useAnimatedStyle,

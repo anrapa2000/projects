@@ -19,6 +19,7 @@ interface Props {
   icon?: string;
   text?: string;
   disabled?: boolean;
+  size?: "big" | "small";
 }
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
@@ -29,6 +30,7 @@ export default function Button({
   icon = "log-in-outline",
   text = "Login",
   disabled = false,
+  size = "big",
 }: Props) {
   const scale = useSharedValue(1);
 
@@ -58,7 +60,7 @@ export default function Button({
   if (variant === "primary") {
     return (
       <AnimatedTouchable
-        style={[styles.primaryButton, animatedStyle]}
+        style={[styles.primaryButton, animatedStyle, size === "small" ? styles.smallButton : null]}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onPress={handlePress}
@@ -78,7 +80,7 @@ export default function Button({
 
   return (
     <AnimatedTouchable
-      style={[styles.secondaryButton, animatedStyle]}
+      style={[styles.secondaryButton, animatedStyle, size === "small" ? styles.smallButton : null]}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       onPress={handlePress}
@@ -115,6 +117,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 20,
     marginBottom: 12,
+  },
+  smallButton: {
+    width: "48%",
   },
   gradient: {
     flexDirection: "row",
