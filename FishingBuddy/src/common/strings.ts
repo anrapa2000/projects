@@ -80,7 +80,7 @@ export const strings = {
       subtitle: "Would you like to set a time when your trip ends?",
       noTime: "No time selected",
       alert: {
-        title: "No End Time Set",
+        title: "No End Time and Emergency Contact set",
         message: "If you skip, you won't get any reminders or safety alerts.",
         cancel: "Cancel",
         proceed: "Proceed Anyway",

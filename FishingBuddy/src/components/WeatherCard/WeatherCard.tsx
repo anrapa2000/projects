@@ -16,22 +16,6 @@ export default function WeatherCard({
 }: Props) {
   const spinValue = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    const animation = Animated.loop(
-      Animated.timing(spinValue, {
-        toValue: 1,
-        duration: 7000,
-        useNativeDriver: true,
-      })
-    );
-
-    animation.start();
-
-    return () => {
-      animation.stop();
-    };
-  }, [spinValue]);
-
   const spin = spinValue.interpolate({
     inputRange: [0, 1],
     outputRange: ["0deg", "360deg"],
@@ -45,16 +29,20 @@ export default function WeatherCard({
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Text style={styles.location}>{location}</Text>
+        <View style={styles.locationContainer}>
+          <Text style={styles.location}>{location}</Text>
+        </View>
         <Animated.Image
           source={weatherIcon}
           style={[styles.icon, { transform: [{ rotate: spin }] }]}
         />
       </View>
-      <View style={styles.temperatureContainer}>
+
+      <View style={styles.weatherInfo}>
         <Text style={styles.temp}>{temperature}°C</Text>
         <Text style={styles.condition}>{condition}</Text>
       </View>
+
       <View style={styles.suggestionContainer}>
         <Text style={styles.suggestionLabel}>Fishing Tip</Text>
         <Text style={styles.suggestion}>{suggestion}</Text>
@@ -82,7 +70,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 12,
+    marginBottom: 16,
+  },
+  locationContainer: {
+    flex: 1,
+    marginRight: 16,
   },
   location: {
     color: "#fff",
@@ -90,14 +82,24 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     letterSpacing: 0.3,
   },
-  temperatureContainer: {
-    marginBottom: 12,
+  icon: {
+    width: 60,
+    height: 60,
+    resizeMode: "contain",
+  },
+  weatherInfo: {
+    alignItems: "center",
+    marginBottom: 16,
+    paddingVertical: 8,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
   },
   temp: {
     fontSize: 36,
     color: "#fff",
     fontWeight: "600",
-    marginBottom: 2,
+    marginBottom: 4,
   },
   condition: {
     color: "#ccc",
@@ -121,10 +123,5 @@ const styles = StyleSheet.create({
     color: "#90e0ef",
     fontSize: 14,
     lineHeight: 20,
-  },
-  icon: {
-    width: 60,
-    height: 60,
-    resizeMode: "contain",
   },
 });

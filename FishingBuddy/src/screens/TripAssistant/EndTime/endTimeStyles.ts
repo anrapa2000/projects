@@ -54,4 +54,21 @@ export const endTimeStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  emergencyContactContainer: {
+    marginTop: 20,
+    width: "100%",
+  },
+  label: {
+    color: "#fff",
+    fontSize: 16,
+    marginBottom: 8,
+    fontWeight: "500",
+    textAlign: "center",
+  },
+  emergencyContactText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "500",
+    textAlign: "center",
+  },
 });

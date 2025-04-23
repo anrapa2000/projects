@@ -11,7 +11,7 @@ export const colors = {
   },
   error: "#ff4444",
   map: {
-    background: "rgba(0, 0, 0, 0.9)",
+    background: "rgba(255, 255, 255, 0.9)",
     overlay: "rgba(8, 12, 19, 0.9)",
   },
   spot: {

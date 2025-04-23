@@ -20,6 +20,7 @@ import TripProgressBar from "../TripProgressBar";
 import { checkListStyles as styles } from "./checkListStyles";
 import BackButton from "../../../components/Button/BackButton";
 import { strings } from "../../../common/strings";
+import Background from "../../../components/Background";
 
 const checkListStrings = strings.tripAssistant.checkList.items;
 
@@ -95,16 +96,9 @@ export function TripChecklist() {
   };
 
   return (
-    <ImageBackground
-      source={require("../../../assets/images/boatLake.jpg")}
-      style={styles.backgroundImage}
-      resizeMode="cover"
-    >
+    <Background>
       <View style={styles.overlay}>
-        <LinearGradient
-          colors={["rgba(0,0,0,1)", "rgba(0,0,0,0.5)"]}
-          style={styles.gradient}
-        >
+        <View style={styles.gradient}>
           <BackButton />
           <View style={styles.progressContainer}>
             <TripProgressBar />
@@ -186,8 +180,8 @@ export function TripChecklist() {
               onPress={() => navigation.navigate(TRIP_SCREENS.TripLocation)}
             />
           </View>
-        </LinearGradient>
+        </View>
       </View>
-    </ImageBackground>
+    </Background>
   );
 }

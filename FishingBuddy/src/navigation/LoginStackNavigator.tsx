@@ -5,7 +5,7 @@ import ProfileExperience from "../screens/ProfileSetup/Experiences/ProfileExperi
 import SignupScreen from "../screens/SignUp/SignupScreen";
 import LoginScreen from "../screens/Login/LoginScreen";
 import UserAccountSetup from "../screens/ProfileSetup/UserAccountSetup/UserAccountSetup";
-import AppInformation from "../screens/AppInformation";
+import AppInformation from "../screens/AppInformation/AppInformation";
 import ResetPasswordScreen from "../screens/ResetPassword";
 
 const Stack = createNativeStackNavigator();
