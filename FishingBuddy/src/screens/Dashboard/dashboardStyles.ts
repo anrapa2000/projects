@@ -71,12 +71,10 @@ export const dashboardStyles = StyleSheet.create({
   },
   favoritesSection: {
     marginTop: 24,
-    marginBottom: 16,
   },
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
     paddingHorizontal: 4,
   },
   heading: {

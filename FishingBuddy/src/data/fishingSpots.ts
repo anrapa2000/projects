@@ -64,16 +64,24 @@ export const FISHING_SPOTS = [
 ];
 
 export const SPOT_IMAGES: Record<string, string> = {
-  "Oak Creek Fishing Spot": "https://source.unsplash.com/600x400/?lake,forest",
-  "Quail Hill Pond": "https://source.unsplash.com/600x400/?pond,trees",
-  "San Joaquin Marsh": "https://source.unsplash.com/600x400/?marsh,wetlands",
-  "Woodbridge Lake": "https://source.unsplash.com/600x400/?lake,california",
-  "Lower Peters Canyon Reservoir": "https://source.unsplash.com/600x400/?reservoir,california",
-  "Laguna Canyon Creek": "https://source.unsplash.com/600x400/?stream,creek",
-  "Crystal Cove Park Fishing Area": "https://source.unsplash.com/600x400/?beach,ocean",
-  "Irvine Regional Lake": "https://source.unsplash.com/600x400/?lake,irvine",
-  "North Lake": "https://source.unsplash.com/600x400/?fishing,lake",
-  "University Park Pond": "https://source.unsplash.com/600x400/?pond,fishing",
+  "Oak Creek Fishing Spot":
+    "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800&auto=format&fit=crop&q=60",
+  "Quail Hill Pond":
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=60",
+  "San Joaquin Marsh":
+    "https://images.unsplash.com/photo-1470114716159-e389f8712fda?w=800&auto=format&fit=crop&q=60",
+  "Woodbridge Lake":
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=60",
+  "Lower Peters Canyon Reservoir":
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=60",
+  "Laguna Canyon Creek":
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=60",
+  "Crystal Cove Park Fishing Area":
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=60",
+  "Irvine Regional Lake":
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=60",
+  "North Lake":
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=60",
+  "University Park Pond":
+    "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800&auto=format&fit=crop&q=60",
 };
-
-// TODO: Images don't work in the app, need to find a way to load them

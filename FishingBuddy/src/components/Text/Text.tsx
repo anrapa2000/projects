@@ -46,6 +46,12 @@ const variants = {
     fontFamily: "System",
     textAlign: "center",
   },
+  subtitle2: {
+    fontSize: 16,
+    color: "#e2e8f0",
+    marginBottom: 24,
+    fontFamily: "System",
+  },
   body: {
     fontSize: 14,
     color: "#ffffff",
@@ -56,6 +62,20 @@ const variants = {
     color: "#4299e1",
     fontFamily: "System",
     textDecorationLine: "underline",
+  },
+  subtitleDark: {
+    fontSize: 16,
+    color: "#000000",
+    marginBottom: 24,
+    fontFamily: "System",
+    textAlign: "center",
+  },
+  titleDark: {
+    fontSize: 22,
+    fontWeight: "600",
+    marginBottom: 24,
+    fontFamily: "System",
+    textAlign: "center",
   },
 };
 

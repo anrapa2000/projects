@@ -142,14 +142,12 @@ export default function MapScreen() {
             key={spot.id}
             coordinate={{ latitude: spot.lat, longitude: spot.lon }}
             title={spot.name}
-            description={`Distance: ${getDistanceInKm(
+            description={`${getDistanceInKm(
               location.coords.latitude,
               location.coords.longitude,
               spot.lat,
               spot.lon
-            ).toFixed(2)} km\nTap to ${
-              favoriteSpots.includes(spot.id) ? "remove from" : "add to"
-            } favorites`}
+            ).toFixed(1)} km away`}
             pinColor={favoriteSpots.includes(spot.id) ? "gold" : "blue"}
             onCalloutPress={() => toggleFavorite(spot.id)}
           />
@@ -163,10 +161,16 @@ export default function MapScreen() {
         />
       </MapView>
       <View style={styles.overlay}>
-        <Text style={styles.spotInfo}>
-          There are {nearbySpots.length} spot(s) within {radiusInKm} km
-        </Text>
-        <Text style={styles.tipText}>Tap on a marker to mark as favorite</Text>
+        <View style={styles.overlayContent}>
+          <Text style={styles.spotInfo}>
+            {nearbySpots.length} fishing spot
+            {nearbySpots.length !== 1 ? "s" : ""} nearby
+          </Text>
+          <Text style={styles.tipText}>
+            Tap a marker to {favoriteSpots.length > 0 ? "manage" : "add"}{" "}
+            favorites
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -183,39 +187,52 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 40,
     alignSelf: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
-    padding: 12,
-    borderRadius: 10,
+    backgroundColor: "rgba(0,0,0,0.7)",
+    padding: 16,
+    borderRadius: 16,
+    minWidth: 200,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
-  speed: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "600",
+  overlayContent: {
+    alignItems: "center",
   },
   spotInfo: {
-    color: "#00ffcc",
-    fontSize: 14,
-    marginTop: 4,
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+    marginBottom: 4,
     textAlign: "center",
   },
   tipText: {
-    color: "#fff",
-    fontSize: 13,
-    marginTop: 4,
+    color: "rgba(255,255,255,0.8)",
+    fontSize: 14,
     textAlign: "center",
     fontStyle: "italic",
-    opacity: 0.8,
   },
   backButton: {
     position: "absolute",
     top: 50,
     left: 20,
     zIndex: 10,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    padding: 8,
-    borderRadius: 24,
+    backgroundColor: "rgba(0,0,0,0.7)",
+    padding: 10,
+    borderRadius: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
 
 // TODO: Add error handling for location permissions
-// TODO: Speed tracking - is this necessary?

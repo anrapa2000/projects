@@ -7,6 +7,7 @@ import LoginScreen from "../screens/Login/LoginScreen";
 import UserAccountSetup from "../screens/ProfileSetup/UserAccountSetup/UserAccountSetup";
 import AppInformation from "../screens/AppInformation/AppInformation";
 import ResetPasswordScreen from "../screens/ResetPassword";
+import LicenseUpload from "../screens/LicenseUpload";
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,10 @@ export default function LoginStackNavigator() {
       <Stack.Screen
         name={LOGIN_SCREENS.ResetPassword}
         component={ResetPasswordScreen}
+      />
+      <Stack.Screen
+        name={LOGIN_SCREENS.LicenseUpload}
+        component={LicenseUpload}
       />
     </Stack.Navigator>
   );

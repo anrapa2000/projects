@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   View,
-  Text,
   ScrollView,
   StatusBar,
   Image,
@@ -37,6 +36,7 @@ import Button from "../../components/Button/Button";
 import TripStartedBanner from "./TripStartedBanner";
 import { useIsFocused } from "@react-navigation/native";
 import { checkTripEndAndAlert } from "../../utils/tripMonitorAlert";
+import Text from "../../components/Text/Text";
 
 export default function HomeDashboardScreen() {
   const [favoritesWithWeather, setFavoritesWithWeather] = useState<
@@ -189,17 +189,24 @@ export default function HomeDashboardScreen() {
               endTime={endTime}
               handleStopTrip={handleStopTrip}
             />
+            {!tripStarted && (
+              <>
+                <Text variant="subtitleDark">
+                  Everything you need before casting off — tap below to begin!
+                </Text>
+                <Button
+                  onPress={() =>
+                    navigation.navigate("TripFlow", {
+                      screen: TRIP_SCREENS.TripIntro,
+                    })
+                  }
+                  variant="primary"
+                  icon="fish"
+                  text="Reel It In – Let's Go!"
+                />
+              </>
+            )}
 
-            <Button
-              onPress={() =>
-                navigation.navigate("TripFlow", {
-                  screen: TRIP_SCREENS.TripIntro,
-                })
-              }
-              variant="primary"
-              icon="fish"
-              text="Ready to Catch Fish?"
-            />
             <WeatherCard
               location={mockWeather.location}
               temperature={mockWeather.temp}
@@ -209,13 +216,13 @@ export default function HomeDashboardScreen() {
 
             <View style={styles.favoritesSection}>
               <View style={styles.sectionHeader}>
-                <Text style={styles.heading}>Your Favorite Spots</Text>
+                <Text variant="titleDark">Your Favorite Spots</Text>
               </View>
 
               {loading ? (
                 <View style={styles.loadingContainer}>
                   <ActivityIndicator size="large" color="#3182ce" />
-                  <Text style={styles.loadingText}>
+                  <Text variant="subtitle2">
                     Catching the latest weather...
                   </Text>
                 </View>
@@ -224,7 +231,7 @@ export default function HomeDashboardScreen() {
                   <Animated.View style={fishStyle}>
                     <Ionicons name="fish-outline" size={48} color="#3182ce" />
                   </Animated.View>
-                  <Text style={styles.emptyStateText}>
+                  <Text variant="subtitle2">
                     No favorite spots yet. Time to cast your net!
                   </Text>
                 </View>

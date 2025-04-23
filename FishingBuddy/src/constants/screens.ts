@@ -7,16 +7,19 @@ export const SCREENS = {
   Profile: "Profile",
   Dashboard: "Dashboard",
   HelpFulLinks: "HelpFulLinks",
+  LicenseUpload: "LicenseUpload",
 };
 
 export const LOGIN_SCREENS = {
   ProfileSetupUserAccount: "ProfileSetupUserAccount",
   ProfileSetupPreferences: "ProfileSetupPreferences",
   ProfileSetupExperience: "ProfileSetupExperience",
+  LicenseUpload: "LicenseUpload",
   Signup: "Signup",
   Login: "Login",
   AppInformation: "AppInformation",
   ResetPassword: "ResetPassword",
+  Welcome: "Welcome",
 } as const;
 
 export const ROOT_SCREENS = {
