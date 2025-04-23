@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
+import Background from "../components/Background";
+import Button from "../components/Button/Button";
+import InputField from "../components/InputField/InputField";
+import Text from "../components/Text/Text";
 
 export default function ResetPasswordScreen() {
   const [email, setEmail] = useState("");
@@ -28,28 +32,32 @@ export default function ResetPasswordScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>🔐 Reset Your Password</Text>
-      <TextInput
-        placeholder="Enter your email"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-      />
-      <Button title="Send Reset Link" onPress={handleReset} />
-    </View>
+    <Background>
+      <View style={styles.container}>
+        <Text variant="title">Reset Your Password</Text>
+        <InputField
+          placeholder="Enter your email"
+          value={email}
+          onChangeText={setEmail}
+          icon={""}
+          keyboardType="email-address"
+        />
+        <View style={styles.button}>
+          <Button
+            variant="primary"
+            onPress={handleReset}
+            icon="send"
+            text="Send Reset Link"
+          />
+        </View>
+      </View>
+    </Background>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: "center", padding: 24 },
-  title: { fontSize: 22, fontWeight: "600", marginBottom: 24 },
-  input: {
-    backgroundColor: "#f2f2f2",
-    padding: 12,
-    marginBottom: 16,
-    borderRadius: 8,
+  button: {
+    marginTop: 16,
   },
 });

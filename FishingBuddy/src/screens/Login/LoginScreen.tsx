@@ -4,8 +4,6 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
-  ImageBackground,
-  StatusBar,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
@@ -20,6 +18,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import LoginContent from "./LoginContent";
 import { loginScreenStyles as styles } from "./loginStyles";
+import Background from "../../components/Background";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   LoginStackParamList,
@@ -79,52 +78,28 @@ export default function LoginScreen() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-        <ImageBackground
-          source={require("../../assets/images/childHero.jpg")}
-          resizeMode="cover"
-          style={styles.bg}
+    <Background>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          style={styles.container}
         >
-          <StatusBar barStyle="light-content" />
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : undefined}
-            style={styles.container}
+          <Animated.View
+            entering={FadeInUp.duration(800).springify()}
+            style={styles.swirlContainer}
           >
-            <LinearGradient
-              colors={["rgba(0,0,0,0.7)", "transparent"]}
-              style={styles.topGradient}
+            <LoginContent
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+              handleLogin={handleLogin}
+              navigateToSignup={navigateToSignup}
+              navigateToResetPassword={navigateToResetPassword}
             />
-
-            <Animated.View
-              entering={FadeInUp.duration(800).springify()}
-              style={styles.swirlContainer}
-            >
-              <View style={styles.swirlShape}>
-                <LinearGradient
-                  colors={[
-                    "transparent",
-                    "rgba(0,0,0,0.2)",
-                    "rgba(0,0,0,0.8)",
-                    "#000",
-                  ]}
-                  style={styles.swirlGradient}
-                />
-              </View>
-
-              <LoginContent
-                email={email}
-                setEmail={setEmail}
-                password={password}
-                setPassword={setPassword}
-                handleLogin={handleLogin}
-                navigateToSignup={navigateToSignup}
-                navigateToResetPassword={navigateToResetPassword}
-              />
-            </Animated.View>
-          </KeyboardAvoidingView>
-        </ImageBackground>
-      </View>
-    </TouchableWithoutFeedback>
+          </Animated.View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </Background>
   );
 }

@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { SCREENS } from "../constants/screens";
+import { LOGIN_SCREENS, SCREENS } from "../constants/screens";
 import { TRIP_SCREENS } from "../constants/screens";
 
 export type TripStackParamList = {
@@ -180,4 +180,9 @@ export type DashboardScreenNavigationProp = NativeStackNavigationProp<
 export type HamburgerMenuNavProp = NativeStackNavigationProp<
   MainStackParamList,
   typeof SCREENS.HamburgerMenu
+>;
+
+export type SignupScreenNavigationProp = NativeStackNavigationProp<
+  LoginStackParamList,
+  typeof LOGIN_SCREENS.Signup
 >;

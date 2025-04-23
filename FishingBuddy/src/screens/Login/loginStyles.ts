@@ -6,16 +6,30 @@ export const loginScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  bg: {
+  background: {
     flex: 1,
     justifyContent: "center",
   },
-  topGradient: {
+  waveBackground: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    height: height * 0.3,
+    transform: [{ scaleY: -1 }],
+  },
+  bubbles: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  waterRings: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   swirlContainer: {
     position: "absolute",
@@ -54,14 +68,14 @@ export const loginScreenStyles = StyleSheet.create({
   heading: {
     fontSize: 32,
     fontWeight: "700",
-    color: "#fff",
+    color: "#ffffff",
     marginBottom: 6,
     fontFamily: "System",
     textAlign: "center",
   },
   subtitle: {
     fontSize: 16,
-    color: "#e0e0e0",
+    color: "#e2e8f0",
     marginBottom: 24,
     fontFamily: "System",
     textAlign: "center",
@@ -78,20 +92,35 @@ export const loginScreenStyles = StyleSheet.create({
     marginTop: 6,
   },
   signupText: {
-    color: "#e0e0e0",
+    color: "#e2e8f0",
     fontSize: 14,
     letterSpacing: 0.3,
   },
   signupHighlight: {
-    color: "#00b4d8",
+    color: "#4299e1",
     fontWeight: "600",
   },
   forgotPassword: {
-    color: "#e0e0e0",
+    color: "#e2e8f0",
     fontSize: 14,
     letterSpacing: 0.3,
     textAlign: "center",
     marginTop: 20,
     fontWeight: "600",
+  },
+  sunburst: {
+    position: "absolute",
+    top: -100,
+    left: 0,
+    right: 0,
+    height: 200,
+    zIndex: 0,
+  },
+  blurContainer: {
+    marginHorizontal: 20,
+    padding: 20,
+    borderRadius: 20,
+    overflow: "hidden",
+    backgroundColor: "rgba(255, 255, 255, 0.05)", // optional fallback
   },
 });

@@ -3,19 +3,13 @@ import { View, ImageBackground, StatusBar, Dimensions } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { LoginStackParamList } from "../../types/navigationTypes";
+import { SignupScreenNavigationProp } from "../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../constants/screens";
 import SignUpContent from "./SignUpContent";
 import { signupStyles as styles } from "./signupStyles";
 
-type Nav = NativeStackNavigationProp<
-  LoginStackParamList,
-  typeof LOGIN_SCREENS.Signup
->;
-
 export default function SignupScreen() {
-  const navigation = useNavigation<Nav>();
+  const navigation = useNavigation<SignupScreenNavigationProp>();
 
   const handleSignIn = () => {
     navigation.navigate(LOGIN_SCREENS.Login);

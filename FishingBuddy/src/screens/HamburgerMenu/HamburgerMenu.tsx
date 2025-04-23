@@ -10,9 +10,10 @@ import { resetToLogin } from "../../navigation/RootNavigation";
 import { deleteProfile } from "../../services/profileStorage";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { colors } from "../../theme/colors";
-import { LinearGradient } from "expo-linear-gradient";
 import { hamburgerMenuStyles as styles } from "./hamburgerMenuStyles";
 import { MenuButtonProps } from "../../types/types";
+import Button from "../../components/Button/Button";
+import Background from "../../components/Background";
 
 export default function HamburgerMenu() {
   const navigation = useNavigation<HamburgerMenuNavProp>();
@@ -65,61 +66,70 @@ export default function HamburgerMenu() {
     </TouchableOpacity>
   );
 
+  const menuItems = [
+    {
+      title: "Log a Catch",
+      icon: "fish",
+      onPress: () => navigation.navigate(SCREENS.LogCatch),
+    },
+    {
+      title: "View Catch History",
+      icon: "view",
+      onPress: () => navigation.navigate(SCREENS.CatchHistory),
+    },
+    {
+      title: "View Map",
+      icon: "map-marker",
+      onPress: () => navigation.navigate(SCREENS.Map),
+    },
+    {
+      title: "Profile",
+      icon: "profile",
+      onPress: () => navigation.navigate(SCREENS.Profile),
+    },
+    {
+      title: "Helpful Links",
+      icon: "link",
+      onPress: () => navigation.navigate(SCREENS.HelpFulLinks),
+    },
+  ];
+
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[colors.map.background, colors.map.overlay]}
-        style={styles.background}
-      >
+      <Background>
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.header}>
             <Text style={styles.title}>FishingBuddy</Text>
           </View>
 
           <View style={styles.menuContainer}>
-            <MenuButton
-              title="Log a Catch"
-              icon="fish"
-              onPress={() => navigation.navigate(SCREENS.LogCatch)}
-            />
-            <MenuButton
-              title="View Catch History"
-              icon="history"
-              onPress={() => navigation.navigate(SCREENS.CatchHistory)}
-            />
-            <MenuButton
-              title="View Map"
-              icon="map-marker"
-              onPress={() => navigation.navigate(SCREENS.Map)}
-            />
-            <MenuButton
-              title="Profile"
-              icon="account"
-              onPress={() => navigation.navigate(SCREENS.Profile)}
-            />
-            <MenuButton
-              title="Helpful Links"
-              icon="link"
-              onPress={() => navigation.navigate(SCREENS.HelpFulLinks)}
-            />
+            {menuItems.map((item) => (
+              <Button
+                key={item.title}
+                variant="menuItem"
+                text={item.title}
+                onPress={item.onPress}
+                icon={item.icon}
+              />
+            ))}
           </View>
 
           <View style={styles.footer}>
-            <MenuButton
-              title="Log Out"
+            <Button
+              variant="DANGER"
+              text="Log Out"
               icon="logout"
               onPress={handleLogout}
-              isDanger={true}
             />
-            <MenuButton
-              title="Reset Storage"
+            <Button
+              variant="DANGER"
+              text="Reset Storage"
               icon="delete"
               onPress={handleDevReset}
-              isDanger={true}
             />
           </View>
         </SafeAreaView>
-      </LinearGradient>
+      </Background>
     </View>
   );
 }

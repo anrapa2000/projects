@@ -1,0 +1,58 @@
+import { StyleProp, TextStyle, StyleSheet } from "react-native";
+import { Text as RNText } from "react-native";
+
+interface TextProps {
+  children: React.ReactNode;
+  style?: StyleProp<TextStyle>;
+  variant?: keyof typeof variants;
+}
+
+const variants = {
+  heading: {
+    fontSize: 32,
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: 6,
+    fontFamily: "System",
+    textAlign: "center",
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: "600",
+    marginBottom: 24,
+    fontFamily: "System",
+    textAlign: "center",
+    color: "#ffffff",
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#e2e8f0",
+    marginBottom: 24,
+    fontFamily: "System",
+    textAlign: "center",
+  },
+  body: {
+    fontSize: 14,
+    color: "#ffffff",
+    fontFamily: "System",
+  },
+  link: {
+    fontSize: 14,
+    color: "#4299e1",
+    fontFamily: "System",
+  },
+};
+
+export default function Text({ children, style, variant = "body" }: TextProps) {
+  return (
+    <RNText style={[styles.text, variants[variant], style]}>{children}</RNText>
+  );
+}
+
+Text.displayName = "Text";
+
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: "Poppins-Regular",
+  },
+});

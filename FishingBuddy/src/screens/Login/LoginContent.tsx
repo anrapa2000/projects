@@ -1,10 +1,10 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
+import Text from "../../components/Text/Text";
 import { loginScreenStyles as styles } from "./loginStyles";
-import { LOGIN_SCREENS } from "../../constants/screens";
 
 type LoginContentProps = {
   email: string;
@@ -27,8 +27,8 @@ const LoginContent: React.FC<LoginContentProps> = ({
 }) => (
   <View style={styles.contentContainer}>
     <Animated.View entering={FadeInUp.duration(600).delay(200).springify()}>
-      <Text style={styles.heading}>Welcome Back</Text>
-      <Text style={styles.subtitle}>Let's get you back on the water</Text>
+      <Text variant="heading">Welcome Back</Text>
+      <Text variant="subtitle">Let's get you back on the water</Text>
     </Animated.View>
 
     <Animated.View
@@ -56,15 +56,17 @@ const LoginContent: React.FC<LoginContentProps> = ({
     >
       <Button onPress={handleLogin} />
 
-      <Text style={styles.signupText}>
+      <Text variant="body" style={styles.signupText}>
         Don't have an account?{" "}
         <TouchableOpacity style={styles.signupLink} onPress={navigateToSignup}>
-          <Text style={styles.signupHighlight}>Sign Up</Text>
+          <Text variant="link">Sign Up</Text>
         </TouchableOpacity>
       </Text>
-      <Text style={styles.forgotPassword} onPress={navigateToResetPassword}>
-        Forgot Password?
-      </Text>
+      <TouchableOpacity onPress={navigateToResetPassword}>
+        <Text variant="link" style={styles.forgotPassword}>
+          Forgot Password?
+        </Text>
+      </TouchableOpacity>
     </Animated.View>
   </View>
 );

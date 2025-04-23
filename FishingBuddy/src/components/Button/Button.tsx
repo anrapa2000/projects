@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 interface Props {
   onPress: (event: GestureResponderEvent) => void;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "menuItem" | "DANGER";
   icon?: string;
   text?: string;
   disabled?: boolean;
@@ -60,7 +60,11 @@ export default function Button({
   if (variant === "primary") {
     return (
       <AnimatedTouchable
-        style={[styles.primaryButton, animatedStyle, size === "small" ? styles.smallButton : null]}
+        style={[
+          styles.primaryButton,
+          animatedStyle,
+          size === "small" ? styles.smallButton : null,
+        ]}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         onPress={handlePress}
@@ -78,9 +82,55 @@ export default function Button({
     );
   }
 
+  if (variant === "menuItem") {
+    return (
+      <AnimatedTouchable
+        style={[styles.menuItem, animatedStyle]}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onPress={handlePress}
+      >
+        <LinearGradient
+          colors={["#ffffff", "#f0f0f0"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.menuItemGradient}
+        >
+          <Icon name={icon} size={20} color="#00b4d8" />
+          <Text style={styles.menuItemText}>{text}</Text>
+        </LinearGradient>
+      </AnimatedTouchable>
+    );
+  }
+
+  if (variant === "DANGER") {
+    return (
+      <AnimatedTouchable
+        style={[styles.dangerButton, animatedStyle]}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onPress={handlePress}
+      >
+        <LinearGradient
+          colors={["#ffffff", "#f0f0f0"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.dangerGradient}
+        >
+          <Icon name={icon} size={20} color="#dc2626" />
+          <Text style={styles.dangerText}>{text}</Text>
+        </LinearGradient>
+      </AnimatedTouchable>
+    );
+  }
+
   return (
     <AnimatedTouchable
-      style={[styles.secondaryButton, animatedStyle, size === "small" ? styles.smallButton : null]}
+      style={[
+        styles.secondaryButton,
+        animatedStyle,
+        size === "small" ? styles.smallButton : null,
+      ]}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       onPress={handlePress}
@@ -136,6 +186,47 @@ const styles = StyleSheet.create({
   },
   secondaryText: {
     color: "#00b4d8",
+    fontSize: 16,
+    fontWeight: "600",
+    marginLeft: 8,
+  },
+  menuItem: {
+    width: "100%",
+    borderRadius: 12,
+    overflow: "hidden",
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: "rgba(0, 0, 0, 0.1)",
+  },
+  menuItemGradient: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  menuItemText: {
+    color: "#2d3748",
+    fontSize: 16,
+    fontWeight: "500",
+    marginLeft: 12,
+  },
+  dangerButton: {
+    width: "100%",
+    borderRadius: 12,
+    overflow: "hidden",
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: "rgba(0, 0, 0, 0.1)",
+  },
+  dangerGradient: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+  },
+  dangerText: {
+    color: "#dc2626",
     fontSize: 16,
     fontWeight: "600",
     marginLeft: 8,
