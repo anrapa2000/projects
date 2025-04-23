@@ -4,7 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import { mockUser } from "../../data/mockData";
 import { Image, Text } from "react-native";
-import { DashboardScreenNavigationProp } from "./Dashboard";
+import { DashboardScreenNavigationProp } from "../../types/navigationTypes";
 
 export default function DashboardHeader({
   navigation,

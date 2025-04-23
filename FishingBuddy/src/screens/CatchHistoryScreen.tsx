@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { getCatches } from "../services/storage";
-import { CatchEntry } from "../types/NavigationTypes";
+import { CatchEntry } from "../types/types";
 
 export default function CatchHistoryScreen() {
   const [catches, setCatches] = useState<CatchEntry[]>([]);

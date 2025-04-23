@@ -171,3 +171,13 @@ export type TripLicenseScreenNavigationProp = NativeStackNavigationProp<
   },
   typeof TRIP_SCREENS.TripLicense
 >;
+
+export type DashboardScreenNavigationProp = NativeStackNavigationProp<
+  MainStackParamList,
+  typeof SCREENS.Dashboard
+>;
+
+export type HamburgerMenuNavProp = NativeStackNavigationProp<
+  MainStackParamList,
+  typeof SCREENS.HamburgerMenu
+>;

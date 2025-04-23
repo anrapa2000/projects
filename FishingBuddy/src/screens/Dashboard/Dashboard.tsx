@@ -8,10 +8,9 @@ import {
   SafeAreaView,
   ActivityIndicator,
   Alert,
-  TouchableOpacity,
 } from "react-native";
 import WeatherCard from "../../components/WeatherCard/WeatherCard";
-import { mockWeather, mockUser } from "../../data/mockData";
+import { mockWeather } from "../../data/mockData";
 import { SCREENS, TRIP_SCREENS } from "../../constants/screens";
 import {
   getWeatherForCoordinatesWithCache,
@@ -20,8 +19,7 @@ import {
 import { FISHING_SPOTS, SPOT_IMAGES } from "../../data/fishingSpots";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { MainStackParamList } from "../../types/navigationTypes";
+import { DashboardScreenNavigationProp } from "../../types/navigationTypes";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
   useAnimatedStyle,
@@ -37,10 +35,6 @@ import { dashboardStyles as styles } from "./dashboardStyles";
 import DashboardHeader from "./DashboardHeader";
 import Button from "../../components/Button/Button";
 import TripStartedBanner from "./TripStartedBanner";
-export type DashboardScreenNavigationProp = NativeStackNavigationProp<
-  MainStackParamList,
-  typeof SCREENS.Dashboard
->;
 
 export default function HomeDashboardScreen() {
   const [favoritesWithWeather, setFavoritesWithWeather] = useState<
@@ -57,7 +51,6 @@ export default function HomeDashboardScreen() {
   const { tripStarted, selectedSpot, weather, endTime, logCatches, startTime } =
     route.params || {};
 
-  // Animation values
   const opacity = useSharedValue(0);
   const scale = useSharedValue(0.8);
   const fishY = useSharedValue(0);
@@ -106,7 +99,6 @@ export default function HomeDashboardScreen() {
       setFavoritesWithWeather(filtered);
       setLoading(false);
 
-      // Start animations
       opacity.value = withTiming(1, { duration: 1000 });
       scale.value = withSpring(1, { damping: 8, stiffness: 40 });
       fishY.value = withRepeat(
@@ -123,12 +115,6 @@ export default function HomeDashboardScreen() {
   }, []);
 
   const currentHour = new Date().getHours();
-  const greeting =
-    currentHour < 12
-      ? "Good Morning"
-      : currentHour < 18
-      ? "Good Afternoon"
-      : "Good Evening";
 
   const isAmazingWeather = (weather: WeatherData) => {
     return (
@@ -138,12 +124,6 @@ export default function HomeDashboardScreen() {
       weather.windSpeed <= 10
     );
   };
-
-  // Animated styles
-  const headerStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [{ scale: scale.value }],
-  }));
 
   const weatherStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,

@@ -13,7 +13,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../services/firebase";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { LoginStackParamList } from "../../types/NavigationTypes";
+import { LoginStackParamList } from "../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../constants/screens";
 import { resetToMain } from "../../navigation/RootNavigation";
 import { LinearGradient } from "expo-linear-gradient";
@@ -74,6 +74,10 @@ export default function LoginScreen() {
     navigation.navigate(LOGIN_SCREENS.Signup);
   };
 
+  const navigateToResetPassword = () => {
+    navigation.navigate(LOGIN_SCREENS.ResetPassword);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -115,6 +119,7 @@ export default function LoginScreen() {
                 setPassword={setPassword}
                 handleLogin={handleLogin}
                 navigateToSignup={navigateToSignup}
+                navigateToResetPassword={navigateToResetPassword}
               />
             </Animated.View>
           </KeyboardAvoidingView>

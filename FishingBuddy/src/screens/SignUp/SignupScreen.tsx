@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { LoginStackParamList } from "../../types/NavigationTypes";
+import { LoginStackParamList } from "../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../constants/screens";
 import SignUpContent from "./SignUpContent";
 import { signupStyles as styles } from "./signupStyles";
@@ -22,7 +22,7 @@ export default function SignupScreen() {
   };
 
   const handleCreateProfile = () => {
-    navigation.navigate(LOGIN_SCREENS.ProfileSetupUserAccount);
+    navigation.navigate(LOGIN_SCREENS.AppInformation);
   };
 
   return (

@@ -22,3 +22,10 @@ export type CatchEntry = {
     lon: number;
   };
 };
+
+export interface MenuButtonProps {
+  title: string;
+  icon: string;
+  onPress: () => void;
+  isDanger?: boolean;
+}

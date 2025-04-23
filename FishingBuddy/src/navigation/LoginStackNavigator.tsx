@@ -5,6 +5,8 @@ import ProfileExperience from "../screens/ProfileSetup/Experiences/ProfileExperi
 import SignupScreen from "../screens/SignUp/SignupScreen";
 import LoginScreen from "../screens/Login/LoginScreen";
 import UserAccountSetup from "../screens/ProfileSetup/UserAccountSetup/UserAccountSetup";
+import AppInformation from "../screens/AppInformation";
+import ResetPasswordScreen from "../screens/ResetPassword";
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +58,18 @@ export default function LoginStackNavigator() {
           animation: "fade",
           contentStyle: { backgroundColor: "black" },
         }}
+      />
+      <Stack.Screen
+        name={LOGIN_SCREENS.AppInformation}
+        component={AppInformation}
+        options={{
+          animation: "fade",
+          contentStyle: { backgroundColor: "black" },
+        }}
+      />
+      <Stack.Screen
+        name={LOGIN_SCREENS.ResetPassword}
+        component={ResetPasswordScreen}
       />
     </Stack.Navigator>
   );

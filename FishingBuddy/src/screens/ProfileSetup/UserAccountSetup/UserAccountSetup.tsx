@@ -13,7 +13,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { LoginStackParamList } from "../../../types/NavigationTypes";
+import { LoginStackParamList } from "../../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../../constants/screens";
 import { LinearGradient } from "expo-linear-gradient";
 import InputField from "../../../components/InputField/InputField";

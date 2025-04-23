@@ -4,6 +4,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 import { loginScreenStyles as styles } from "./loginStyles";
+import { LOGIN_SCREENS } from "../../constants/screens";
 
 type LoginContentProps = {
   email: string;
@@ -12,6 +13,7 @@ type LoginContentProps = {
   setPassword: (text: string) => void;
   handleLogin: () => void;
   navigateToSignup: () => void;
+  navigateToResetPassword: () => void;
 };
 
 const LoginContent: React.FC<LoginContentProps> = ({
@@ -21,6 +23,7 @@ const LoginContent: React.FC<LoginContentProps> = ({
   setPassword,
   handleLogin,
   navigateToSignup,
+  navigateToResetPassword,
 }) => (
   <View style={styles.contentContainer}>
     <Animated.View entering={FadeInUp.duration(600).delay(200).springify()}>
@@ -52,12 +55,16 @@ const LoginContent: React.FC<LoginContentProps> = ({
       style={styles.buttonContainer}
     >
       <Button onPress={handleLogin} />
-      <TouchableOpacity style={styles.signupLink} onPress={navigateToSignup}>
-        <Text style={styles.signupText}>
-          Don't have an account?{" "}
+
+      <Text style={styles.signupText}>
+        Don't have an account?{" "}
+        <TouchableOpacity style={styles.signupLink} onPress={navigateToSignup}>
           <Text style={styles.signupHighlight}>Sign Up</Text>
-        </Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </Text>
+      <Text style={styles.forgotPassword} onPress={navigateToResetPassword}>
+        Forgot Password?
+      </Text>
     </Animated.View>
   </View>
 );

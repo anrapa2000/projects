@@ -10,8 +10,8 @@ import {
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
-import { LoginStackParamList } from "../../../types/NavigationTypes";
-import { MainStackParamList } from "../../../types/NavigationTypes";
+import { LoginStackParamList } from "../../../types/navigationTypes";
+import { MainStackParamList } from "../../../types/navigationTypes";
 import { saveProfile } from "../../../services/profileStorage";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../services/firebase";

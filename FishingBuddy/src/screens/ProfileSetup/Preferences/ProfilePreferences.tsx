@@ -10,7 +10,7 @@ import {
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
-import { LoginStackParamList } from "../../../types/NavigationTypes";
+import { LoginStackParamList } from "../../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../../constants/screens";
 import { preferencesStyles as styles } from "../styles";
 import Button from "../../../components/Button/Button";
@@ -133,10 +133,8 @@ export default function ProfilePreferences() {
               <Text style={styles.sectionTitle}>Favorite Fish Species</Text>
               <View style={styles.buttonRow}>
                 {OPTIONS.fishSpecies.map((species) =>
-                  renderTag(
-                    species,
-                    fishSpecies.includes(species),
-                    () => toggleSelection(species, fishSpecies, setFishSpecies)
+                  renderTag(species, fishSpecies.includes(species), () =>
+                    toggleSelection(species, fishSpecies, setFishSpecies)
                   )
                 )}
               </View>
@@ -146,10 +144,8 @@ export default function ProfilePreferences() {
               <Text style={styles.sectionTitle}>Preferred Fishing Type</Text>
               <View style={styles.buttonRow}>
                 {OPTIONS.fishingTypes.map((type) =>
-                  renderTag(
-                    type,
-                    fishingTypes.includes(type),
-                    () => toggleSelection(type, fishingTypes, setFishingTypes)
+                  renderTag(type, fishingTypes.includes(type), () =>
+                    toggleSelection(type, fishingTypes, setFishingTypes)
                   )
                 )}
               </View>
@@ -159,10 +155,8 @@ export default function ProfilePreferences() {
               <Text style={styles.sectionTitle}>Gear You Use</Text>
               <View style={styles.buttonRow}>
                 {OPTIONS.gear.map((g) =>
-                  renderTag(
-                    g,
-                    gear.includes(g),
-                    () => toggleSelection(g, gear, setGear)
+                  renderTag(g, gear.includes(g), () =>
+                    toggleSelection(g, gear, setGear)
                   )
                 )}
               </View>
@@ -172,10 +166,8 @@ export default function ProfilePreferences() {
               <Text style={styles.sectionTitle}>Your Goal When Fishing</Text>
               <View style={styles.buttonRow}>
                 {OPTIONS.desiredCatch.map((c) =>
-                  renderTag(
-                    c,
-                    desiredCatch.includes(c),
-                    () => toggleSelection(c, desiredCatch, setDesiredCatch)
+                  renderTag(c, desiredCatch.includes(c), () =>
+                    toggleSelection(c, desiredCatch, setDesiredCatch)
                   )
                 )}
               </View>
