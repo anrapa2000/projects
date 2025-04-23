@@ -16,12 +16,27 @@ const variants = {
     fontFamily: "System",
     textAlign: "center",
   },
+  heading2: {
+    fontSize: 28,
+    fontWeight: "600",
+    marginBottom: 24,
+    fontFamily: "System",
+    textAlign: "center",
+    color: "#ffffff",
+  },
   title: {
     fontSize: 22,
     fontWeight: "600",
     marginBottom: 24,
     fontFamily: "System",
     textAlign: "center",
+    color: "#ffffff",
+  },
+  menuItemTitle: {
+        fontSize: 22,
+    fontWeight: "600",
+    marginBottom: 24,
+    fontFamily: "System",
     color: "#ffffff",
   },
   subtitle: {
@@ -40,6 +55,7 @@ const variants = {
     fontSize: 14,
     color: "#4299e1",
     fontFamily: "System",
+    textDecorationLine: "underline",
   },
 };
 
