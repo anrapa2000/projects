@@ -34,3 +34,12 @@ export type WelcomeContentProps = {
   onSignIn: () => void;
   onCreateProfile: () => void;
 };
+
+export interface ButtonProps {
+  onPress: () => void;
+  variant?: "primary" | "secondary" | "menuItem" | "DANGER";
+  icon?: string;
+  text: string;
+  disabled?: boolean;
+  size?: "big" | "small";
+}
