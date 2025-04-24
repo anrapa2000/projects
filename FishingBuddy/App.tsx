@@ -1,6 +1,12 @@
-import 'react-native-reanimated';
-import AppNavigator from './src/navigation/AppNavigation';
+import "react-native-reanimated";
+import "react-native-get-random-values";
+import AppNavigator from "./src/navigation/AppNavigation";
+import { ProfileProvider } from "./src/contexts/ProfileContext";
 
 export default function App() {
-  return <AppNavigator />;
+  return (
+    <ProfileProvider>
+      <AppNavigator />
+    </ProfileProvider>
+  );
 }
