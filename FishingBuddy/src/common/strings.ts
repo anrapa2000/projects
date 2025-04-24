@@ -1,4 +1,5 @@
 export const strings = {
+  appName: "FishingBuddy",
   welcome: {
     intro: {
       title: "Welcome Aboard",
@@ -10,6 +11,45 @@ export const strings = {
     temperature: "{{temperature}}°C",
     condition: "{{condition}}",
     suggestion: "{{suggestion}}",
+  },
+  appInfo: {
+    title: "Welcome to FishingBuddy!",
+    subtitle: "Your smart fishing companion",
+    features: {
+      smartFishingSpots: {
+        title: "Smart Fishing Spots",
+        description:
+          "Discover and save your favorite fishing locations with real-time weather updates.",
+      },
+      catchLogging: {
+        title: "Catch Logging",
+        description:
+          "Record your catches with photos, location, and details to track your fishing journey.",
+      },
+      weatherInsights: {
+        title: "Weather Insights",
+        description:
+          "Get detailed weather forecasts for your fishing spots to plan the perfect trip.",
+      },
+      tripManagement: {
+        title: "Trip Management",
+        description:
+          "Start and track your fishing trips with automatic weather and location updates.",
+      },
+      catchHistory: {
+        title: "Catch History",
+        description:
+          "View your fishing history, track patterns, and relive your best catches.",
+      },
+    },
+  },
+  hamburgerMenu: {
+    logCatch: "Log a Catch",
+    viewCatchHistory: "View Catch History",
+    viewMap: "View Map",
+    profile: "Profile",
+    helpfulLinks: "Helpful Links",
+    logout: "Log Out",
   },
   tripAssistant: {
     intro: {
