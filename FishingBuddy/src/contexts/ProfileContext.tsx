@@ -2,9 +2,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { loadProfile } from "../services/profileStorage";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../services/firebase";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { colors } from "../theme/colors";
-import Text from "../components/Text/Text";
 
 type Profile = Awaited<ReturnType<typeof loadProfile>>;
 
@@ -49,27 +46,11 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
         await fetchProfile();
       } else {
         setProfile(null);
-        setLoading(false);
       }
+      setLoading(false);
     });
     return unsubscribe;
   }, []);
-
-  if (loading) {
-    return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
-  }
-
-  if (!profile) {
-    return (
-      <View style={styles.center}>
-        <Text>No profile found</Text>
-      </View>
-    );
-  }
 
   return (
     <ProfileContext.Provider
@@ -93,11 +74,3 @@ export const useProfile = () => {
   }
   return context;
 };
-
-const styles = StyleSheet.create({
-  center: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

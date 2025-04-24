@@ -189,6 +189,7 @@ export default function ProfileSetupBasicScreen() {
                     value={name}
                     onChangeText={setName}
                     onFocus={() => handleInputFocus(0)}
+                    autoCapitalize="sentences"
                   />
                   <InputField
                     icon="mail-outline"

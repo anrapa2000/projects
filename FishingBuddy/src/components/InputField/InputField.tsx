@@ -13,6 +13,7 @@ interface Props {
   readOnly?: boolean;
   keyboardType?: KeyboardTypeOptions;
   multiline?: boolean;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }
 
 export default function InputField({
@@ -25,6 +26,7 @@ export default function InputField({
   readOnly = false,
   keyboardType = "default",
   multiline = false,
+  autoCapitalize = "none",
 }: Props) {
   return (
     <View style={styles.wrapper}>
@@ -43,7 +45,7 @@ export default function InputField({
             value={value}
             onChangeText={readOnly ? undefined : onChangeText}
             onFocus={onFocus}
-            autoCapitalize="none"
+            autoCapitalize={autoCapitalize}
             editable={!readOnly}
             keyboardType={keyboardType}
             multiline={multiline}

@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { supabase } from "./supabase";
 import { waitForAuthUser } from "../utils/authentication";
 
+import { encryptData, decryptData } from "../utils/encryption";
 // TODO: Replace with a secure env var or string
 const PROFILE_KEY = "user_profile";
 
@@ -16,19 +17,15 @@ export const saveProfile = async (profile: any) => {
     throw new Error("User not authenticated");
   }
 
+  const encryptedData = encryptData(profile);
+
   const { error, data } = await supabase
     .from("profiles")
     .upsert([
       {
         id: user.uid,
         email: profile.email,
-        name: profile.name,
-        age: profile.age,
-        photo: profile.photo,
-        license_image: profile.licenseImage,
-        location: profile.location,
-        preferences: profile.preferences,
-        experience: profile.experience,
+        encrypted_data: encryptedData,
       },
     ])
     .select();
@@ -46,11 +43,12 @@ export const loadProfile = async () => {
     .from("profiles")
     .select("*")
     .eq("id", user.uid)
-    .single();
+    .maybeSingle();
 
   if (error) {
     console.error("Supabase error:", error);
     throw error;
   }
-  return data;
+  const decryptedData = decryptData(data.encrypted_data);
+  return decryptedData;
 };
