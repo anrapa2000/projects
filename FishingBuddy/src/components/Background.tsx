@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SvgXml } from "react-native-svg";
-import { backgroundSvg } from "../assets/images/backgroundSvg";
+import { backgroundSvg } from "../assets/svg/backgroundSvg";
 
 // Use StyleSheet.create for better performance
 const styles = StyleSheet.create({
