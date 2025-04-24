@@ -52,7 +52,7 @@ describe("checkTripEndAndAlert", () => {
     await checkTripEndAndAlert();
 
     expect(Alert.alert).toHaveBeenCalledWith(
-      "⏰ Trip Ended",
+      "Trip Ended",
       "Your fishing trip's scheduled end time has passed. Do you want to notify your emergency contact?",
       expect.any(Array)
     );
@@ -81,7 +81,7 @@ describe("checkTripEndAndAlert", () => {
     sendAlertButton.onPress();
 
     const encodedMessage = encodeURIComponent(
-      "🚨 I haven't returned from my fishing trip as scheduled. Please check in on me!"
+      "I haven't returned from my fishing trip as scheduled. Please check in on me!"
     );
     const expectedSmsURL = `sms:${emergencyContact}&body=${encodedMessage}`;
 
