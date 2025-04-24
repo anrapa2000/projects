@@ -140,6 +140,12 @@ export type LoginStackParamList = {
   Login: undefined;
   AppInformation: undefined;
   ResetPassword: undefined;
+  OtpVerification: {
+    sentOtp: string;
+    email: string;
+    password: string;
+  };
+  Dashboard: undefined;
 };
 
 export type TripIntroScreenNavigationProp = NativeStackNavigationProp<

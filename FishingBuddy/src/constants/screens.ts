@@ -11,6 +11,7 @@ export const SCREENS = {
 };
 
 export const LOGIN_SCREENS = {
+  OtpVerification: "OtpVerification",
   ProfileSetupUserAccount: "ProfileSetupUserAccount",
   ProfileSetupPreferences: "ProfileSetupPreferences",
   ProfileSetupExperience: "ProfileSetupExperience",

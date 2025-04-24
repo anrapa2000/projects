@@ -8,6 +8,7 @@ import UserAccountSetup from "../screens/ProfileSetup/UserAccountSetup/UserAccou
 import AppInformation from "../screens/AppInformation/AppInformation";
 import ResetPasswordScreen from "../screens/ResetPassword";
 import LicenseUpload from "../screens/LicenseUpload";
+import { OTPVerification } from "../screens/OTPVerification";
 
 const Stack = createNativeStackNavigator();
 
@@ -75,6 +76,10 @@ export default function LoginStackNavigator() {
       <Stack.Screen
         name={LOGIN_SCREENS.LicenseUpload}
         component={LicenseUpload}
+      />
+      <Stack.Screen
+        name={LOGIN_SCREENS.OtpVerification}
+        component={OTPVerification}
       />
     </Stack.Navigator>
   );

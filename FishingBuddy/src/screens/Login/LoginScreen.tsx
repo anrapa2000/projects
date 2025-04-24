@@ -13,11 +13,12 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LoginStackParamList } from "../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../constants/screens";
-import { resetToMain } from "../../navigation/RootNavigation";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import LoginContent from "./LoginContent";
 import { loginScreenStyles as styles } from "./loginStyles";
 import Background from "../../components/Background";
+import { sendEmailWithOtp } from "../../utils/authentication";
+import { resetToLogin } from "../../navigation/RootNavigation";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   LoginStackParamList,
@@ -60,11 +61,19 @@ export default function LoginScreen() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      resetToMain();
     } catch (error: any) {
       console.error("Auth error:", error.code);
       handleAuthError(error.code);
+      resetToLogin();
     }
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    await sendEmailWithOtp(email, otp);
+
+    navigation.navigate(LOGIN_SCREENS.OtpVerification, {
+      sentOtp: otp,
+      email,
+      password,
+    });
   };
 
   const navigateToSignup = () => {
