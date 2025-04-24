@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
-  Button,
   TextInput,
   Image,
   StyleSheet,
   ScrollView,
   Alert,
+  SafeAreaView,
+  TouchableOpacity,
+  Platform,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
 import { saveCatch } from "../services/storage";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Button from "../components/Button/Button";
+import BackButton from "../components/Button/BackButton";
+import Background from "../components/Background";
+import Text from "../components/Text/Text";
+import { colors } from "../theme/colors";
 
 export default function LogCatchScreen() {
   const [image, setImage] = useState<string | null>(null);
@@ -52,7 +59,6 @@ export default function LogCatchScreen() {
     })();
   }, []);
 
-  // Pick image from camera or gallery
   const pickImage = async () => {
     try {
       const cameraPermission =
@@ -116,67 +122,180 @@ export default function LogCatchScreen() {
     setFishType("");
     setSize("");
     setImage(null);
-    // TODO: Firebase can be integrated later on
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Log Your Catch 🎣</Text>
+    <Background>
+      <SafeAreaView style={styles.safeArea}>
+        <BackButton />
+        <ScrollView contentContainerStyle={styles.content}>
+          <View style={styles.header}>
+            <Text variant="heading2">Log Your Catch</Text>
+            <Text variant="subtitle2">Record your fishing success</Text>
+          </View>
 
-      {image && <Image source={{ uri: image }} style={styles.image} />}
+          <View style={styles.section}>
+            <Text variant="title">Capture the Moment</Text>
+            <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
+              {image ? (
+                <Image source={{ uri: image }} style={styles.image} />
+              ) : (
+                <View style={styles.placeholderContainer}>
+                  <Icon name="camera" size={48} color={colors.primary} />
+                  <Text variant="body">Tap to take a photo</Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
 
-      <Button
-        title={image ? "Retake Photo" : "Take Photo"}
-        onPress={pickImage}
-      />
+          <View style={styles.section}>
+            <Text variant="title">Catch Details</Text>
+            <View style={styles.formContainer}>
+              <View style={styles.inputContainer}>
+                <Icon
+                  name="fish"
+                  size={24}
+                  color={colors.primary}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  placeholder="Type of Fish"
+                  placeholderTextColor={colors.text.secondary}
+                  style={styles.input}
+                  value={fishType}
+                  onChangeText={setFishType}
+                />
+              </View>
 
-      <TextInput
-        placeholder="Type of Fish"
-        style={styles.input}
-        value={fishType}
-        onChangeText={setFishType}
-      />
+              <View style={styles.inputContainer}>
+                <Icon
+                  name="ruler"
+                  size={24}
+                  color={colors.primary}
+                  style={styles.inputIcon}
+                />
+                <TextInput
+                  placeholder="Size / Weight"
+                  placeholderTextColor={colors.text.secondary}
+                  style={styles.input}
+                  value={size}
+                  onChangeText={setSize}
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
+          </View>
 
-      <TextInput
-        placeholder="Size / Weight"
-        style={styles.input}
-        value={size}
-        onChangeText={setSize}
-        keyboardType="numeric"
-      />
+          <View style={styles.section}>
+            <Text variant="title">Trip Info</Text>
+            <View style={styles.infoContainer}>
+              <View style={styles.infoRow}>
+                <Icon name="clock" size={20} color={colors.primary} />
+                <Text variant="body">{timestamp.toLocaleString()}</Text>
+              </View>
 
-      <Text style={styles.label}>Date/Time: {timestamp.toLocaleString()}</Text>
+              <View style={styles.infoRow}>
+                <Icon name="map-marker" size={20} color={colors.primary} />
+                <Text variant="body">
+                  {location ? address : "Fetching location..."}
+                </Text>
+              </View>
+            </View>
+          </View>
 
-      {location ? (
-        <Text style={styles.label}>
-          Location: {address}
-        </Text>
-      ) : (
-        <Text style={styles.label}>Fetching location...</Text>
-      )}
-
-      <View style={{ marginTop: 20 }}>
-        <Button title="Save Catch" onPress={handleSave} />
-      </View>
-    </ScrollView>
+          <Button
+            text="Save Catch"
+            icon="save"
+            onPress={handleSave}
+            disabled={!image || !fishType || !size || !location}
+          />
+        </ScrollView>
+      </SafeAreaView>
+    </Background>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { padding: 20, backgroundColor: "#fff", flexGrow: 1 },
-  title: { fontSize: 24, textAlign: "center", marginBottom: 20 },
-  input: {
-    backgroundColor: "#f1f1f1",
-    padding: 12,
-    borderRadius: 8,
-    marginVertical: 10,
+  safeArea: {
+    flex: 1,
   },
-  label: { marginTop: 10, fontSize: 16 },
-  image: {
+  content: {
+    padding: 24,
+  },
+  header: {
+    marginBottom: 32,
+    alignItems: "center",
+  },
+  section: {
+    marginBottom: 32,
+    backgroundColor: colors.background.card,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
+  },
+  imageContainer: {
     width: "100%",
     height: 200,
-    marginBottom: 12,
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: colors.background.input,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+  placeholderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  formContainer: {
+    gap: 16,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.background.input,
     borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
+    paddingHorizontal: 16,
+  },
+  inputIcon: {
+    marginRight: 12,
+  },
+  input: {
+    flex: 1,
+    height: 48,
+    color: colors.text.primary,
+    fontSize: 16,
+  },
+  infoContainer: {
+    backgroundColor: colors.background.input,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.1)",
+    padding: 16,
+    gap: 12,
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
   },
 });
 
