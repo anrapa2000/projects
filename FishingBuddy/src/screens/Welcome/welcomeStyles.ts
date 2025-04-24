@@ -2,7 +2,14 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const { height } = Dimensions.get("window");
 
-export const signupStyles = StyleSheet.create({
+const GRADIENT_HEIGHT = height * 0.3;
+const SWIRL_HEIGHT = height * 0.6;
+const BORDER_RADIUS = {
+  topLeft: 100,
+  topRight: 50,
+};
+
+export const welcomeStyles = StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -15,23 +22,23 @@ export const signupStyles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: height * 0.3,
+    height: GRADIENT_HEIGHT,
   },
   swirlContainer: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    height: height * 0.6,
+    height: SWIRL_HEIGHT,
   },
   swirlShape: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    height: height * 0.6,
-    borderTopLeftRadius: 100,
-    borderTopRightRadius: 50,
+    height: SWIRL_HEIGHT,
+    borderTopLeftRadius: BORDER_RADIUS.topLeft,
+    borderTopRightRadius: BORDER_RADIUS.topRight,
     overflow: "hidden",
   },
   swirlGradient: {
@@ -40,8 +47,8 @@ export const signupStyles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    borderTopLeftRadius: 100,
-    borderTopRightRadius: 50,
+    borderTopLeftRadius: BORDER_RADIUS.topLeft,
+    borderTopRightRadius: BORDER_RADIUS.topRight,
   },
   contentContainer: {
     position: "absolute",
@@ -105,4 +112,3 @@ export const signupStyles = StyleSheet.create({
     marginLeft: 8,
   },
 });
-  

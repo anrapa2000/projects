@@ -1,4 +1,10 @@
 export const strings = {
+  welcome: {
+    intro: {
+      title: "Welcome Aboard",
+      subtitle: "The water is calm • Perfect time to fish",
+    },
+  },
   tripAssistant: {
     intro: {
       title: "Your Ultimate Fishing Trip Planner",

@@ -29,3 +29,8 @@ export interface MenuButtonProps {
   onPress: () => void;
   isDanger?: boolean;
 }
+
+export type WelcomeContentProps = {
+  onSignIn: () => void;
+  onCreateProfile: () => void;
+};
