@@ -33,7 +33,7 @@ const variants = {
     color: "#ffffff",
   },
   menuItemTitle: {
-        fontSize: 22,
+    fontSize: 22,
     fontWeight: "600",
     marginBottom: 24,
     fontFamily: "System",

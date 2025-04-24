@@ -14,7 +14,6 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LoginStackParamList } from "../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../constants/screens";
 import { resetToMain } from "../../navigation/RootNavigation";
-import { LinearGradient } from "expo-linear-gradient";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import LoginContent from "./LoginContent";
 import { loginScreenStyles as styles } from "./loginStyles";
@@ -61,7 +60,6 @@ export default function LoginScreen() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("Successfully logged in");
       resetToMain();
     } catch (error: any) {
       console.error("Auth error:", error.code);
