@@ -12,6 +12,7 @@ import { preferencesStyles as styles } from "../styles";
 import Button from "../../../components/Button/Button";
 import InputField from "../../../components/InputField/InputField";
 import Background from "../../../components/Background";
+import { waitForAuthUser } from "../../../utils/authentication";
 
 type ExperienceRouteProp = RouteProp<
   LoginStackParamList,
@@ -40,13 +41,14 @@ export default function ProfileSetupExperienceScreen() {
       ...profile,
       experience,
     };
+
     try {
       await createUserWithEmailAndPassword(
         auth,
         finalProfile.email,
         finalProfile.password
       );
-
+      await waitForAuthUser();
       await saveProfile(finalProfile);
       Alert.alert("Profile Saved", "Welcome to Fishing Buddy!");
       resetToMain();

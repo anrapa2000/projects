@@ -15,8 +15,25 @@ export const validateForm = (profile: BasicProfile): string[] => {
 
   if (!profile.password) {
     errors.push("Password is required");
-  } else if (profile.password.length < 6) {
-    errors.push("Password must be at least 6 characters");
+  } else {
+    const hasUpperCase = /[A-Z]/.test(profile.password);
+    const hasLowerCase = /[a-z]/.test(profile.password);
+    const hasNumbers = /\d/.test(profile.password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(profile.password);
+    if (!hasUpperCase) {
+      errors.push("Password must contain at least one uppercase letter");
+    }
+    if (!hasLowerCase) {
+      errors.push("Password must contain at least one lowercase letter");
+    }
+    if (!hasNumbers) {
+      errors.push("Password must contain at least one number");
+    }
+    if (!hasSpecialChar) {
+      errors.push(
+        'Password must contain at least one special character (!@#$%^&*(),.?":{}|<>)'
+      );
+    }
   }
 
   return errors;

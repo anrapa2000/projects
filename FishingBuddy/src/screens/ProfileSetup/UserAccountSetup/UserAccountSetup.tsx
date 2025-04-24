@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   ScrollView,
-  StyleSheet,
   SafeAreaView,
   Platform,
   KeyboardAvoidingView,
@@ -35,6 +34,7 @@ export default function ProfileSetupBasicScreen() {
       >
     >();
 
+  const scrollViewRef = useRef<ScrollView>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [age, setAge] = useState("");
@@ -42,22 +42,14 @@ export default function ProfileSetupBasicScreen() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [photo, setPhoto] = useState<string | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
+  const [passwordMatchError, setPasswordMatchError] = useState<string>("");
+  const [passwordLengthError, setPasswordLengthError] = useState<string>("");
 
   const { location, locationString, hasLocationPermission } = useLocation();
   const emailAvailable = useEmailValidation(email);
 
-  const isEmailValid = /\S+@\S+\.\S+/.test(email);
-  const isPasswordValid = password.length >= 6;
-  const passwordsMatch = password === confirmPassword;
-
   const isNextEnabled =
-    name.trim() &&
-    email.trim() &&
-    password &&
-    confirmPassword &&
-    isEmailValid &&
-    isPasswordValid &&
-    passwordsMatch;
+    name.trim() && email.trim() && password && confirmPassword;
 
   const formatLocationDisplay = (address: string) => {
     const parts = address.split(", ");
@@ -94,9 +86,6 @@ export default function ProfileSetupBasicScreen() {
     if (emailAvailable === false) {
       newErrors.push("Email already registered.");
     }
-    if (!passwordsMatch) {
-      newErrors.push("Passwords do not match.");
-    }
     setErrors(newErrors);
     return newErrors.length === 0;
   };
@@ -116,6 +105,33 @@ export default function ProfileSetupBasicScreen() {
     });
   };
 
+  const handleConfirmPasswordChange = (text: string) => {
+    setConfirmPassword(text);
+    if (text && password !== text) {
+      setPasswordMatchError("Passwords do not match");
+    } else {
+      setPasswordMatchError("");
+    }
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+    if (text.length < 6) {
+      setPasswordLengthError("Password must be at least 6 characters");
+    } else {
+      setPasswordLengthError("");
+    }
+    if (confirmPassword && text !== confirmPassword) {
+      setPasswordMatchError("Passwords do not match");
+    } else {
+      setPasswordMatchError("");
+    }
+  };
+
+  const handleInputFocus = (y: number) => {
+    scrollViewRef.current?.scrollTo({ y, animated: true });
+  };
+
   return (
     <Background>
       <View style={styles.overlay}>
@@ -126,6 +142,7 @@ export default function ProfileSetupBasicScreen() {
             keyboardVerticalOffset={60}
           >
             <ScrollView
+              ref={scrollViewRef}
               contentContainerStyle={styles.scroll}
               showsVerticalScrollIndicator={false}
             >
@@ -171,33 +188,41 @@ export default function ProfileSetupBasicScreen() {
                     placeholder="Name"
                     value={name}
                     onChangeText={setName}
+                    onFocus={() => handleInputFocus(0)}
                   />
                   <InputField
                     icon="mail-outline"
                     placeholder="Email"
                     value={email}
                     onChangeText={setEmail}
+                    onFocus={() => handleInputFocus(100)}
                   />
                   <InputField
                     icon="lock-closed-outline"
                     placeholder="Password"
                     secure
                     value={password}
-                    onChangeText={setPassword}
+                    onChangeText={handlePasswordChange}
+                    onFocus={() => handleInputFocus(200)}
                   />
+                  {passwordLengthError ? (
+                    <Text variant="body" style={styles.passwordError}>
+                      {passwordLengthError}
+                    </Text>
+                  ) : null}
                   <InputField
                     icon="shield-checkmark-outline"
                     placeholder="Confirm Password"
                     secure
                     value={confirmPassword}
-                    onChangeText={setConfirmPassword}
+                    onChangeText={handleConfirmPasswordChange}
+                    onFocus={() => handleInputFocus(300)}
                   />
-                  <InputField
-                    icon="calendar-outline"
-                    placeholder="Age (optional)"
-                    value={age}
-                    onChangeText={setAge}
-                  />
+                  {passwordMatchError ? (
+                    <Text variant="body" style={styles.passwordError}>
+                      {passwordMatchError}
+                    </Text>
+                  ) : null}
                   {hasLocationPermission && (
                     <InputField
                       icon="location-outline"

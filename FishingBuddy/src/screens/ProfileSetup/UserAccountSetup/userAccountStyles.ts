@@ -109,7 +109,7 @@ export const userAccountStyles = StyleSheet.create({
     gap: 12,
   },
   errorBox: {
-    backgroundColor: "rgba(255, 0, 0, 0.1)",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
     padding: 12,
     borderRadius: 8,
     marginTop: 16,
@@ -158,5 +158,12 @@ export const userAccountStyles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
     borderColor: colors.background.input,
+  },
+  passwordError: {
+    color: colors.error,
+    fontSize: 12,
+    marginTop: -8,
+    marginBottom: 8,
+    marginLeft: 4,
   },
 });
