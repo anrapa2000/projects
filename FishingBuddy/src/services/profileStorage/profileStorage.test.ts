@@ -1,8 +1,8 @@
 import { deleteProfile, saveProfile, loadProfile } from "./profileStorage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { supabase } from "../supabase/supabase";
-import { waitForAuthUser } from "../../utils/authentication";
-import { encryptData, decryptData } from "../../utils/encryption";
+import { waitForAuthUser } from "../../utils/authentication/authentication";
+import { encryptData, decryptData } from "../../utils/encryption/encryption";
 
 // Mock dependencies
 jest.mock("@react-native-async-storage/async-storage");

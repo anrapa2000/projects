@@ -17,7 +17,7 @@ export async function checkTripEndAndAlert() {
   if (trip.endTime && now >= trip.endTime) {
     // Trip time has expired
     Alert.alert(
-      "⏰ Trip Ended",
+      "Trip Ended",
       "Your fishing trip's scheduled end time has passed. Do you want to notify your emergency contact?",
       [
         {
@@ -28,7 +28,7 @@ export async function checkTripEndAndAlert() {
           text: "Send Alert",
           onPress: () => {
             const message = encodeURIComponent(
-              "🚨 I haven't returned from my fishing trip as scheduled. Please check in on me!"
+              "I haven't returned from my fishing trip as scheduled. Please check in on me!"
             );
             const phone = emergencyContact.trim().replace(/\s+/g, "");
 

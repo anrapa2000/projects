@@ -1,7 +1,7 @@
 import * as Location from "expo-location";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FISHING_SPOTS } from "../data/fishingSpots";
-import { getDistanceInKm } from "./distance";
+import { FISHING_SPOTS } from "../../data/fishingSpots";
+import { getDistanceInKm } from "../location/locationUtils";
 
 export const FAVORITES_KEY = "favouriteSpots";
 
@@ -14,7 +14,10 @@ export async function getCurrentLocation(): Promise<Location.LocationObject | nu
   return await Location.getCurrentPositionAsync({});
 }
 
-export function getNearbySpots(location: Location.LocationObject, radiusInKm: number = 20) {
+export function getNearbySpots(
+  location: Location.LocationObject,
+  radiusInKm: number = 20
+) {
   const lat = location.coords.latitude;
   const lon = location.coords.longitude;
 
