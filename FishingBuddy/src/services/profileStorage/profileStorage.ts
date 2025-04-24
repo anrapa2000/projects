@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { supabase } from "./supabase";
-import { waitForAuthUser } from "../utils/authentication";
+import { supabase } from "../supabase/supabase";
+import { waitForAuthUser } from "../../utils/authentication";
 
-import { encryptData, decryptData } from "../utils/encryption";
+import { encryptData, decryptData } from "../../utils/encryption";
 // TODO: Replace with a secure env var or string
 const PROFILE_KEY = "user_profile";
 
