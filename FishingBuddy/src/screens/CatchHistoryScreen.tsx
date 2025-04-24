@@ -12,7 +12,7 @@ import { CatchEntry } from "../types/types";
 import { colors } from "../theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BackButton from "../components/Button/BackButton";
-import Background from "../components/Background";
+import Background from "../components/Background/Background";
 import Text from "../components/Text/Text";
 
 export default function CatchHistoryScreen() {
@@ -22,7 +22,7 @@ export default function CatchHistoryScreen() {
   useEffect(() => {
     const loadCatches = async () => {
       const storedCatches = await getCatches();
-      setCatches(storedCatches.reverse()); // Show latest first
+      setCatches(storedCatches.reverse());
       setLoading(false);
     };
 

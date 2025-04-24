@@ -1,5 +1,7 @@
+import { KeyboardTypeOptions, StyleProp, TextStyle } from "react-native";
 import { FISHING_SPOTS } from "../data/fishingSpots";
 import { TripLocationScreenNavigationProp } from "./navigationTypes";
+import { variants } from "../components/Text/Text";
 
 export type TripLocationOverlayProps = {
   location: {
@@ -43,3 +45,29 @@ export interface ButtonProps {
   disabled?: boolean;
   size?: "big" | "small";
 }
+
+export interface InputFieldProps {
+  icon: string;
+  placeholder: string;
+  secure?: boolean;
+  value: string;
+  onChangeText?: (text: string) => void;
+  onFocus?: () => void;
+  readOnly?: boolean;
+  keyboardType?: KeyboardTypeOptions;
+  multiline?: boolean;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
+}
+
+export interface TextProps {
+  children: React.ReactNode;
+  style?: StyleProp<TextStyle>;
+  variant?: keyof typeof variants;
+}
+
+export type WeatherCardProps = {
+  location: string;
+  temperature: number;
+  condition: string;
+  suggestion: string;
+};

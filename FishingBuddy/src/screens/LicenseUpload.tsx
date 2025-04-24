@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Image, TouchableOpacity, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import Background from "../components/Background";
+import Background from "../components/Background/Background";
 import Button from "../components/Button/Button";
 import Text from "../components/Text/Text";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";

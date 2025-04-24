@@ -8,9 +8,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SvgXml } from "react-native-svg";
-import { backgroundSvg } from "../assets/svg/backgroundSvg";
+import { backgroundSvg } from "../../assets/svg/backgroundSvg";
 
-// Use StyleSheet.create for better performance
 const styles = StyleSheet.create({
   container: { flex: 1 },
   background: {
@@ -28,7 +27,6 @@ const styles = StyleSheet.create({
   contentContainer: { flex: 1 },
 });
 
-// Type-safe gradient colors
 const GRADIENT_COLORS = ["#000000", "#0a2540", "#1a365d"] as const;
 
 // Memoized Background component
@@ -40,21 +38,25 @@ const Background = React.memo(
     children: React.ReactNode;
     style?: StyleProp<ViewStyle>;
   }) => (
-    <View style={[styles.container, style]}>
+    <View testID="background-container" style={[styles.container, style]}>
       <StatusBar barStyle="light-content" />
       <LinearGradient
+        testID="gradient-background"
         colors={GRADIENT_COLORS}
         style={styles.background}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
         <SvgXml
+          testID="svg-background"
           xml={backgroundSvg}
           style={styles.svgBackground}
           width="100%"
           height="100%"
         />
-        <View style={styles.contentContainer}>{children}</View>
+        <View testID="content-container" style={styles.contentContainer}>
+          {children}
+        </View>
       </LinearGradient>
     </View>
   )

@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { deleteProfile } from "../services/profileStorage";
 import { colors } from "../theme/colors";
 import Button from "../components/Button/Button";
-import Background from "../components/Background";
+import Background from "../components/Background/Background";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BackButton from "../components/Button/BackButton";
 import Text from "../components/Text/Text";

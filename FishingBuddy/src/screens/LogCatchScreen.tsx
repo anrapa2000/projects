@@ -16,7 +16,7 @@ import { saveCatch } from "../services/storage";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Button from "../components/Button/Button";
 import BackButton from "../components/Button/BackButton";
-import Background from "../components/Background";
+import Background from "../components/Background/Background";
 import Text from "../components/Text/Text";
 import { colors } from "../theme/colors";
 

@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { LOGIN_SCREENS } from "../../constants/screens";
 import { Ionicons } from "@expo/vector-icons";
 import Button from "../../components/Button/Button";
-import Background from "../../components/Background";
+import Background from "../../components/Background/Background";
 import Text from "../../components/Text/Text";
 import { colors } from "../../theme/colors";
 import { appInfoStyles as styles } from "./appInfoStyles";

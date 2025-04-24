@@ -1,13 +1,8 @@
-import { StyleProp, TextStyle, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { Text as RNText } from "react-native";
+import { TextProps } from "../../types/types";
 
-interface TextProps {
-  children: React.ReactNode;
-  style?: StyleProp<TextStyle>;
-  variant?: keyof typeof variants;
-}
-
-const variants = {
+export const variants = {
   heading: {
     fontSize: 32,
     fontWeight: "700",

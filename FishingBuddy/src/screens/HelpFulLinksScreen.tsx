@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import BackButton from "../components/Button/BackButton";
-import Background from "../components/Background";
+import Background from "../components/Background/Background";
 import Text from "../components/Text/Text";
 import { colors } from "../theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -20,14 +20,22 @@ export default function HelpfulLinksScreen() {
     {
       title: "Tutorial Videos",
       icon: "video",
-      links: [{ url: "https://youtu.be/TvUJsP9LwZE", text: "How to Cast a Line" }],
+      links: [
+        { url: "https://youtu.be/TvUJsP9LwZE", text: "How to Cast a Line" },
+      ],
     },
     {
       title: "Regional Info",
       icon: "map-marker",
       links: [
-        { url: "https://www.fishing.ca.gov/License", text: "Buy a Fishing License" },
-        { url: "https://www.fisheries.noaa.gov/topic/laws-policies", text: "U.S. Fishing Laws & Regulations" },
+        {
+          url: "https://www.fishing.ca.gov/License",
+          text: "Buy a Fishing License",
+        },
+        {
+          url: "https://www.fisheries.noaa.gov/topic/laws-policies",
+          text: "U.S. Fishing Laws & Regulations",
+        },
       ],
     },
     {
@@ -45,7 +53,9 @@ export default function HelpfulLinksScreen() {
       <SafeAreaView style={styles.safeArea}>
         <BackButton />
         <ScrollView contentContainerStyle={styles.container}>
-          <Text variant="heading2" style={styles.title}>Helpful Links</Text>
+          <Text variant="heading2" style={styles.title}>
+            Helpful Links
+          </Text>
 
           {helpFulLinks.map((section, index) => (
             <View key={index} style={styles.card}>
@@ -75,7 +85,6 @@ export default function HelpfulLinksScreen() {
     </Background>
   );
 }
-
 
 const styles = StyleSheet.create({
   safeArea: {

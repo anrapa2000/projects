@@ -12,7 +12,7 @@ import { LoginStackParamList } from "../../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../../constants/screens";
 import { preferencesStyles as styles } from "../styles";
 import Button from "../../../components/Button/Button";
-import Background from "../../../components/Background";
+import Background from "../../../components/Background/Background";
 type PreferencesScreenNav = NativeStackNavigationProp<
   LoginStackParamList,
   typeof LOGIN_SCREENS.ProfileSetupPreferences

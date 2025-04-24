@@ -11,7 +11,7 @@ import { resetToMain } from "../../../navigation/RootNavigation";
 import { preferencesStyles as styles } from "../styles";
 import Button from "../../../components/Button/Button";
 import InputField from "../../../components/InputField/InputField";
-import Background from "../../../components/Background";
+import Background from "../../../components/Background/Background";
 import { waitForAuthUser } from "../../../utils/authentication";
 
 type ExperienceRouteProp = RouteProp<

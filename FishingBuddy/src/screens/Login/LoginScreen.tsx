@@ -16,7 +16,7 @@ import { LOGIN_SCREENS } from "../../constants/screens";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import LoginContent from "./LoginContent";
 import { loginScreenStyles as styles } from "./loginStyles";
-import Background from "../../components/Background";
+import Background from "../../components/Background/Background";
 import { sendEmailWithOtp } from "../../utils/authentication";
 import { resetToLogin } from "../../navigation/RootNavigation";
 

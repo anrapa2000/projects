@@ -5,6 +5,12 @@ export const strings = {
       subtitle: "The water is calm • Perfect time to fish",
     },
   },
+  weatherCard: {
+    fishingTip: "Fishing Tip",
+    temperature: "{{temperature}}°C",
+    condition: "{{condition}}",
+    suggestion: "{{suggestion}}",
+  },
   tripAssistant: {
     intro: {
       title: "Your Ultimate Fishing Trip Planner",

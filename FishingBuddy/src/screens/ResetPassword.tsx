@@ -3,7 +3,7 @@ import { View, StyleSheet, Alert } from "react-native";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { useNavigation } from "@react-navigation/native";
-import Background from "../components/Background";
+import Background from "../components/Background/Background";
 import Button from "../components/Button/Button";
 import InputField from "../components/InputField/InputField";
 import Text from "../components/Text/Text";

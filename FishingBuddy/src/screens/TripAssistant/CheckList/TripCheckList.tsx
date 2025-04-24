@@ -20,7 +20,7 @@ import TripProgressBar from "../TripProgressBar";
 import { checkListStyles as styles } from "./checkListStyles";
 import BackButton from "../../../components/Button/BackButton";
 import { strings } from "../../../common/strings";
-import Background from "../../../components/Background";
+import Background from "../../../components/Background/Background";
 
 const checkListStrings = strings.tripAssistant.checkList.items;
 

@@ -63,3 +63,26 @@ jest.mock("react-native-safe-area-context", () => ({
     left: 0,
   }),
 }));
+
+// Polyfill for clearImmediate
+if (typeof global.clearImmediate === "undefined") {
+  global.clearImmediate = function (immediate) {
+    return clearTimeout(immediate);
+  };
+}
+
+// Polyfill for setImmediate
+if (typeof global.setImmediate === "undefined") {
+  global.setImmediate = function (func) {
+    return setTimeout(func, 0);
+  };
+}
+
+// Mock the LinearGradient and SvgXml components
+jest.mock("expo-linear-gradient", () => ({
+  LinearGradient: "LinearGradient",
+}));
+
+jest.mock("react-native-svg", () => ({
+  SvgXml: "SvgXml",
+}));

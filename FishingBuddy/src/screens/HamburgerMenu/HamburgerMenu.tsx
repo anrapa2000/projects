@@ -13,7 +13,7 @@ import { colors } from "../../theme/colors";
 import { hamburgerMenuStyles as styles } from "./hamburgerMenuStyles";
 import { MenuButtonProps } from "../../types/types";
 import Button from "../../components/Button/Button";
-import Background from "../../components/Background";
+import Background from "../../components/Background/Background";
 
 export default function HamburgerMenu() {
   const navigation = useNavigation<HamburgerMenuNavProp>();

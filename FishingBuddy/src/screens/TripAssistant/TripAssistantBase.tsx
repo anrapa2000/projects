@@ -3,7 +3,7 @@ import TripProgressBar from "./TripProgressBar";
 import { colors } from "../../theme/colors";
 import { ImageBackground, StyleSheet, Text } from "react-native";
 import BackButton from "../../components/Button/BackButton";
-import Background from "../../components/Background";
+import Background from "../../components/Background/Background";
 import { View } from "react-native";
 export const TripAssistantBase = ({
   title,

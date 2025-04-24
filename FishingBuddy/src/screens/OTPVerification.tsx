@@ -10,7 +10,7 @@ import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LoginStackParamList } from "../types/navigationTypes";
 import { resetToMain } from "../navigation/RootNavigation";
-import Background from "../components/Background";
+import Background from "../components/Background/Background";
 import Button from "../components/Button/Button";
 import Text from "../components/Text/Text";
 import { colors } from "../theme/colors";
