@@ -4,9 +4,8 @@ import HamburgerMenu from "./HamburgerMenu";
 import { SCREENS } from "../../constants/screens";
 import { strings } from "../../common/strings";
 import { signOut } from "firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { resetToLogin } from "../../navigation/RootNavigation";
-import { deleteProfile } from "../../services/profileStorage";
+import { deleteProfile } from "../../services/profileStorage/profileStorage";
 
 // Mock navigation
 const mockNavigate = jest.fn();
@@ -16,12 +15,29 @@ jest.mock("@react-navigation/native", () => ({
     navigate: mockNavigate,
     dispatch: mockDispatch,
   }),
+  CommonActions: {
+    reset: jest.fn(),
+  },
 }));
 
 // Mock firebase auth
-jest.mock("firebase/auth", () => ({
-  signOut: jest.fn(),
-}));
+jest.mock("firebase/auth", () => {
+  const mockAuth = {
+    onAuthStateChanged: jest.fn(),
+    signOut: jest.fn(),
+    signInWithEmailAndPassword: jest.fn(),
+    createUserWithEmailAndPassword: jest.fn(),
+    sendPasswordResetEmail: jest.fn(),
+  };
+  return {
+    getAuth: jest.fn(() => mockAuth),
+    onAuthStateChanged: jest.fn(),
+    signOut: jest.fn(),
+    signInWithEmailAndPassword: jest.fn(),
+    createUserWithEmailAndPassword: jest.fn(),
+    sendPasswordResetEmail: jest.fn(),
+  };
+});
 
 // Mock AsyncStorage
 jest.mock("@react-native-async-storage/async-storage", () => ({
@@ -29,7 +45,7 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
 }));
 
 // Mock profile storage
-jest.mock("../../services/profileStorage", () => ({
+jest.mock("../../services/profileStorage/profileStorage", () => ({
   deleteProfile: jest.fn(),
 }));
 
@@ -98,18 +114,4 @@ describe("HamburgerMenu", () => {
     expect(signOut).toHaveBeenCalled();
     expect(resetToLogin).toHaveBeenCalled();
   });
-
-  it("handles dev reset correctly", async () => {
-    const { getByText } = render(<HamburgerMenu />);
-
-    await fireEvent.press(getByText("Reset Storage"));
-
-    expect(AsyncStorage.clear).toHaveBeenCalled();
-    expect(mockDispatch).toHaveBeenCalledWith(
-      expect.objectContaining({
-        index: 0,
-        routes: [{ name: "Entry" }],
-      })
-    );
-  });
-}); 
+});

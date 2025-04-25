@@ -24,8 +24,10 @@ export default function HelpfulLinksScreen() {
         {
           url: "https://www.youtube.com/watch?v=5ZFZO7B2304&ab_channel=FishcareVictoriaInc.",
           text: "How to Cast a Line",
+          testID: "link-cast-line",
         },
       ],
+      testID: "tutorial-videos",
     },
     {
       title: "Regional Info",
@@ -34,20 +36,32 @@ export default function HelpfulLinksScreen() {
         {
           url: "https://wildlife.ca.gov/Licensing",
           text: "Buy a Fishing License",
+          testID: "link-buy-license",
         },
         {
           url: "https://www.fws.gov/law/general-fishing-laws",
           text: "U.S. Fishing Laws & Regulations",
+          testID: "link-fishing-laws",
         },
       ],
+      testID: "regional-info",
     },
     {
       title: "Gear Resources",
       icon: "fishing",
       links: [
-        { url: "https://www.basspro.com/", text: "Bass Pro Shops" },
-        { url: "https://www.cabelas.com/", text: "Cabela's" },
+        {
+          url: "https://www.basspro.com/",
+          text: "Bass Pro Shops",
+          testID: "link-bass-pro",
+        },
+        {
+          url: "https://www.cabelas.com/",
+          text: "Cabela's",
+          testID: "link-cabelas",
+        },
       ],
+      testID: "gear-resources",
     },
   ];
 
@@ -62,7 +76,7 @@ export default function HelpfulLinksScreen() {
 
           {helpFulLinks.map((section, index) => (
             <View key={index} style={styles.card}>
-              <View style={styles.sectionHeader}>
+              <View style={styles.sectionHeader} testID={section.testID}>
                 <Text variant="menuItemTitle" style={styles.sectionTitle}>
                   {section.title}
                 </Text>
@@ -74,6 +88,7 @@ export default function HelpfulLinksScreen() {
                   onPress={() => openLink(link.url)}
                   style={styles.linkRow}
                   activeOpacity={0.6}
+                  testID={link.testID}
                 >
                   <Icon name="chevron-right" size={18} color="#2c5282" />
                   <Text variant="link" style={styles.linkText}>
@@ -88,7 +103,6 @@ export default function HelpfulLinksScreen() {
     </Background>
   );
 }
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,

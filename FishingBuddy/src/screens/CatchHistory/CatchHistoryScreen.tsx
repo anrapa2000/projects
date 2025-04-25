@@ -31,7 +31,6 @@ export default function CatchHistoryScreen() {
     const loadCatches = async () => {
       const storedCatches = await getCatches();
       setCatches(storedCatches.reverse());
-      console.log(storedCatches);
       setLoading(false);
     };
 
