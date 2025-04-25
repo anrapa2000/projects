@@ -10,11 +10,13 @@ import { colors } from "../../theme/colors";
 import { appInfoStyles as styles } from "./appInfoStyles";
 import { appInfoFeatures } from "../../data/appInfoData";
 import { strings } from "../../common/strings";
+import BackButton from "../../components/Button/BackButton";
 export default function AppFeaturesScreen() {
   const navigation = useNavigation<any>();
 
   return (
     <Background>
+      <BackButton />
       <View style={styles.overlay}>
         <SafeAreaView style={styles.container}>
           <View style={styles.header}>

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { loadProfile } from "../services/profileStorage";
+import { loadProfile } from "../services/profileStorage/profileStorage";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../services/firebase";
+import { auth } from "../services/firebase/firebase";
 
 type Profile = Awaited<ReturnType<typeof loadProfile>>;
 

@@ -56,7 +56,9 @@ export type TripStackParamList = {
       icon: string;
     };
     endTime: number | null;
-    logCatches: boolean;
+    startTime: number | null;
+    startDate: Date | null;
+    endDate: Date | null;
   };
 };
 
@@ -187,7 +189,6 @@ export type TripLicenseScreenNavigationProp = NativeStackNavigationProp<
       selectedSpot: any;
       weather: any;
       endTime: number;
-      logCatches: boolean;
       startTime: number;
     };
   },

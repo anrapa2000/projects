@@ -2,7 +2,11 @@ import { View, StyleSheet } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function BackButton() {
+interface BackButtonProps {
+  onPress?: () => void;
+}
+
+export default function BackButton({ onPress }: BackButtonProps) {
   const navigation = useNavigation();
   return (
     <View style={styles.backButton}>
@@ -10,7 +14,7 @@ export default function BackButton() {
         name="arrow-back"
         size={28}
         color="#000"
-        onPress={() => navigation.goBack()}
+        onPress={onPress || (() => navigation.goBack())}
       />
     </View>
   );

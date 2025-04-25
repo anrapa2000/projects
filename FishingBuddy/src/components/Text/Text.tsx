@@ -72,6 +72,12 @@ export const variants = {
     fontFamily: "System",
     textAlign: "center",
   },
+  subtitleDark2: {
+    fontSize: 16,
+    color: "#000000",
+    marginBottom: 24,
+    fontFamily: "System",
+  },
 };
 
 export default function Text({ children, style, variant = "body" }: TextProps) {

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "../services/firebase";
+import { auth } from "../../services/firebase/firebase";
 import { useNavigation } from "@react-navigation/native";
-import Background from "../components/Background/Background";
-import Button from "../components/Button/Button";
-import InputField from "../components/InputField/InputField";
-import Text from "../components/Text/Text";
+import Background from "../../components/Background/Background";
+import Button from "../../components/Button/Button";
+import InputField from "../../components/InputField/InputField";
+import Text from "../../components/Text/Text";
+import BackButton from "../../components/Button/BackButton";
 
 export default function ResetPasswordScreen() {
   const [email, setEmail] = useState("");
@@ -33,6 +34,7 @@ export default function ResetPasswordScreen() {
 
   return (
     <Background>
+      <BackButton />
       <View style={styles.container}>
         <Text variant="title">Reset Your Password</Text>
         <InputField

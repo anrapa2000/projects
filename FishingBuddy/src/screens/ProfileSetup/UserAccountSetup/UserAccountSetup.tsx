@@ -24,6 +24,7 @@ import { useLocation, useEmailValidation } from "./hooks";
 import { validateForm } from "./formValidation";
 import { BasicProfile } from "./types";
 import { userAccountStyles as styles } from "./userAccountStyles";
+import BackButton from "../../../components/Button/BackButton";
 
 export default function ProfileSetupBasicScreen() {
   const navigation =
@@ -134,6 +135,7 @@ export default function ProfileSetupBasicScreen() {
 
   return (
     <Background>
+      <BackButton />
       <View style={styles.overlay}>
         <SafeAreaView style={styles.container}>
           <KeyboardAvoidingView

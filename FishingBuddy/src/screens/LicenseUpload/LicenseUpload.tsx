@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { View, Image, TouchableOpacity, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import Background from "../components/Background/Background";
-import Button from "../components/Button/Button";
-import Text from "../components/Text/Text";
+import Background from "../../components/Background/Background";
+import Button from "../../components/Button/Button";
+import Text from "../../components/Text/Text";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { colors } from "../theme/colors";
-import { licenseUploadStyles as styles } from "./licenseUploadStyles";
-import { LOGIN_SCREENS } from "../constants/screens";
+import { colors } from "../../theme/colors";
+import { licenseUploadStyles as styles } from "../LicenseUpload/licenseUploadStyles";
+import { LOGIN_SCREENS } from "../../constants/screens";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-import { LoginStackParamList } from "../types/navigationTypes";
+import { LoginStackParamList } from "../../types/navigationTypes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import BackButton from "../../components/Button/BackButton";
 
 type LicenseUploadRouteProp = RouteProp<LoginStackParamList, "LicenseUpload">;
 type LicenseUploadNavigationProp = NativeStackNavigationProp<
@@ -63,6 +64,7 @@ export default function LicenseUpload() {
 
   return (
     <Background>
+      <BackButton />
       <View style={styles.container}>
         <View style={styles.content}>
           <Text variant="heading2" style={styles.title}>

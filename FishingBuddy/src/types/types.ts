@@ -20,10 +20,7 @@ export type CatchEntry = {
   fishType: string;
   size: string;
   timestamp: string;
-  location: {
-    lat: number;
-    lon: number;
-  };
+  location: string;
 };
 
 export interface MenuButtonProps {

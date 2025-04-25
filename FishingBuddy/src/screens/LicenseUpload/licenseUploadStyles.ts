@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../theme/colors";
+import { colors } from "../../theme/colors";
 
 export const licenseUploadStyles = StyleSheet.create({
   container: {
@@ -15,6 +15,7 @@ export const licenseUploadStyles = StyleSheet.create({
     color: colors.text.primary,
     marginBottom: 8,
     textAlign: "center",
+    marginTop: 35,
   },
   subtitle: {
     color: colors.text.secondary,

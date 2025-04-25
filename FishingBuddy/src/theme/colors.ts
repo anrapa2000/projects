@@ -3,6 +3,7 @@ export const colors = {
   background: {
     input: "rgba(255, 255, 255, 0.1)",
     card: "rgba(255, 255, 255, 0.8)",
+    card2: "rgba(0, 0, 0, 0.5)",
   },
   text: {
     primary: "#ffffff",
@@ -11,7 +12,7 @@ export const colors = {
   },
   error: "#ff4444",
   map: {
-    background: "rgba(255, 255, 255, 0.9)",
+    background: "rgba(0, 0, 0, 0.9)",
     overlay: "rgba(8, 12, 19, 0.9)",
   },
   spot: {
@@ -19,5 +20,8 @@ export const colors = {
     favorite: "#fbbf24",
     default: "#60a5fa",
     user: "#ef4444",
+  },
+  endTime: {
+    background: "rgba(255, 255, 255, 0.9)",
   },
 };

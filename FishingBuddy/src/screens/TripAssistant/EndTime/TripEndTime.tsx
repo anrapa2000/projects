@@ -27,7 +27,7 @@ export function TripEndTime() {
   const { selectedSpot, weather } = route.params;
 
   const [showPicker, setShowPicker] = useState(false);
-  const [selectedTime, setSelectedTime] = useState<number | null>(null);
+  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
   const [emergencyContact, setEmergencyContact] = useState("");
 
   const handleSetTime = () => {
@@ -36,9 +36,8 @@ export function TripEndTime() {
 
   const handleTimeChange = (event: any, date?: Date) => {
     if (date) {
-      setSelectedTime(date.getTime());
+      setSelectedDateTime(date);
     }
-    setShowPicker(false);
   };
 
   useEffect(() => {
@@ -51,8 +50,8 @@ export function TripEndTime() {
     try {
       await AsyncStorage.setItem("emergency_contact", emergencyContact);
       const tripData = {
-        startTime: Date.now(),
-        endTime: selectedTime,
+        endTime: selectedDateTime?.getTime(),
+        endDate: selectedDateTime?.getDate(),
         spot: selectedSpot,
         weather,
         emergencyContact,
@@ -62,8 +61,14 @@ export function TripEndTime() {
       navigation.navigate(TRIP_SCREENS.TripStart, {
         selectedSpot,
         weather,
-        endTime: selectedTime,
-        logCatches: true,
+        endTime: selectedDateTime?.getTime(),
+        startTime: null,
+        startDate: Date.now(),
+        endDate: selectedDateTime?.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
       });
     } catch (error) {
       console.error("Error saving trip data:", error);
@@ -92,9 +97,15 @@ export function TripEndTime() {
           subtitle={endTimeStrings.subtitle}
         >
           <View style={styles.timeBox}>
-            {selectedTime ? (
+            {selectedDateTime ? (
               <Text style={styles.timeText}>
-                {new Date(selectedTime).toLocaleTimeString("en-US", {
+                {selectedDateTime.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+                {" at "}
+                {selectedDateTime.toLocaleTimeString("en-US", {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
@@ -110,7 +121,7 @@ export function TripEndTime() {
                 keyboardType="phone-pad"
                 value={emergencyContact}
                 onChangeText={setEmergencyContact}
-                icon="phone-outline"
+                icon="call-outline"
               />
             </View>
           </View>
@@ -135,13 +146,13 @@ export function TripEndTime() {
                     selectedSpot,
                     weather,
                     endTime: 0,
-                    logCatches: false,
                     startTime: 0,
+                    endDate: "",
                   })
                 }
               />
             </View>
-            {selectedTime ? (
+            {selectedDateTime ? (
               <Button
                 text={endTimeStrings.button.continue}
                 icon="arrow-forward"
@@ -165,9 +176,10 @@ export function TripEndTime() {
             <View style={styles.modalContainer}>
               <View style={styles.pickerContainer}>
                 <DateTimePicker
-                  value={selectedTime ? new Date(selectedTime) : new Date()}
-                  mode="time"
-                  is24Hour={false}
+                  value={
+                    selectedDateTime ? new Date(selectedDateTime) : new Date()
+                  }
+                  mode="datetime"
                   display="spinner"
                   onChange={handleTimeChange}
                   style={styles.picker}

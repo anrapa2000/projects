@@ -14,7 +14,7 @@ const startStrings = strings.tripAssistant.start;
 export function TripStart() {
   const navigation = useNavigation<TripStartNavigationProp>();
   const route = useRoute<any>();
-  const { selectedSpot, weather, endTime, logCatches } = route.params;
+  const { selectedSpot, weather, endTime, logCatches, endDate } = route.params;
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
@@ -34,6 +34,8 @@ export function TripStart() {
             endTime,
             logCatches,
             startTime: Date.now(),
+            startDate: new Date(),
+            endDate
           },
         },
       ],

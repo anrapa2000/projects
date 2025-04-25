@@ -1,6 +1,6 @@
 export const mockUser = {
-  name: "James",
-  photo: "https://randomuser.me/api/portraits/men/75.jpg",
+  name: "User",
+  photo: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
 };
 
 export const mockWeather = {

@@ -4,20 +4,16 @@ import { useAnimatedStyle, useSharedValue } from "react-native-reanimated";
 import { Text } from "react-native";
 
 type TripStartedBannerProps = {
-  tripStarted: boolean;
-  selectedSpot: any;
-  startTime: any;
-  endTime: any;
+  routeParams: any;
   handleStopTrip: () => void;
 };
 
 export default function TripStartedBanner({
-  tripStarted,
-  selectedSpot,
-  startTime,
-  endTime,
+  routeParams,
   handleStopTrip,
 }: TripStartedBannerProps) {
+  const { tripStarted, selectedSpot, startTime, endTime, endDate } =
+    routeParams;
   const opacity = useSharedValue(0);
   const cardStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -31,11 +27,17 @@ export default function TripStartedBanner({
             Trip in progress at {selectedSpot?.name}
           </Text>
           <Text style={styles.tripSubtext}>
-            Started at: {new Date(startTime).toLocaleTimeString()}
+            Started on:{" "}
+            {new Date(startTime).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            })}{" "}
+            {new Date(startTime).toLocaleTimeString()}
           </Text>
           {endTime && (
             <Text style={styles.tripSubtext}>
-              Ends at: {new Date(endTime).toLocaleTimeString()}
+              Ends on: {endDate} {new Date(endTime).toLocaleTimeString()}
             </Text>
           )}
 

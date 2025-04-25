@@ -6,7 +6,7 @@ import {
   getCurrentLocation,
   getNearbySpots,
   getFavoriteSpotIds,
-} from "../../../utils/mapUtils";
+} from "../../../utils/map/mapUtils";
 import { FISHING_SPOTS } from "../../../data/fishingSpots";
 import { TripLocationScreenNavigationProp } from "../../../types/navigationTypes";
 import TripProgressBar from "../TripProgressBar";
@@ -66,6 +66,7 @@ export default function TripLocation() {
 
       <MapView
         style={styles.map}
+        showsUserLocation
         region={{
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,

@@ -11,6 +11,7 @@ export const Button: React.FC<ButtonProps> = ({
   text = "Login",
   disabled = false,
   size = "big",
+  testID,
 }) => {
   const getButtonContent = () => {
     const commonContent = (
@@ -75,6 +76,7 @@ export const Button: React.FC<ButtonProps> = ({
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
+      testID={testID}
       style={[
         styles.button,
         variant === "primary" && styles.primaryButton,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -6,18 +6,24 @@ import {
   ScrollView,
   Alert,
   SafeAreaView,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { deleteProfile } from "../services/profileStorage";
-import { colors } from "../theme/colors";
-import Button from "../components/Button/Button";
-import Background from "../components/Background/Background";
+import { deleteProfile } from "../../services/profileStorage/profileStorage";
+import { colors } from "../../theme/colors";
+import Button from "../../components/Button/Button";
+import Background from "../../components/Background/Background";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import BackButton from "../components/Button/BackButton";
-import Text from "../components/Text/Text";
-import { MainStackParamList } from "../types/navigationTypes";
+import BackButton from "../../components/Button/BackButton";
+import Text from "../../components/Text/Text";
+import { MainStackParamList } from "../../types/navigationTypes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useProfile } from "../contexts/ProfileContext";
+import { useProfile } from "../../contexts/ProfileContext";
+import { LOGIN_SCREENS, SCREENS } from "../../constants/screens";
+import { resetToLogin } from "../../navigation/RootNavigation";
+import { deleteUser } from "firebase/auth";
+import { auth } from "../../services/firebase/firebase";
+import { supabase } from "../../services/supabase/supabase";
 
 type ProfileScreenNavigationProp = NativeStackNavigationProp<
   MainStackParamList,
@@ -29,26 +35,53 @@ export default function ProfileScreen() {
   const { profile, loading, clearProfile } = useProfile();
 
   const handleDelete = async () => {
-    Alert.alert("Delete Profile?", "This will reset your app data.", [
-      { text: "Cancel", style: "cancel" },
-      {
-        text: "Delete",
-        style: "destructive",
-        onPress: async () => {
-          try {
-            await deleteProfile();
-            clearProfile();
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "ProfileSetupUserAccount" }],
-            });
-          } catch (error) {
-            console.error("Error deleting profile:", error);
-            Alert.alert("Error", "Failed to delete profile. Please try again.");
-          }
+    Alert.alert(
+      "Delete Profile?",
+      "This will permanently delete your account and all associated data. This action cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              const user = auth.currentUser;
+              if (!user) {
+                throw new Error("No authenticated user found");
+              }
+
+              // Delete from Supabase first
+              const { error: supabaseError } = await supabase
+                .from("profiles")
+                .delete()
+                .eq("id", user.uid);
+
+              if (supabaseError) {
+                throw new Error(
+                  `Supabase deletion failed: ${supabaseError.message}`
+                );
+              }
+
+              // Delete from Firebase
+              await deleteUser(user);
+
+              // Clear local profile data
+              await deleteProfile();
+              clearProfile();
+
+              // Reset to login screen
+              resetToLogin();
+            } catch (error) {
+              console.error("Error deleting profile:", error);
+              Alert.alert(
+                "Error",
+                "Failed to delete profile. Please try again later."
+              );
+            }
+          },
         },
-      },
-    ]);
+      ]
+    );
   };
 
   if (loading) {
@@ -64,6 +97,7 @@ export default function ProfileScreen() {
   if (!profile) {
     return (
       <Background>
+        <BackButton onPress={() => resetToLogin()} />
         <View style={styles.center}>
           <Text variant="subtitle">⚠️ No profile data found.</Text>
         </View>
@@ -73,8 +107,8 @@ export default function ProfileScreen() {
 
   return (
     <Background>
+      <BackButton />
       <SafeAreaView style={styles.safeArea}>
-        <BackButton />
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.header}>
             <Icon name="account-circle" size={80} color={colors.primary} />
@@ -120,12 +154,20 @@ export default function ProfileScreen() {
               </View>
             )}
           </View>
+          {profile.license && (
+            <View style={styles.section}>
+              <Text variant="title">License</Text>
+              <View style={styles.infoRow}>
+                <Image source={{ uri: profile.license }} />
+              </View>
+            </View>
+          )}
 
           <View style={styles.actions}>
             <Button
               variant="DANGER"
               text="Reset Profile"
-              icon="delete"
+              icon="trash-outline"
               onPress={handleDelete}
             />
           </View>

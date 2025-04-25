@@ -34,7 +34,7 @@ export const strings = {
       tripManagement: {
         title: "Trip Management",
         description:
-          "Start and track your fishing trips with automatic weather and location updates.",
+          "Plan trips with weather, location tracking, and emergency contact alerts if you're overdue.",
       },
       catchHistory: {
         title: "Catch History",
@@ -46,7 +46,7 @@ export const strings = {
   hamburgerMenu: {
     logCatch: "Log a Catch",
     viewCatchHistory: "View Catch History",
-    viewMap: "View Map",
+    viewMap: "View Favorite Spots",
     profile: "Profile",
     helpfulLinks: "Helpful Links",
     logout: "Log Out",

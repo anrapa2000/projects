@@ -7,10 +7,10 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import BackButton from "../components/Button/BackButton";
-import Background from "../components/Background/Background";
-import Text from "../components/Text/Text";
-import { colors } from "../theme/colors";
+import BackButton from "../../components/Button/BackButton";
+import Background from "../../components/Background/Background";
+import Text from "../../components/Text/Text";
+import { colors } from "../../theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function HelpfulLinksScreen() {
@@ -21,7 +21,10 @@ export default function HelpfulLinksScreen() {
       title: "Tutorial Videos",
       icon: "video",
       links: [
-        { url: "https://youtu.be/TvUJsP9LwZE", text: "How to Cast a Line" },
+        {
+          url: "https://www.youtube.com/watch?v=5ZFZO7B2304&ab_channel=FishcareVictoriaInc.",
+          text: "How to Cast a Line",
+        },
       ],
     },
     {
@@ -29,11 +32,11 @@ export default function HelpfulLinksScreen() {
       icon: "map-marker",
       links: [
         {
-          url: "https://www.fishing.ca.gov/License",
+          url: "https://wildlife.ca.gov/Licensing",
           text: "Buy a Fishing License",
         },
         {
-          url: "https://www.fisheries.noaa.gov/topic/laws-policies",
+          url: "https://www.fws.gov/law/general-fishing-laws",
           text: "U.S. Fishing Laws & Regulations",
         },
       ],
@@ -98,7 +101,6 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.text.primary,
-    // marginBottom: 16,
   },
   card: {
     backgroundColor: "#ffffff",

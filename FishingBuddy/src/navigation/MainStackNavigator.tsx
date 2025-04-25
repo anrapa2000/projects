@@ -2,14 +2,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SCREENS } from "../constants/screens";
 
 import HamburgerMenu from "../screens/HamburgerMenu/HamburgerMenu";
-import MapScreen from "../screens/MapScreen";
-import CatchHistoryScreen from "../screens/CatchHistoryScreen";
-import ProfileScreen from "../screens/ProfileScreen";
+import MapScreen from "../screens/Map/MapScreen";
+import CatchHistoryScreen from "../screens/CatchHistory/CatchHistoryScreen";
+import ProfileScreen from "../screens/Profile/ProfileScreen";
 import { MainStackParamList } from "../types/navigationTypes";
-import LogCatchScreen from "../screens/LogCatchScreen";
+import LogCatchScreen from "../screens/LogCatch/LogCatchScreen";
 import HomeDashboardScreen from "../screens/Dashboard/Dashboard";
 import TripStackNavigator from "./TripStackNavigator";
-import HelpFulLinksScreen from "../screens/HelpFulLinksScreen";
+import HelpFulLinksScreen from "../screens/HelpfulLinks/HelpFulLinksScreen";
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
