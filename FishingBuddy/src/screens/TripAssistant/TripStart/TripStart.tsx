@@ -11,7 +11,7 @@ import { TripAssistantBase } from "../TripAssistantBase";
 
 const startStrings = strings.tripAssistant.start;
 
-export function TripStart() {
+export default function TripStart() {
   const navigation = useNavigation<TripStartNavigationProp>();
   const route = useRoute<any>();
   const { selectedSpot, weather, endTime, logCatches, endDate } = route.params;
@@ -35,7 +35,7 @@ export function TripStart() {
             logCatches,
             startTime: Date.now(),
             startDate: new Date(),
-            endDate
+            endDate,
           },
         },
       ],
@@ -52,6 +52,7 @@ export function TripStart() {
     >
       {showConfetti && (
         <ConfettiCannon
+          testID="confetti-cannon"
           count={200}
           origin={{ x: -10, y: 0 }}
           autoStart={true}
@@ -59,20 +60,20 @@ export function TripStart() {
           colors={[colors.primary, colors.spot.selected, colors.spot.favorite]}
         />
       )}
-      <View style={styles.infoBox}>
-        <Text style={styles.infoText}>
+      <View testID="info-box" style={styles.infoBox}>
+        <Text testID="weather-info" style={styles.infoText}>
           {startStrings.weather
             .replace("{{description}}", weather.description)
             .replace("{{temperature}}", weather.temperature.toString())}
         </Text>
-        <Text style={styles.infoText}>
+        <Text testID="wind-info" style={styles.infoText}>
           {startStrings.wind.replace(
             "{{windSpeed}}",
             weather.windSpeed.toString()
           )}
         </Text>
         {endTime && (
-          <Text style={styles.infoText}>
+          <Text testID="end-time-info" style={styles.infoText}>
             {startStrings.endTime.replace(
               "{{time}}",
               new Date(endTime).toLocaleTimeString("en-US", {
@@ -83,8 +84,9 @@ export function TripStart() {
           </Text>
         )}
       </View>
-      <View style={styles.buttonContainer}>
+      <View testID="button-container" style={styles.buttonContainer}>
         <Button
+          testID="start-button"
           text={startStrings.button.start}
           icon="fish"
           onPress={handleStartTrip}
