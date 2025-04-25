@@ -125,6 +125,7 @@ export default function MapScreen() {
           size={28}
           color="#fff"
           onPress={() => navigation.goBack()}
+          testID="map-back-button"
         />
       </View>
       <MapView
@@ -136,6 +137,7 @@ export default function MapScreen() {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
+        testID="map-view"
       >
         {nearbySpots.map((spot) => (
           <Marker
@@ -150,6 +152,7 @@ export default function MapScreen() {
             ).toFixed(1)} km away`}
             pinColor={favoriteSpots.includes(spot.id) ? "gold" : "blue"}
             onCalloutPress={() => toggleFavorite(spot.id)}
+            testID={`spot-marker-${spot.id}`}
           />
         ))}
         <Marker
@@ -158,15 +161,16 @@ export default function MapScreen() {
             longitude: location.coords.longitude,
           }}
           title="You"
+          testID="user-marker"
         />
       </MapView>
-      <View style={styles.overlay}>
+      <View style={styles.overlay} testID="map-overlay">
         <View style={styles.overlayContent}>
-          <Text style={styles.spotInfo}>
+          <Text style={styles.spotInfo} testID="spot-count">
             {nearbySpots.length} fishing spot
             {nearbySpots.length !== 1 ? "s" : ""} nearby
           </Text>
-          <Text style={styles.tipText}>
+          <Text style={styles.tipText} testID="favorite-tip">
             Tap a marker to {favoriteSpots.length > 0 ? "manage" : "add"}{" "}
             favorites
           </Text>

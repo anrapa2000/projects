@@ -157,7 +157,7 @@ export default function LogCatchScreen() {
       <SafeAreaView style={styles.safeArea}>
         <BackButton />
         <ScrollView contentContainerStyle={styles.content}>
-          <View style={styles.header}>
+          <View style={styles.header} testID="header2">
             <Text variant="heading2">Log Your Catch</Text>
             <Text variant="subtitle2" style={styles.subtitle}>
               Record your fishing success
@@ -166,11 +166,15 @@ export default function LogCatchScreen() {
 
           <View style={styles.section}>
             <Text variant="title">Capture the Moment</Text>
-            <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
+            <TouchableOpacity
+              style={styles.imageContainer}
+              onPress={pickImage}
+              testID="image-container"
+            >
               {image ? (
                 <Image source={{ uri: image }} style={styles.image} />
               ) : (
-                <View style={styles.placeholderContainer}>
+                <View style={styles.placeholderContainer} testID="tap-to-take">
                   <Icon name="camera" size={48} color={colors.primary} />
                   <Text variant="body">Tap to take a photo</Text>
                 </View>
@@ -248,6 +252,7 @@ export default function LogCatchScreen() {
             icon="save"
             onPress={handleSave}
             disabled={saveDisabled}
+            testID="primary-button"
           />
         </ScrollView>
       </SafeAreaView>

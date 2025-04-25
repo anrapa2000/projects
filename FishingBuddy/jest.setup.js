@@ -1,88 +1,156 @@
-import "@testing-library/jest-native/extend-expect";
+jest.mock("expo-modules-core", () => ({
+  EventEmitter: jest.fn(() => ({
+    addListener: jest.fn(),
+    removeListeners: jest.fn(),
+  })),
+  requireNativeModule: jest.fn(),
+  requireOptionalNativeModule: jest.fn(),
+  requireNativeViewManager: jest.fn(),
+}));
 
-// Mock AsyncStorage
-jest.mock("@react-native-async-storage/async-storage", () =>
-  require("@react-native-async-storage/async-storage/jest/async-storage-mock")
-);
+// Mock PixelRatio
+jest.mock("react-native/Libraries/Utilities/PixelRatio", () => ({
+  get: jest.fn().mockReturnValue(2),
+  getFontScale: jest.fn().mockReturnValue(2),
+  getPixelSizeForLayoutSize: jest
+    .fn()
+    .mockImplementation((size) => Math.round(size * 2)),
+  roundToNearestPixel: jest
+    .fn()
+    .mockImplementation((size) => Math.round(size * 2)),
+}));
 
-// Mock react-native-vector-icons
-jest.mock("react-native-vector-icons/Ionicons", () => "Icon");
+// Mock StyleSheet
+jest.mock("react-native/Libraries/StyleSheet/StyleSheet", () => ({
+  create: jest.fn().mockImplementation((styles) => styles),
+  compose: jest.fn().mockImplementation((style1, style2) => ({
+    ...style1,
+    ...style2,
+  })),
+  flatten: jest.fn(),
+  // hairlineWidth: 1,
+  // absoluteFill: {},
+  // absoluteFillObject: {},
+  roundToNearestPixel: jest
+    .fn()
+    .mockImplementation((size) => Math.round(size * 2)),
+}));
 
-// Mock react-native-reanimated
-jest.mock("react-native-reanimated", () => {
-  const Reanimated = require("react-native-reanimated/mock");
-  Reanimated.default.call = () => {};
-  return Reanimated;
-});
+// Mock Dimensions
+jest.mock("react-native/Libraries/Utilities/Dimensions", () => ({
+  get: jest.fn((key) => {
+    if (key === "screen") {
+      return { width: 375, height: 812, scale: 2, fontScale: 2 }; // Mock screen dimensions
+    }
+    if (key === "window") {
+      return { width: 375, height: 812, scale: 2, fontScale: 2 }; // Mock window dimensions
+    }
+    return { width: 0, height: 0, scale: 1, fontScale: 1 };
+  }),
+  set: jest.fn(),
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+}));
 
-// Mock react-native-gesture-handler
-jest.mock("react-native-gesture-handler", () => {
-  const View = require("react-native/Libraries/Components/View/View");
+jest.mock("react-native", () => {
+  const ReactNative = jest.requireActual("react-native");
   return {
-    Swipeable: View,
-    DrawerLayout: View,
-    State: {},
-    ScrollView: View,
-    Slider: View,
-    Switch: View,
-    TextInput: View,
-    ToolbarAndroid: View,
-    ViewPagerAndroid: View,
-    DrawerLayoutAndroid: View,
-    WebView: View,
-    NativeViewGestureHandler: View,
-    TapGestureHandler: View,
-    FlingGestureHandler: View,
-    ForceTouchGestureHandler: View,
-    LongPressGestureHandler: View,
-    PanGestureHandler: View,
-    PinchGestureHandler: View,
-    RotationGestureHandler: View,
-    Directions: {},
+    ...ReactNative,
+    Platform: {
+      OS: "ios", // or "android", depending on your test environment
+      select: jest.fn((obj) => obj.ios),
+    },
+    NativeModules: {
+      ...ReactNative.NativeModules,
+      SettingsManager: {
+        settings: {
+          AppleLocale: "en_US", // Mock locale for iOS
+          AppleLanguages: ["en"], // Mock languages for iOS
+        },
+      },
+      I18nManager: {
+        allowRTL: jest.fn(),
+        forceRTL: jest.fn(),
+        isRTL: false,
+      },
+    },
+    Dimensions: {
+      get: jest.fn().mockImplementation((key) => {
+        if (key === "screen") {
+          return { width: 375, height: 667 }; // Mock screen dimensions
+        }
+        if (key === "window") {
+          return { width: 375, height: 667 }; // Mock window dimensions
+        }
+        return { width: 0, height: 0 };
+      }),
+      set: jest.fn((dims) => {
+        // Mock the set method to update dimensions
+        if (dims.screen) {
+          global.__mockedScreenDimensions = dims.screen;
+        }
+        if (dims.window) {
+          global.__mockedWindowDimensions = dims.window;
+        }
+      }),
+    },
+    Alert: {
+      alert: jest.fn(),
+    },
   };
 });
 
-// Mock expo-linear-gradient
-jest.mock("expo-linear-gradient", () => {
-  const { View } = require("react-native");
-  return {
-    LinearGradient: ({ children, ...props }) => (
-      <View {...props}>{children}</View>
-    ),
-  };
-});
-
-// Mock react-native-safe-area-context
-jest.mock("react-native-safe-area-context", () => ({
-  SafeAreaProvider: ({ children }) => children,
-  SafeAreaView: ({ children }) => children,
-  useSafeAreaInsets: () => ({
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
+jest.mock("react-native/Libraries/TurboModule/TurboModuleRegistry", () => ({
+  get: jest.fn().mockReturnValue({
+    getConstants: () => ({
+      settings: {
+        AppleLocale: "en_US",
+      },
+    }),
+  }),
+  getEnforcing: jest.fn().mockReturnValue({
+    getConstants: () => ({
+      settings: {
+        AppleLocale: "en_US",
+      },
+    }),
   }),
 }));
 
-// Polyfill for clearImmediate
-if (typeof global.clearImmediate === "undefined") {
-  global.clearImmediate = function (immediate) {
-    return clearTimeout(immediate);
-  };
-}
+jest.mock("expo-font", () => ({
+  loadAsync: jest.fn(),
+  isLoaded: jest.fn().mockReturnValue(true),
+}));
 
-// Polyfill for setImmediate
-if (typeof global.setImmediate === "undefined") {
-  global.setImmediate = function (func) {
-    return setTimeout(func, 0);
-  };
-}
+jest.mock(
+  "react-native/Libraries/Components/StatusBar/NativeStatusBarManagerIOS",
+  () => ({
+    setStyle: jest.fn(),
+    setHidden: jest.fn(),
+    setNetworkActivityIndicatorVisible: jest.fn(),
+    getConstants: jest.fn(() => ({
+      HEIGHT: 20,
+    })),
+  })
+);
 
-// Mock the LinearGradient and SvgXml components
 jest.mock("expo-linear-gradient", () => ({
-  LinearGradient: "LinearGradient",
+  LinearGradient: jest.fn(({ children }) => children),
 }));
 
-jest.mock("react-native-svg", () => ({
-  SvgXml: "SvgXml",
+// // Mock the navigation
+jest.mock("@react-navigation/native", () => ({
+  useNavigation: () => ({
+    navigate: jest.fn(),
+    goBack: jest.fn(),
+  }),
 }));
+
+jest.mock("expo-blur", () => ({
+  BlurView: jest.fn(() => null),
+}));
+
+// jest.mock("src/components/Button/Button", () => {
+//   const React = require("react");
+//   return (props) => <button {...props}>{props.children}</button>;
+// });

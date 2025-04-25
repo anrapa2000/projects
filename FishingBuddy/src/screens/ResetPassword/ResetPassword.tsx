@@ -38,6 +38,7 @@ export default function ResetPasswordScreen() {
       <View style={styles.container}>
         <Text variant="title">Reset Your Password</Text>
         <InputField
+          testID="email-input"
           placeholder="Enter your email"
           value={email}
           onChangeText={setEmail}
@@ -46,6 +47,7 @@ export default function ResetPasswordScreen() {
         />
         <View style={styles.button}>
           <Button
+            testID="reset-button"
             variant="primary"
             onPress={handleReset}
             icon="send"

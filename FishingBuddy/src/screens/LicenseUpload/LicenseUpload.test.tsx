@@ -18,10 +18,6 @@ jest.mock("@react-navigation/native", () => ({
 }));
 
 jest.mock("../../components/Background/Background", () => "Background");
-jest.mock("../../components/Button/Button", () => {
-  const React = require("react");
-  return (props) => <button {...props}>{props.children}</button>;
-});
 jest.mock("../../components/Text/Text", () => "Text");
 jest.mock("../../components/Button/BackButton", () => "BackButton");
 

@@ -1,3 +1,7 @@
+// A card component that displays weather information and fishing suggestions
+//  based on current weather conditions.
+// 
+//  It displays the location, temperature, weather condition, and fishing suggestion.
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { WeatherCardProps } from "../../types/types";

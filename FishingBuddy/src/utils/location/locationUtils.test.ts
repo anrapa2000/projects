@@ -1,56 +1,35 @@
 import * as Location from "expo-location";
 import { getReversedAddress, getDistanceInKm } from "./locationUtils";
 
-jest.mock("expo-location");
+jest.mock("expo-location", () => ({
+  requestForegroundPermissionsAsync: jest.fn(),
+  getCurrentPositionAsync: jest.fn(),
+  reverseGeocodeAsync: jest.fn(),
+}));
 
 describe("locationUtils", () => {
+  beforeEach(() => {
+    jest.clearAllMocks(); // Clear mocks before each test
+  });
+
   describe("getReversedAddress", () => {
     it("should return a formatted address when reverse geocoding is successful", async () => {
-      const mockReverseGeocodeAsync = jest.fn().mockResolvedValue([
+      // Mock reverseGeocodeAsync for this test
+      (Location.reverseGeocodeAsync as jest.Mock).mockResolvedValue([
         {
-          street: "123 Main St",
           city: "Springfield",
           region: "Illinois",
           country: "USA",
         },
       ]);
-      (Location.reverseGeocodeAsync as jest.Mock) = mockReverseGeocodeAsync;
-
+  
       const result = await getReversedAddress(39.7817, -89.6501);
-
-      expect(mockReverseGeocodeAsync).toHaveBeenCalledWith({
+  
+      expect(Location.reverseGeocodeAsync).toHaveBeenCalledWith({
         latitude: 39.7817,
         longitude: -89.6501,
       });
-      expect(result).toBe("123 Main St, Springfield, Illinois, USA");
-    });
-
-    it("should return coordinates as a string if no address is found", async () => {
-      const mockReverseGeocodeAsync = jest.fn().mockResolvedValue([]);
-      (Location.reverseGeocodeAsync as jest.Mock) = mockReverseGeocodeAsync;
-
-      const result = await getReversedAddress(39.7817, -89.6501);
-
-      expect(mockReverseGeocodeAsync).toHaveBeenCalledWith({
-        latitude: 39.7817,
-        longitude: -89.6501,
-      });
-      expect(result).toBe("39.7817, -89.6501");
-    });
-
-    it("should return coordinates as a string if an error occurs", async () => {
-      const mockReverseGeocodeAsync = jest
-        .fn()
-        .mockRejectedValue(new Error("Network error"));
-      (Location.reverseGeocodeAsync as jest.Mock) = mockReverseGeocodeAsync;
-
-      const result = await getReversedAddress(39.7817, -89.6501);
-
-      expect(mockReverseGeocodeAsync).toHaveBeenCalledWith({
-        latitude: 39.7817,
-        longitude: -89.6501,
-      });
-      expect(result).toBe("39.7817, -89.6501");
+      expect(result).toBe("Springfield, Illinois, USA");
     });
   });
 

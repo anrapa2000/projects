@@ -33,7 +33,7 @@ export default function DashboardHeader({
         onPress={() => navigation.navigate("HamburgerMenu")}
         style={styles.menuButton}
       >
-        <Ionicons name="menu" size={28} color="#2d3748" />
+        <Ionicons name="menu" size={28} color="#2d3748" testID="menu-button" />
       </TouchableOpacity>
       <Animated.View style={[styles.greetingContainer, headerStyle]}>
         <Text style={styles.greeting}>
@@ -43,7 +43,10 @@ export default function DashboardHeader({
 
       <View style={styles.profileContainer}>
         <View style={styles.profileImageWrapper}>
-          <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Profile")}
+            testID="profile-image"
+          >
             <Image
               source={{ uri: profile?.photo || mockUser.photo }}
               style={styles.profileImage}

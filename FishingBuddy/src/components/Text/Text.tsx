@@ -1,3 +1,6 @@
+// A customizable text component that provides consistent typography
+//  throughout the application. Supports multiple variants for different
+//  text styles and purposes.
 import { StyleSheet } from "react-native";
 import { Text as RNText } from "react-native";
 import { TextProps } from "../../types/types";

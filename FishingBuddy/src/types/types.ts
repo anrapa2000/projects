@@ -56,6 +56,7 @@ export interface InputFieldProps {
   keyboardType?: KeyboardTypeOptions;
   multiline?: boolean;
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
+  testID?: string;
 }
 
 export interface TextProps {

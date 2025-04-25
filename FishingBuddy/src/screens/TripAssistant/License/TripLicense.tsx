@@ -17,13 +17,14 @@ export function TripLicense() {
   return (
     <TripAssistantBase title={licenseStrings.title}>
       <View style={styles.contentBox}>
-        <Text style={styles.text}>{licenseStrings.text}</Text>
-        <Text style={styles.note}>{licenseStrings.note}</Text>
+        <Text testID="license-text" style={styles.text}>{licenseStrings.text}</Text>
+        <Text testID="license-note" style={styles.note}>{licenseStrings.note}</Text>
       </View>
 
       <View style={styles.buttonContainer}>
         <View style={styles.buttonRow}>
           <Button
+            testID="skip-button"
             text={licenseStrings.button.skip}
             icon="close"
             size="small"
@@ -33,6 +34,7 @@ export function TripLicense() {
             }
           />
           <Button
+            testID="exit-button"
             text={licenseStrings.button.exit}
             icon="enter"
             size="small"
@@ -43,13 +45,13 @@ export function TripLicense() {
                 selectedSpot,
                 weather,
                 endTime: 0,
-                logCatches: false,
                 startTime: 0,
               })
             }
           />
         </View>
         <Button
+          testID="next-button"
           text={licenseStrings.button.next}
           icon="checkmark-circle"
           onPress={() =>

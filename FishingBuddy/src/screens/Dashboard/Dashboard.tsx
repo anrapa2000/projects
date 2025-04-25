@@ -50,15 +50,7 @@ export default function HomeDashboardScreen() {
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation<DashboardScreenNavigationProp>();
   const route = useRoute<any>();
-  const {
-    tripStarted,
-    selectedSpot,
-    weather,
-    endTime,
-    logCatches,
-    startTime,
-    startDate,
-  } = route.params || {};
+  const { tripStarted } = route.params || {};
   const isFocused = useIsFocused();
 
   const opacity = useSharedValue(0);

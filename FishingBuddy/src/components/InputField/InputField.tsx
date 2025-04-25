@@ -1,3 +1,6 @@
+// A customizable input field component with icon support and various
+// text input configurations.
+
 import React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 import { BlurView } from "expo-blur";
@@ -15,6 +18,7 @@ export default function InputField({
   keyboardType = "default",
   multiline = false,
   autoCapitalize = "none",
+  testID,
 }: InputFieldProps) {
   return (
     <View style={styles.wrapper}>
@@ -25,7 +29,7 @@ export default function InputField({
             size={20}
             color="#00b4d8"
             style={styles.icon}
-            testID="input-field-icon"
+            testID={`${testID}-icon`}
           />
           <TextInput
             style={[
@@ -43,6 +47,7 @@ export default function InputField({
             editable={!readOnly}
             keyboardType={keyboardType}
             multiline={multiline}
+            testID={testID}
           />
         </View>
       </BlurView>

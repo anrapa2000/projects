@@ -15,6 +15,7 @@ export default function BackButton({ onPress }: BackButtonProps) {
         size={28}
         color="#000"
         onPress={onPress || (() => navigation.goBack())}
+        testID="back-button"
       />
     </View>
   );
