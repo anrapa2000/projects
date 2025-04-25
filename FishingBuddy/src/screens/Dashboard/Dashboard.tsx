@@ -126,7 +126,7 @@ export default function HomeDashboardScreen() {
         } catch (error) {
           console.error("Error checking trip end:", error);
         }
-      }, 60 * 1000 * 60); // Check every ten minutes
+      }, 60 * 1000 * 60); // Check every one hour
       // This can be changes to checking every one minute or ten minutes
 
       return () => {

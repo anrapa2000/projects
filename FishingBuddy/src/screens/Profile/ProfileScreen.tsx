@@ -8,7 +8,6 @@ import {
   SafeAreaView,
   Image,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { deleteProfile } from "../../services/profileStorage/profileStorage";
 import { colors } from "../../theme/colors";
 import Button from "../../components/Button/Button";
@@ -19,19 +18,13 @@ import Text from "../../components/Text/Text";
 import { MainStackParamList } from "../../types/navigationTypes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useProfile } from "../../contexts/ProfileContext";
-import { LOGIN_SCREENS, SCREENS } from "../../constants/screens";
 import { resetToLogin } from "../../navigation/RootNavigation";
 import { deleteUser } from "firebase/auth";
 import { auth } from "../../services/firebase/firebase";
 import { supabase } from "../../services/supabase/supabase";
-
-type ProfileScreenNavigationProp = NativeStackNavigationProp<
-  MainStackParamList,
-  "Profile"
->;
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ProfileScreen() {
-  const navigation = useNavigation<ProfileScreenNavigationProp>();
   const { profile, loading, clearProfile } = useProfile();
 
   const handleDelete = async () => {
@@ -68,6 +61,7 @@ export default function ProfileScreen() {
               // Clear local profile data
               await deleteProfile();
               clearProfile();
+              await AsyncStorage.clear();
 
               // Reset to login screen
               resetToLogin();

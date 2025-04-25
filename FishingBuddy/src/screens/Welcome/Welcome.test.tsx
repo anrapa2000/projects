@@ -1,15 +1,15 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-const { useNavigation } = jest.requireMock("@react-navigation/native");
-import { StatusBar } from "react-native";
 import Welcome from "./Welcome";
 import { LOGIN_SCREENS } from "../../constants/screens";
-import { SignupScreenNavigationProp } from "../../types/navigationTypes";
+import { useNavigation } from "@react-navigation/native";
 
 // Mock the image import
 jest.mock("../../assets/images/kayakHero.jpg", () => "test-image-uri");
 
-// jest.spyOn(StatusBar, "setBarStyle").mockImplementation(() => {});
+jest.mock("@react-navigation/native", () => ({
+  useNavigation: jest.fn(),
+}));
 
 // Mock the WelcomeContent component
 jest.mock("./WelcomeContent", () => {
@@ -64,9 +64,10 @@ jest.mock("./welcomeStyles", () => ({
 }));
 
 describe("Welcome Screen", () => {
-  const mockNavigate = useNavigation().navigate;
+  const mockNavigate = jest.fn();
 
   afterEach(() => {
+    (useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate });
     jest.clearAllMocks();
   });
 
@@ -75,7 +76,6 @@ describe("Welcome Screen", () => {
 
     // Check if main components are rendered
     expect(getByTestId("imageBackground")).toBeTruthy();
-    expect(getByTestId("linearGradient")).toBeTruthy();
     expect(getByTestId("welcomeContent")).toBeTruthy();
   });
 

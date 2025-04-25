@@ -46,6 +46,11 @@ export function TripEndTime() {
     });
   }, []);
 
+  const handleCancel = () => {
+    setShowPicker(false);
+    setSelectedDateTime(null);
+  };
+
   const handleContinue = async () => {
     try {
       await AsyncStorage.setItem("emergency_contact", emergencyContact);
@@ -68,7 +73,7 @@ export function TripEndTime() {
           month: "short",
           day: "numeric",
           year: "numeric",
-        })
+        }),
       });
     } catch (error) {
       console.error("Error saving trip data:", error);
@@ -98,7 +103,7 @@ export function TripEndTime() {
         >
           <View style={styles.timeBox}>
             {selectedDateTime ? (
-              <Text style={styles.timeText}>
+              <Text testID="selected-time-text" style={styles.timeText}>
                 {selectedDateTime.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -111,12 +116,15 @@ export function TripEndTime() {
                 })}
               </Text>
             ) : (
-              <Text style={styles.timeText}>{endTimeStrings.noTime}</Text>
+              <Text testID="no-time-text" style={styles.timeText}>
+                {endTimeStrings.noTime}
+              </Text>
             )}
 
             <View style={styles.emergencyContactContainer}>
               <Text style={styles.label}>Emergency Contact Number</Text>
               <InputField
+                testID="emergency-contact-input"
                 placeholder="+1 234 567 890"
                 keyboardType="phone-pad"
                 value={emergencyContact}
@@ -129,6 +137,7 @@ export function TripEndTime() {
           <View style={styles.buttonContainer}>
             <View style={styles.buttonRow}>
               <Button
+                testID="set-time-button"
                 text={endTimeStrings.button.setTime}
                 icon="time"
                 size="small"
@@ -136,6 +145,7 @@ export function TripEndTime() {
                 onPress={handleSetTime}
               />
               <Button
+                testID="exit-button"
                 text={endTimeStrings.button.exit}
                 icon="close"
                 size="small"
@@ -154,12 +164,14 @@ export function TripEndTime() {
             </View>
             {selectedDateTime ? (
               <Button
+                testID="continue-button"
                 text={endTimeStrings.button.continue}
                 icon="arrow-forward"
                 onPress={handleContinue}
               />
             ) : (
               <Button
+                testID="skip-button"
                 text={endTimeStrings.button.skip}
                 icon="arrow-forward"
                 onPress={handleSkip}
@@ -168,6 +180,7 @@ export function TripEndTime() {
           </View>
 
           <Modal
+            testID="date-time-picker-modal"
             visible={showPicker}
             transparent={true}
             animationType="slide"
@@ -176,6 +189,7 @@ export function TripEndTime() {
             <View style={styles.modalContainer}>
               <View style={styles.pickerContainer}>
                 <DateTimePicker
+                  testID="date-time-picker"
                   value={
                     selectedDateTime ? new Date(selectedDateTime) : new Date()
                   }
@@ -186,6 +200,7 @@ export function TripEndTime() {
                 />
                 <View style={styles.buttonContainerModal}>
                   <Button
+                    testID="done-button"
                     text="Done"
                     icon="checkmark-circle"
                     size="small"
@@ -193,11 +208,12 @@ export function TripEndTime() {
                     onPress={() => setShowPicker(false)}
                   />
                   <Button
+                    testID="cancel-button"
                     text="Cancel"
                     icon="close"
                     size="small"
                     variant="secondary"
-                    onPress={() => setShowPicker(false)}
+                    onPress={handleCancel}
                   />
                 </View>
               </View>

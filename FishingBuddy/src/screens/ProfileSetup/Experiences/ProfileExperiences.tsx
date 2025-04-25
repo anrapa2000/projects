@@ -14,6 +14,7 @@ import InputField from "../../../components/InputField/InputField";
 import Background from "../../../components/Background/Background";
 import { waitForAuthUser } from "../../../utils/authentication/authentication";
 import BackButton from "../../../components/Button/BackButton";
+import { useProfile } from "../../../contexts/ProfileContext";
 
 type ExperienceRouteProp = RouteProp<
   LoginStackParamList,
@@ -26,7 +27,7 @@ export default function ProfileSetupExperienceScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<ExperienceRouteProp>();
   const { profile } = route.params;
-
+  const { refreshProfile } = useProfile();
   const [totalCaught, setTotalCaught] = useState("");
   const [biggestCatch, setBiggestCatch] = useState("");
   const [locationsFished, setLocationsFished] = useState("");
@@ -51,6 +52,7 @@ export default function ProfileSetupExperienceScreen() {
       );
       await waitForAuthUser();
       await saveProfile(finalProfile);
+      await refreshProfile();
       Alert.alert("Profile Saved", "Welcome to Fishing Buddy!");
       resetToMain();
     } catch (error: any) {

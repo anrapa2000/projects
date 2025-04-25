@@ -9,7 +9,20 @@ import { FISHING_SPOTS } from "../../data/fishingSpots";
 import { getDistanceInKm } from "../location/locationUtils";
 import { LocationObject } from "expo-location";
 
-jest.mock("expo-location");
+jest.mock("expo-location", () => ({
+  requestForegroundPermissionsAsync: jest.fn(() =>
+    Promise.resolve({ granted: true })
+  ),
+  getCurrentPositionAsync: jest.fn(() =>
+    Promise.resolve({
+      coords: {
+        latitude: 37.7749,
+        longitude: -122.4194,
+      },
+    })
+  ),
+  watchPositionAsync: jest.fn(),
+}));
 jest.mock("@react-native-async-storage/async-storage");
 jest.mock("../location/locationUtils", () => ({
   getDistanceInKm: jest.fn(),

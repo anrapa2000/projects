@@ -26,16 +26,6 @@ export default function HamburgerMenu() {
     resetToLogin();
   };
 
-  const handleDevReset = async () => {
-    await AsyncStorage.clear();
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: "Entry" }],
-      })
-    );
-  };
-
   const menuItems = [
     {
       title: hamburgerMenuStrings.logCatch,
@@ -99,13 +89,6 @@ export default function HamburgerMenu() {
               text={hamburgerMenuStrings.logout}
               icon="log-out"
               onPress={handleLogout}
-            />
-            <Button
-              testID="reset-button"
-              variant="DANGER"
-              text="Reset Storage"
-              icon="trash"
-              onPress={handleDevReset}
             />
           </View>
         </SafeAreaView>

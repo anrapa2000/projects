@@ -58,13 +58,17 @@ export default function TripLocationOverlay({
               testID="user-dot"
               style={[styles.legendDot, { backgroundColor: colors.spot.user }]}
             />
-            <Text testID="user-text" style={styles.legendText}>{tripLocationStrings.key.you}</Text>
+            <Text testID="user-text" style={styles.legendText}>
+              {tripLocationStrings.key.you}
+            </Text>
           </View>
         </View>
 
-        {selectedSpot ? (
+        {selectedSpot && (
           <View style={styles.selectedSpotContainer}>
-            <Text testID="selected-spot-name" style={styles.selectedSpotText}>{selectedSpot.name}</Text>
+            <Text testID="selected-spot-name" style={styles.selectedSpotText}>
+              {selectedSpot.name}
+            </Text>
             <Button
               testID="next-button"
               text={tripLocationStrings.button.next}
@@ -73,29 +77,6 @@ export default function TripLocationOverlay({
                 navigation.navigate("TripWeather", { selectedSpot })
               }
               variant="primary"
-              size="small"
-            />
-          </View>
-        ) : (
-          <View style={styles.noSpotContainer}>
-            <Text testID="no-spot-text" style={styles.noSpotText}>
-              {tripLocationStrings.overlay.noSpot}
-            </Text>
-            <Button
-              testID="skip-button"
-              text={tripLocationStrings.button.skip}
-              icon="arrow-forward"
-              onPress={() =>
-                navigation.navigate("TripWeather", {
-                  selectedSpot: {
-                    id: "default",
-                    name: "No specific spot",
-                    lat: location.coords.latitude,
-                    lon: location.coords.longitude,
-                  },
-                })
-              }
-              variant="secondary"
               size="small"
             />
           </View>

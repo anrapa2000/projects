@@ -67,7 +67,7 @@ describe("LicenseUpload", () => {
       });
     });
 
-    expect(getByTestId("selected-image")).toBeTruthy();
+    expect(getByTestId("image-container")).toBeTruthy();
   });
 
   it("shows alert if permission is denied", async () => {

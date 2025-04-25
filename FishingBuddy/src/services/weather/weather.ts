@@ -1,4 +1,4 @@
-const API_KEY = "705d7c86f2cc37c8caaf2456bd272e71"; // 🔁 Replace this for now
+const API_KEY = "705d7c86f2cc37c8caaf2456bd272e71";
 const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

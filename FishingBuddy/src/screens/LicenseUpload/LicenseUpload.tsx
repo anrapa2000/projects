@@ -73,18 +73,6 @@ export default function LicenseUpload() {
           <Text variant="subtitle">
             Please upload a clear photo of your valid fishing license.*
           </Text>
-
-          <View style={styles.buttonContainer}>
-            <Button
-              text={image ? "Continue" : "Skip"}
-              icon="arrow-forward"
-              onPress={image ? handleContinue : handleSkip}
-              variant="primary"
-              size="big"
-              testID={image ? "continue-button" : "skip-button"}
-            />
-          </View>
-
           <TouchableOpacity
             style={styles.imageContainer}
             onPress={pickImage}
@@ -113,6 +101,16 @@ export default function LicenseUpload() {
             *The license is securely stored and kept private. You can access it
             anytime through the app's menu.
           </Text>
+          <View style={styles.buttonContainer}>
+            <Button
+              text={image ? "Continue" : "Skip"}
+              icon="arrow-forward"
+              onPress={image ? handleContinue : handleSkip}
+              variant="primary"
+              size="big"
+              testID={image ? "continue-button" : "skip-button"}
+            />
+          </View>
         </View>
       </View>
     </Background>

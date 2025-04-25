@@ -63,6 +63,7 @@ export const OTPVerification = () => {
             placeholder="Enter OTP"
             keyboardType="numeric"
             maxLength={6}
+            testID="otp-input"
           />
         </View>
 
@@ -72,11 +73,17 @@ export const OTPVerification = () => {
           </Text>
         ) : null}
 
-        <Button text="Verify" onPress={handleVerify} variant="primary" />
+        <Button 
+          text="Verify" 
+          onPress={handleVerify} 
+          variant="primary" 
+          testID="otp-verify-button"
+        />
 
         <TouchableOpacity
           onPress={() => navigation.navigate("Login")}
           style={styles.backButton}
+          testID="otp-login-button"
         >
           <Text variant="link">Back to Login</Text>
         </TouchableOpacity>

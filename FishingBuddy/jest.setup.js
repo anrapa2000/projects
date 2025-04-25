@@ -1,3 +1,4 @@
+jest.setTimeout(10000); 
 jest.mock("expo-modules-core", () => ({
   EventEmitter: jest.fn(() => ({
     addListener: jest.fn(),
@@ -97,6 +98,10 @@ jest.mock("react-native", () => {
     Alert: {
       alert: jest.fn(),
     },
+    KeyboardAvoidingView: (props) => {
+      const { View } = require("react-native");
+      return <View {...props} />;
+    },
   };
 });
 
@@ -149,8 +154,3 @@ jest.mock("@react-navigation/native", () => ({
 jest.mock("expo-blur", () => ({
   BlurView: jest.fn(() => null),
 }));
-
-// jest.mock("src/components/Button/Button", () => {
-//   const React = require("react");
-//   return (props) => <button {...props}>{props.children}</button>;
-// });

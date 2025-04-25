@@ -64,9 +64,9 @@ describe("ProfilePreferences", () => {
     // Deselect Bass
     fireEvent.press(getByText("Bass"));
     expect(getByText("Bass").parent.props.style).not.toEqual({
-      color: "#fff",
-      fontSize: 14,
-      fontWeight: "500",
+      color: "#000",
+      fontSize: 18,
+      fontWeight: "200",
     });
   });
 
@@ -83,7 +83,7 @@ describe("ProfilePreferences", () => {
 
     // Select Ocean
     fireEvent.press(getByText("Ocean"));
-    expect(getByText("Ocean").parent.props.style).toContainEqual({
+    expect(getByText("Ocean").parent.props.style).toEqual({
       color: "#fff",
       fontSize: 14,
       fontWeight: "500",

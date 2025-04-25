@@ -108,6 +108,7 @@ export function TripChecklist() {
               placeholder="Add custom item..."
               value={newItem}
               onChangeText={setNewItem}
+              testID="custom-item-input"
             />
             <Button
               text="Add Item"
@@ -115,6 +116,7 @@ export function TripChecklist() {
               variant="primary"
               size="big"
               onPress={handleAddItem}
+              testID="add-item-button"
             />
           </View>
 
@@ -131,11 +133,13 @@ export function TripChecklist() {
                   style={styles.itemContainer}
                   onPress={() => toggleItem(item)}
                   activeOpacity={0.7}
+                  testID={`checklist-item-${item}`}
                 >
                   <BlurView intensity={50} tint="dark" style={styles.itemBlur}>
                     <View style={styles.itemContent}>
                       <Text
                         style={[styles.itemText, checked && styles.checkedText]}
+                        testID={`checklist-item-text-${item}`}
                       >
                         {item}
                       </Text>
@@ -143,6 +147,7 @@ export function TripChecklist() {
                         <TouchableOpacity
                           onPress={() => removeItem(item)}
                           style={styles.removeButton}
+                          testID={`remove-item-${item}`}
                         >
                           <Text style={styles.removeText}>Remove</Text>
                         </TouchableOpacity>
@@ -164,6 +169,7 @@ export function TripChecklist() {
                 setItems(DEFAULT_ITEMS);
                 setCheckedItems([]);
               }}
+              testID="reset-button"
             />
             <Button
               text="Continue"
@@ -171,6 +177,7 @@ export function TripChecklist() {
               variant="primary"
               size="small"
               onPress={() => navigation.navigate(TRIP_SCREENS.TripLocation)}
+              testID="continue-button"
             />
           </View>
         </View>

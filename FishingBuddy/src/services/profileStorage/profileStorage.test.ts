@@ -7,8 +7,8 @@ import { encryptData, decryptData } from "../../utils/encryption/encryption";
 // Mock dependencies
 jest.mock("@react-native-async-storage/async-storage");
 jest.mock("../supabase/supabase");
-jest.mock("../../utils/authentication");
-jest.mock("../../utils/encryption");
+jest.mock("../../utils/authentication/authentication");
+jest.mock("../../utils/encryption/encryption");
 
 describe("Profile Storage Service", () => {
   const mockUser = {
@@ -33,11 +33,21 @@ describe("Profile Storage Service", () => {
     (waitForAuthUser as jest.Mock).mockResolvedValue(mockUser);
     (encryptData as jest.Mock).mockReturnValue(mockEncryptedData);
     (decryptData as jest.Mock).mockReturnValue(mockDecryptedData);
-    jest.spyOn(console, "error").mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    
+    // Setup default Supabase mock
+    (supabase.from as jest.Mock).mockReturnValue({
+      upsert: jest.fn().mockReturnValue({
+        select: jest.fn().mockResolvedValue({ data: [mockProfile], error: null }),
+      }),
+      select: jest.fn().mockReturnValue({
+        eq: jest.fn().mockReturnValue({
+          maybeSingle: jest.fn().mockResolvedValue({
+            data: { encrypted_data: mockEncryptedData },
+            error: null,
+          }),
+        }),
+      }),
+    });
   });
 
   describe("deleteProfile", () => {
@@ -47,26 +57,13 @@ describe("Profile Storage Service", () => {
     });
 
     it("handles errors gracefully", async () => {
-      // Mock AsyncStorage.removeItem to reject with an error
-      (AsyncStorage.removeItem as jest.Mock).mockRejectedValue(
-        new Error("Storage Error")
-      );
-
-      // Call deleteProfile and ensure it throws the error
+      (AsyncStorage.removeItem as jest.Mock).mockRejectedValue(new Error("Storage Error"));
       await expect(deleteProfile()).rejects.toThrow("Storage Error");
     });
   });
 
   describe("saveProfile", () => {
     it("saves profile successfully", async () => {
-      (supabase.from as jest.Mock).mockReturnValue({
-        upsert: jest.fn().mockReturnValue({
-          select: jest
-            .fn()
-            .mockResolvedValue({ data: [mockProfile], error: null }),
-        }),
-      });
-
       await saveProfile(mockProfile);
 
       expect(waitForAuthUser).toHaveBeenCalled();
@@ -83,10 +80,7 @@ describe("Profile Storage Service", () => {
 
     it("throws error when user is not authenticated", async () => {
       (waitForAuthUser as jest.Mock).mockResolvedValue(null);
-
-      await expect(saveProfile(mockProfile)).rejects.toThrow(
-        "User not authenticated"
-      );
+      await expect(saveProfile(mockProfile)).rejects.toThrow("User not authenticated");
     });
 
     it("throws error when Supabase upsert fails", async () => {
@@ -103,26 +97,12 @@ describe("Profile Storage Service", () => {
 
   describe("loadProfile", () => {
     it("loads profile successfully", async () => {
-      (supabase.from as jest.Mock).mockReturnValue({
-        select: jest.fn().mockReturnValue({
-          eq: jest.fn().mockReturnValue({
-            maybeSingle: jest.fn().mockResolvedValue({
-              data: { encrypted_data: mockEncryptedData },
-              error: null,
-            }),
-          }),
-        }),
-      });
-
       const result = await loadProfile();
 
       expect(waitForAuthUser).toHaveBeenCalled();
       expect(supabase.from).toHaveBeenCalledWith("profiles");
       expect(supabase.from("profiles").select).toHaveBeenCalledWith("*");
-      expect(supabase.from("profiles").select().eq).toHaveBeenCalledWith(
-        "id",
-        mockUser.uid
-      );
+      expect(supabase.from("profiles").select().eq).toHaveBeenCalledWith("id", mockUser.uid);
       expect(decryptData).toHaveBeenCalledWith(mockEncryptedData);
       expect(result).toEqual(mockDecryptedData);
     });
@@ -144,17 +124,6 @@ describe("Profile Storage Service", () => {
     });
 
     it("throws error when decryption fails", async () => {
-      (supabase.from as jest.Mock).mockReturnValue({
-        select: jest.fn().mockReturnValue({
-          eq: jest.fn().mockReturnValue({
-            maybeSingle: jest.fn().mockResolvedValue({
-              data: { encrypted_data: mockEncryptedData },
-              error: null,
-            }),
-          }),
-        }),
-      });
-
       const mockError = new Error("Decryption Error");
       (decryptData as jest.Mock).mockImplementation(() => {
         throw mockError;
