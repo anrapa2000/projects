@@ -1,20 +1,11 @@
+// A customizable input field component with icon support and various
+// text input configurations.
+
 import React from "react";
-import { View, TextInput, StyleSheet, KeyboardTypeOptions } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 import { BlurView } from "expo-blur";
 import Icon from "react-native-vector-icons/Ionicons";
-
-interface Props {
-  icon: string;
-  placeholder: string;
-  secure?: boolean;
-  value: string;
-  onChangeText?: (text: string) => void;
-  onFocus?: () => void;
-  readOnly?: boolean;
-  keyboardType?: KeyboardTypeOptions;
-  multiline?: boolean;
-  autoCapitalize?: "none" | "sentences" | "words" | "characters";
-}
+import { InputFieldProps } from "../../types/types";
 
 export default function InputField({
   icon,
@@ -27,12 +18,19 @@ export default function InputField({
   keyboardType = "default",
   multiline = false,
   autoCapitalize = "none",
-}: Props) {
+  testID,
+}: InputFieldProps) {
   return (
     <View style={styles.wrapper}>
       <BlurView intensity={25} tint="dark" style={styles.blur}>
         <View style={[styles.inner, multiline && { alignItems: "flex-start" }]}>
-          <Icon name={icon} size={20} color="#00b4d8" style={styles.icon} />
+          <Icon
+            name={icon}
+            size={20}
+            color="#00b4d8"
+            style={styles.icon}
+            testID={`${testID}-icon`}
+          />
           <TextInput
             style={[
               styles.input,
@@ -49,6 +47,7 @@ export default function InputField({
             editable={!readOnly}
             keyboardType={keyboardType}
             multiline={multiline}
+            testID={testID}
           />
         </View>
       </BlurView>

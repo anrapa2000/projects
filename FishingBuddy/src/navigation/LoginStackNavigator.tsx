@@ -6,9 +6,9 @@ import WelcomeScreen from "../screens/Welcome/Welcome";
 import LoginScreen from "../screens/Login/LoginScreen";
 import UserAccountSetup from "../screens/ProfileSetup/UserAccountSetup/UserAccountSetup";
 import AppInformation from "../screens/AppInformation/AppInformation";
-import ResetPasswordScreen from "../screens/ResetPassword";
-import LicenseUpload from "../screens/LicenseUpload";
-import { OTPVerification } from "../screens/OTPVerification";
+import ResetPasswordScreen from "../screens/ResetPassword/ResetPassword";
+import LicenseUpload from "../screens/LicenseUpload/LicenseUpload";
+import { OTPVerification } from "../screens/OTPVerification/OTPVerification";
 
 const Stack = createNativeStackNavigator();
 

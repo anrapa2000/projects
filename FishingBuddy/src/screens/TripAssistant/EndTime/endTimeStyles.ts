@@ -30,7 +30,7 @@ export const endTimeStyles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   pickerContainer: {
-    backgroundColor: colors.map.background,
+    backgroundColor: colors.endTime.background,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,

@@ -1,13 +1,11 @@
-import { StyleProp, TextStyle, StyleSheet } from "react-native";
+// A customizable text component that provides consistent typography
+//  throughout the application. Supports multiple variants for different
+//  text styles and purposes.
+import { StyleSheet } from "react-native";
 import { Text as RNText } from "react-native";
+import { TextProps } from "../../types/types";
 
-interface TextProps {
-  children: React.ReactNode;
-  style?: StyleProp<TextStyle>;
-  variant?: keyof typeof variants;
-}
-
-const variants = {
+export const variants = {
   heading: {
     fontSize: 32,
     fontWeight: "700",
@@ -76,6 +74,12 @@ const variants = {
     marginBottom: 24,
     fontFamily: "System",
     textAlign: "center",
+  },
+  subtitleDark2: {
+    fontSize: 16,
+    color: "#000000",
+    marginBottom: 24,
+    fontFamily: "System",
   },
 };
 

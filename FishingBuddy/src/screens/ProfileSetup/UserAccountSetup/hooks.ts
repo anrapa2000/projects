@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
-import { auth } from "../../../services/firebase";
+import { auth } from "../../../services/firebase/firebase";
 import * as Location from "expo-location";
-import { getReversedAddress } from "../../../utils/locationUtils";
+import { getReversedAddress } from "../../../utils/location/locationUtils";
 import { LocationCoordinates } from "./types";
 
 export const useLocation = () => {

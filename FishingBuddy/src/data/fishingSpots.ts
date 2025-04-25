@@ -1,5 +1,3 @@
-import { WeatherData } from "../services/weather";
-
 export const FISHING_SPOTS = [
   {
     id: "1",

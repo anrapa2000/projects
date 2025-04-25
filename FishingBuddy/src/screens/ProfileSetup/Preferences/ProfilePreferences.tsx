@@ -12,7 +12,8 @@ import { LoginStackParamList } from "../../../types/navigationTypes";
 import { LOGIN_SCREENS } from "../../../constants/screens";
 import { preferencesStyles as styles } from "../styles";
 import Button from "../../../components/Button/Button";
-import Background from "../../../components/Background";
+import Background from "../../../components/Background/Background";
+import BackButton from "../../../components/Button/BackButton";
 type PreferencesScreenNav = NativeStackNavigationProp<
   LoginStackParamList,
   typeof LOGIN_SCREENS.ProfileSetupPreferences
@@ -88,6 +89,7 @@ export default function ProfilePreferences() {
 
   return (
     <Background style={styles.bg}>
+      <BackButton />
       <StatusBar barStyle="light-content" />
       <View style={styles.swirlContainer}>
         <ScrollView contentContainerStyle={styles.contentContainer}>

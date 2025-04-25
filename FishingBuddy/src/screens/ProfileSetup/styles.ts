@@ -31,6 +31,7 @@ export const preferencesStyles = StyleSheet.create({
   contentWrapper: {
     padding: 20,
     paddingBottom: 40,
+    marginTop: 20
   },
   heading: {
     fontSize: 28,

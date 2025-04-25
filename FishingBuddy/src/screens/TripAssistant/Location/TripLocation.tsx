@@ -6,7 +6,7 @@ import {
   getCurrentLocation,
   getNearbySpots,
   getFavoriteSpotIds,
-} from "../../../utils/mapUtils";
+} from "../../../utils/map/mapUtils";
 import { FISHING_SPOTS } from "../../../data/fishingSpots";
 import { TripLocationScreenNavigationProp } from "../../../types/navigationTypes";
 import TripProgressBar from "../TripProgressBar";
@@ -48,8 +48,12 @@ export default function TripLocation() {
   if (!location) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color={colors.spot.default} />
-        <Text style={styles.loadingText}>
+        <ActivityIndicator
+          testID="loading-indicator"
+          size="large"
+          color={colors.spot.default}
+        />
+        <Text testID="loading-text" style={styles.loadingText}>
           {tripLocationStrings.map.loading}
         </Text>
       </View>
@@ -61,11 +65,15 @@ export default function TripLocation() {
       <View style={styles.topContainer}>
         <TripProgressBar />
       </View>
-      <Text style={styles.heading}>{tripLocationStrings.title}</Text>
+      <Text testID="location-heading" style={styles.heading}>
+        {tripLocationStrings.title}
+      </Text>
       <BackButton />
 
       <MapView
+        testID="map-view"
         style={styles.map}
+        showsUserLocation
         region={{
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
@@ -74,6 +82,7 @@ export default function TripLocation() {
         }}
       >
         <Marker
+          testID="user-marker"
           coordinate={{
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
@@ -84,6 +93,7 @@ export default function TripLocation() {
         {nearbySpots.map((spot) => (
           <Marker
             key={spot.id}
+            testID={`spot-marker-${spot.id}`}
             coordinate={{ latitude: spot.lat, longitude: spot.lon }}
             title={spot.name}
             pinColor={getMarkerColor(spot.id)}

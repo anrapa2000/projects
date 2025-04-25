@@ -8,7 +8,7 @@ import TripLocation from "../screens/TripAssistant/Location/TripLocation";
 import { TripWeather } from "../screens/TripAssistant/Weather/TripWeather";
 import { TripLicense } from "../screens/TripAssistant/License/TripLicense";
 import { TripEndTime } from "../screens/TripAssistant/EndTime/TripEndTime";
-import { TripStart } from "../screens/TripAssistant/TripStart/TripStart";
+import TripStart from "../screens/TripAssistant/TripStart/TripStart";
 
 const Stack = createNativeStackNavigator<TripStackParamList>();
 

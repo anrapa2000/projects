@@ -1,111 +1,79 @@
 import React from "react";
-import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, SafeAreaView } from "react-native";
 import { signOut } from "firebase/auth";
-import { auth } from "../../services/firebase";
+import { auth } from "../../services/firebase/firebase";
 import { HamburgerMenuNavProp } from "../../types/navigationTypes";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { SCREENS } from "../../constants/screens";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { resetToLogin } from "../../navigation/RootNavigation";
-import { deleteProfile } from "../../services/profileStorage";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { colors } from "../../theme/colors";
+import { deleteProfile } from "../../services/profileStorage/profileStorage";
 import { hamburgerMenuStyles as styles } from "./hamburgerMenuStyles";
-import { MenuButtonProps } from "../../types/types";
 import Button from "../../components/Button/Button";
-import Background from "../../components/Background";
+import Background from "../../components/Background/Background";
+import { strings } from "../../common/strings";
+import Text from "../../components/Text/Text";
+import BackButton from "../../components/Button/BackButton";
+
+const hamburgerMenuStrings = strings.hamburgerMenu;
 
 export default function HamburgerMenu() {
   const navigation = useNavigation<HamburgerMenuNavProp>();
 
   const handleLogout = async () => {
-    console.log("Logging out...");
     await deleteProfile();
     await signOut(auth);
     resetToLogin();
   };
 
-  const handleDevReset = async () => {
-    await AsyncStorage.clear();
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: "Entry" }],
-      })
-    );
-  };
-
-  const MenuButton = ({
-    title,
-    icon,
-    onPress,
-    isDanger = false,
-  }: MenuButtonProps) => (
-    <TouchableOpacity
-      style={[
-        styles.menuButton,
-        isDanger && styles.dangerButton,
-        { backgroundColor: colors.background.input },
-      ]}
-      onPress={onPress}
-    >
-      <Icon
-        name={icon}
-        size={24}
-        color={isDanger ? colors.error : colors.primary}
-      />
-      <Text
-        style={[
-          styles.buttonText,
-          isDanger && styles.dangerText,
-          { color: isDanger ? colors.error : colors.text.primary },
-        ]}
-      >
-        {title}
-      </Text>
-    </TouchableOpacity>
-  );
-
   const menuItems = [
     {
-      title: "Log a Catch",
+      title: hamburgerMenuStrings.logCatch,
       icon: "fish",
       onPress: () => navigation.navigate(SCREENS.LogCatch),
     },
     {
-      title: "View Catch History",
-      icon: "view",
+      title: hamburgerMenuStrings.viewCatchHistory,
+      icon: "eye",
       onPress: () => navigation.navigate(SCREENS.CatchHistory),
     },
     {
-      title: "View Map",
-      icon: "map-marker",
+      title: hamburgerMenuStrings.viewMap,
+      icon: "location",
       onPress: () => navigation.navigate(SCREENS.Map),
     },
     {
-      title: "Profile",
-      icon: "profile",
+      title: hamburgerMenuStrings.profile,
+      icon: "person",
       onPress: () => navigation.navigate(SCREENS.Profile),
     },
     {
-      title: "Helpful Links",
+      title: hamburgerMenuStrings.helpfulLinks,
       icon: "link",
       onPress: () => navigation.navigate(SCREENS.HelpFulLinks),
     },
   ];
 
+  const handleBackPress = () => {
+    navigation.navigate(SCREENS.Dashboard);
+  };
+
   return (
     <View style={styles.container}>
       <Background>
+        <BackButton onPress={handleBackPress} />
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.header}>
-            <Text style={styles.title}>FishingBuddy</Text>
+            <Text variant="heading" style={styles.title}>
+              {strings.appName}
+            </Text>
           </View>
 
           <View style={styles.menuContainer}>
             {menuItems.map((item) => (
               <Button
                 key={item.title}
+                testID="menu-item"
                 variant="menuItem"
                 text={item.title}
                 onPress={item.onPress}
@@ -116,16 +84,11 @@ export default function HamburgerMenu() {
 
           <View style={styles.footer}>
             <Button
+              testID="logout-button"
               variant="DANGER"
-              text="Log Out"
-              icon="logout"
+              text={hamburgerMenuStrings.logout}
+              icon="log-out"
               onPress={handleLogout}
-            />
-            <Button
-              variant="DANGER"
-              text="Reset Storage"
-              icon="delete"
-              onPress={handleDevReset}
             />
           </View>
         </SafeAreaView>

@@ -4,15 +4,17 @@ import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LoginStackParamList } from "../../../types/navigationTypes";
 import { MainStackParamList } from "../../../types/navigationTypes";
-import { saveProfile } from "../../../services/profileStorage";
+import { saveProfile } from "../../../services/profileStorage/profileStorage";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../services/firebase";
+import { auth } from "../../../services/firebase/firebase";
 import { resetToMain } from "../../../navigation/RootNavigation";
 import { preferencesStyles as styles } from "../styles";
 import Button from "../../../components/Button/Button";
 import InputField from "../../../components/InputField/InputField";
-import Background from "../../../components/Background";
-import { waitForAuthUser } from "../../../utils/authentication";
+import Background from "../../../components/Background/Background";
+import { waitForAuthUser } from "../../../utils/authentication/authentication";
+import BackButton from "../../../components/Button/BackButton";
+import { useProfile } from "../../../contexts/ProfileContext";
 
 type ExperienceRouteProp = RouteProp<
   LoginStackParamList,
@@ -25,7 +27,7 @@ export default function ProfileSetupExperienceScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<ExperienceRouteProp>();
   const { profile } = route.params;
-
+  const { refreshProfile } = useProfile();
   const [totalCaught, setTotalCaught] = useState("");
   const [biggestCatch, setBiggestCatch] = useState("");
   const [locationsFished, setLocationsFished] = useState("");
@@ -50,12 +52,20 @@ export default function ProfileSetupExperienceScreen() {
       );
       await waitForAuthUser();
       await saveProfile(finalProfile);
+      await refreshProfile();
       Alert.alert("Profile Saved", "Welcome to Fishing Buddy!");
       resetToMain();
     } catch (error: any) {
       console.error("Error in handleFinish:", error);
       if (error.code === "auth/email-already-in-use") {
-        Alert.alert("Account exists", "Try logging in instead.");
+        Alert.alert("Account exists", "Try logging in instead.", [
+          {
+            text: "Okay",
+            onPress: () => {
+              navigation.navigate("Login");
+            },
+          },
+        ]);
       } else {
         Alert.alert("Error", error.message || "Failed to create profile");
       }
@@ -64,6 +74,7 @@ export default function ProfileSetupExperienceScreen() {
 
   return (
     <Background style={styles.bg}>
+      <BackButton />
       <StatusBar barStyle="light-content" />
       <View style={styles.swirlContainer}>
         <ScrollView contentContainerStyle={styles.contentContainer}>

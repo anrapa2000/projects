@@ -27,7 +27,7 @@ export function TripEndTime() {
   const { selectedSpot, weather } = route.params;
 
   const [showPicker, setShowPicker] = useState(false);
-  const [selectedTime, setSelectedTime] = useState<number | null>(null);
+  const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
   const [emergencyContact, setEmergencyContact] = useState("");
 
   const handleSetTime = () => {
@@ -36,9 +36,8 @@ export function TripEndTime() {
 
   const handleTimeChange = (event: any, date?: Date) => {
     if (date) {
-      setSelectedTime(date.getTime());
+      setSelectedDateTime(date);
     }
-    setShowPicker(false);
   };
 
   useEffect(() => {
@@ -47,12 +46,17 @@ export function TripEndTime() {
     });
   }, []);
 
+  const handleCancel = () => {
+    setShowPicker(false);
+    setSelectedDateTime(null);
+  };
+
   const handleContinue = async () => {
     try {
       await AsyncStorage.setItem("emergency_contact", emergencyContact);
       const tripData = {
-        startTime: Date.now(),
-        endTime: selectedTime,
+        endTime: selectedDateTime?.getTime(),
+        endDate: selectedDateTime?.getDate(),
         spot: selectedSpot,
         weather,
         emergencyContact,
@@ -62,8 +66,14 @@ export function TripEndTime() {
       navigation.navigate(TRIP_SCREENS.TripStart, {
         selectedSpot,
         weather,
-        endTime: selectedTime,
-        logCatches: true,
+        endTime: selectedDateTime?.getTime(),
+        startTime: null,
+        startDate: Date.now(),
+        endDate: selectedDateTime?.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        }),
       });
     } catch (error) {
       console.error("Error saving trip data:", error);
@@ -92,25 +102,34 @@ export function TripEndTime() {
           subtitle={endTimeStrings.subtitle}
         >
           <View style={styles.timeBox}>
-            {selectedTime ? (
-              <Text style={styles.timeText}>
-                {new Date(selectedTime).toLocaleTimeString("en-US", {
+            {selectedDateTime ? (
+              <Text testID="selected-time-text" style={styles.timeText}>
+                {selectedDateTime.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+                {" at "}
+                {selectedDateTime.toLocaleTimeString("en-US", {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
               </Text>
             ) : (
-              <Text style={styles.timeText}>{endTimeStrings.noTime}</Text>
+              <Text testID="no-time-text" style={styles.timeText}>
+                {endTimeStrings.noTime}
+              </Text>
             )}
 
             <View style={styles.emergencyContactContainer}>
               <Text style={styles.label}>Emergency Contact Number</Text>
               <InputField
+                testID="emergency-contact-input"
                 placeholder="+1 234 567 890"
                 keyboardType="phone-pad"
                 value={emergencyContact}
                 onChangeText={setEmergencyContact}
-                icon="phone-outline"
+                icon="call-outline"
               />
             </View>
           </View>
@@ -118,6 +137,7 @@ export function TripEndTime() {
           <View style={styles.buttonContainer}>
             <View style={styles.buttonRow}>
               <Button
+                testID="set-time-button"
                 text={endTimeStrings.button.setTime}
                 icon="time"
                 size="small"
@@ -125,6 +145,7 @@ export function TripEndTime() {
                 onPress={handleSetTime}
               />
               <Button
+                testID="exit-button"
                 text={endTimeStrings.button.exit}
                 icon="close"
                 size="small"
@@ -135,20 +156,22 @@ export function TripEndTime() {
                     selectedSpot,
                     weather,
                     endTime: 0,
-                    logCatches: false,
                     startTime: 0,
+                    endDate: "",
                   })
                 }
               />
             </View>
-            {selectedTime ? (
+            {selectedDateTime ? (
               <Button
+                testID="continue-button"
                 text={endTimeStrings.button.continue}
                 icon="arrow-forward"
                 onPress={handleContinue}
               />
             ) : (
               <Button
+                testID="skip-button"
                 text={endTimeStrings.button.skip}
                 icon="arrow-forward"
                 onPress={handleSkip}
@@ -157,6 +180,7 @@ export function TripEndTime() {
           </View>
 
           <Modal
+            testID="date-time-picker-modal"
             visible={showPicker}
             transparent={true}
             animationType="slide"
@@ -165,15 +189,18 @@ export function TripEndTime() {
             <View style={styles.modalContainer}>
               <View style={styles.pickerContainer}>
                 <DateTimePicker
-                  value={selectedTime ? new Date(selectedTime) : new Date()}
-                  mode="time"
-                  is24Hour={false}
+                  testID="date-time-picker"
+                  value={
+                    selectedDateTime ? new Date(selectedDateTime) : new Date()
+                  }
+                  mode="datetime"
                   display="spinner"
                   onChange={handleTimeChange}
                   style={styles.picker}
                 />
                 <View style={styles.buttonContainerModal}>
                   <Button
+                    testID="done-button"
                     text="Done"
                     icon="checkmark-circle"
                     size="small"
@@ -181,11 +208,12 @@ export function TripEndTime() {
                     onPress={() => setShowPicker(false)}
                   />
                   <Button
+                    testID="cancel-button"
                     text="Cancel"
                     icon="close"
                     size="small"
                     variant="secondary"
-                    onPress={() => setShowPicker(false)}
+                    onPress={handleCancel}
                   />
                 </View>
               </View>

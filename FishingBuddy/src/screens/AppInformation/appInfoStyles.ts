@@ -11,17 +11,18 @@ export const appInfoStyles = StyleSheet.create({
   },
   header: {
     paddingVertical: 20,
-    paddingHorizontal: 20,
   },
   headerTitle: {
     color: colors.text.primary,
     marginBottom: 4,
+    marginTop: 35,
   },
   headerSubtitle: {
     color: colors.text.secondary,
   },
   cardContainer: {
-    padding: 20,
+    paddingLeft: 5,
+    paddingRight: 5,
     paddingTop: -10,
   },
   card: {

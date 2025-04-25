@@ -14,7 +14,7 @@ import { TRIP_SCREENS } from "../../constants/screens";
 import {
   getWeatherForCoordinatesWithCache,
   WeatherData,
-} from "../../services/weather";
+} from "../../services/weather/weather";
 import { FISHING_SPOTS, SPOT_IMAGES } from "../../data/fishingSpots";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -35,7 +35,7 @@ import DashboardHeader from "./DashboardHeader";
 import Button from "../../components/Button/Button";
 import TripStartedBanner from "./TripStartedBanner";
 import { useIsFocused } from "@react-navigation/native";
-import { checkTripEndAndAlert } from "../../utils/tripMonitorAlert";
+import { checkTripEndAndAlert } from "../../utils/tripMonitorAlerts/tripMonitorAlert";
 import Text from "../../components/Text/Text";
 
 export default function HomeDashboardScreen() {
@@ -50,8 +50,7 @@ export default function HomeDashboardScreen() {
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation<DashboardScreenNavigationProp>();
   const route = useRoute<any>();
-  const { tripStarted, selectedSpot, weather, endTime, logCatches, startTime } =
-    route.params || {};
+  const { tripStarted } = route.params || {};
   const isFocused = useIsFocused();
 
   const opacity = useSharedValue(0);
@@ -168,7 +167,7 @@ export default function HomeDashboardScreen() {
             routes: [{ name: "Dashboard" }], // trip reset
           });
 
-          // Optional: Navigate to trip summary or log catch screen
+          // TODO: Navigate log catch screen
           // navigation.navigate("LogCatch", { tripEnded: true });
         },
       },
@@ -182,13 +181,13 @@ export default function HomeDashboardScreen() {
           <StatusBar barStyle="dark-content" />
           <ScrollView contentContainerStyle={styles.content}>
             <DashboardHeader navigation={navigation} />
-            <TripStartedBanner
-              tripStarted={tripStarted}
-              selectedSpot={selectedSpot}
-              startTime={startTime}
-              endTime={endTime}
-              handleStopTrip={handleStopTrip}
-            />
+            {tripStarted && (
+              <TripStartedBanner
+                routeParams={route.params}
+                handleStopTrip={handleStopTrip}
+              />
+            )}
+
             {!tripStarted && (
               <>
                 <Text variant="subtitleDark">
@@ -231,7 +230,7 @@ export default function HomeDashboardScreen() {
                   <Animated.View style={fishStyle}>
                     <Ionicons name="fish-outline" size={48} color="#3182ce" />
                   </Animated.View>
-                  <Text variant="subtitle2">
+                  <Text variant="subtitleDark2">
                     No favorite spots yet. Time to cast your net!
                   </Text>
                 </View>

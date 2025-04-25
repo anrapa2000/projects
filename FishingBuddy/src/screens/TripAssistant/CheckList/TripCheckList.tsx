@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  ImageBackground,
-} from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { BlurView } from "expo-blur";
-import { LinearGradient } from "expo-linear-gradient";
 import { TRIP_SCREENS } from "../../../constants/screens";
 import { TripChecklistScreenNavigationProp } from "../../../types/navigationTypes";
 import { TripAssistantStorageKeys } from "../../../constants/storageConstants";
@@ -20,7 +13,7 @@ import TripProgressBar from "../TripProgressBar";
 import { checkListStyles as styles } from "./checkListStyles";
 import BackButton from "../../../components/Button/BackButton";
 import { strings } from "../../../common/strings";
-import Background from "../../../components/Background";
+import Background from "../../../components/Background/Background";
 
 const checkListStrings = strings.tripAssistant.checkList.items;
 
@@ -115,6 +108,7 @@ export function TripChecklist() {
               placeholder="Add custom item..."
               value={newItem}
               onChangeText={setNewItem}
+              testID="custom-item-input"
             />
             <Button
               text="Add Item"
@@ -122,6 +116,7 @@ export function TripChecklist() {
               variant="primary"
               size="big"
               onPress={handleAddItem}
+              testID="add-item-button"
             />
           </View>
 
@@ -138,11 +133,13 @@ export function TripChecklist() {
                   style={styles.itemContainer}
                   onPress={() => toggleItem(item)}
                   activeOpacity={0.7}
+                  testID={`checklist-item-${item}`}
                 >
                   <BlurView intensity={50} tint="dark" style={styles.itemBlur}>
                     <View style={styles.itemContent}>
                       <Text
                         style={[styles.itemText, checked && styles.checkedText]}
+                        testID={`checklist-item-text-${item}`}
                       >
                         {item}
                       </Text>
@@ -150,6 +147,7 @@ export function TripChecklist() {
                         <TouchableOpacity
                           onPress={() => removeItem(item)}
                           style={styles.removeButton}
+                          testID={`remove-item-${item}`}
                         >
                           <Text style={styles.removeText}>Remove</Text>
                         </TouchableOpacity>
@@ -171,6 +169,7 @@ export function TripChecklist() {
                 setItems(DEFAULT_ITEMS);
                 setCheckedItems([]);
               }}
+              testID="reset-button"
             />
             <Button
               text="Continue"
@@ -178,6 +177,7 @@ export function TripChecklist() {
               variant="primary"
               size="small"
               onPress={() => navigation.navigate(TRIP_SCREENS.TripLocation)}
+              testID="continue-button"
             />
           </View>
         </View>

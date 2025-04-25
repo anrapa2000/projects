@@ -19,77 +19,64 @@ export default function TripLocationOverlay({
         <View style={styles.legendContainer}>
           <View style={styles.legendItem}>
             <View
+              testID="default-spot-dot"
               style={[
                 styles.legendDot,
                 { backgroundColor: colors.spot.default },
               ]}
             />
-            <Text style={styles.legendText}>
+            <Text testID="default-spot-text" style={styles.legendText}>
               {tripLocationStrings.key.spots}
             </Text>
           </View>
           <View style={styles.legendItem}>
             <View
+              testID="favorite-spot-dot"
               style={[
                 styles.legendDot,
                 { backgroundColor: colors.spot.favorite },
               ]}
             />
-            <Text style={styles.legendText}>
+            <Text testID="favorite-spot-text" style={styles.legendText}>
               {tripLocationStrings.key.favorite}
             </Text>
           </View>
           <View style={styles.legendItem}>
             <View
+              testID="selected-spot-dot"
               style={[
                 styles.legendDot,
                 { backgroundColor: colors.spot.selected },
               ]}
             />
-            <Text style={styles.legendText}>
+            <Text testID="selected-spot-text" style={styles.legendText}>
               {tripLocationStrings.key.selected}
             </Text>
           </View>
           <View style={styles.legendItem}>
             <View
+              testID="user-dot"
               style={[styles.legendDot, { backgroundColor: colors.spot.user }]}
             />
-            <Text style={styles.legendText}>{tripLocationStrings.key.you}</Text>
+            <Text testID="user-text" style={styles.legendText}>
+              {tripLocationStrings.key.you}
+            </Text>
           </View>
         </View>
 
-        {selectedSpot ? (
+        {selectedSpot && (
           <View style={styles.selectedSpotContainer}>
-            <Text style={styles.selectedSpotText}>{selectedSpot.name}</Text>
+            <Text testID="selected-spot-name" style={styles.selectedSpotText}>
+              {selectedSpot.name}
+            </Text>
             <Button
+              testID="next-button"
               text={tripLocationStrings.button.next}
               icon="arrow-forward"
               onPress={() =>
                 navigation.navigate("TripWeather", { selectedSpot })
               }
               variant="primary"
-              size="small"
-            />
-          </View>
-        ) : (
-          <View style={styles.noSpotContainer}>
-            <Text style={styles.noSpotText}>
-              {tripLocationStrings.overlay.noSpot}
-            </Text>
-            <Button
-              text={tripLocationStrings.button.skip}
-              icon="arrow-forward"
-              onPress={() =>
-                navigation.navigate("TripWeather", {
-                  selectedSpot: {
-                    id: "default",
-                    name: "No specific spot",
-                    lat: location.coords.latitude,
-                    lon: location.coords.longitude,
-                  },
-                })
-              }
-              variant="secondary"
               size="small"
             />
           </View>

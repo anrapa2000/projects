@@ -18,12 +18,13 @@ import { Ionicons } from "@expo/vector-icons";
 import InputField from "../../../components/InputField/InputField";
 import Button from "../../../components/Button/Button";
 import Text from "../../../components/Text/Text";
-import Background from "../../../components/Background";
+import Background from "../../../components/Background/Background";
 import { colors } from "../../../theme/colors";
 import { useLocation, useEmailValidation } from "./hooks";
 import { validateForm } from "./formValidation";
 import { BasicProfile } from "./types";
 import { userAccountStyles as styles } from "./userAccountStyles";
+import BackButton from "../../../components/Button/BackButton";
 
 export default function ProfileSetupBasicScreen() {
   const navigation =
@@ -134,6 +135,7 @@ export default function ProfileSetupBasicScreen() {
 
   return (
     <Background>
+      <BackButton />
       <View style={styles.overlay}>
         <SafeAreaView style={styles.container}>
           <KeyboardAvoidingView

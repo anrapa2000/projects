@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, Image } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { getWeatherForCoordinatesWithCache } from "../../../services/weather";
+import { getWeatherForCoordinatesWithCache } from "../../../services/weather/weather";
 import { TripWeatherNavigationProp } from "../../../types/navigationTypes";
 import Button from "../../../components/Button/Button";
 import { colors } from "../../../theme/colors";
@@ -49,8 +49,8 @@ export function TripWeather() {
   if (loading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={styles.loadingText}>{weatherStrings.loading}</Text>
+        <ActivityIndicator testID="loading-indicator" size="large" color={colors.primary} />
+        <Text testID="loading-text" style={styles.loadingText}>{weatherStrings.loading}</Text>
       </View>
     );
   }
@@ -59,8 +59,9 @@ export function TripWeather() {
     <TripAssistantBase
       title={weatherStrings.title.replace("{{spotName}}", selectedSpot.name)}
     >
-      <View style={styles.weatherBox}>
+      <View testID="weather-box" style={styles.weatherBox}>
         <Image
+          testID="weather-icon"
           source={{
             uri: `https://openweathermap.org/img/wn/${
               weather.icon || "01d"
@@ -68,27 +69,28 @@ export function TripWeather() {
           }}
           style={styles.weatherIcon}
         />
-        <Text style={styles.info}>
+        <Text testID="weather-info" style={styles.info}>
           {weather.description}, {weather.temperature}°C
         </Text>
-        <Text style={styles.subInfo}>
+        <Text testID="weather-wind" style={styles.subInfo}>
           {weatherStrings.wind.replace("{{windSpeed}}", weather.windSpeed)}
         </Text>
         {updatedAgo && (
-          <Text style={styles.updated}>
+          <Text testID="weather-updated" style={styles.updated}>
             {weatherStrings.updated.replace("{{timeAgo}}", updatedAgo)}
           </Text>
         )}
       </View>
 
       {isGreatWeather() ? (
-        <Text style={styles.good}>{weatherStrings.good}</Text>
+        <Text testID="weather-good" style={styles.good}>{weatherStrings.good}</Text>
       ) : (
-        <Text style={styles.bad}>{weatherStrings.bad}</Text>
+        <Text testID="weather-bad" style={styles.bad}>{weatherStrings.bad}</Text>
       )}
 
-      <View style={styles.buttonContainer}>
+      <View testID="button-container" style={styles.buttonContainer}>
         <Button
+          testID="next-button"
           text={weatherStrings.button.next}
           icon="arrow-forward"
           onPress={() =>
@@ -96,6 +98,7 @@ export function TripWeather() {
           }
         />
         <Button
+          testID="exit-button"
           text={weatherStrings.button.exit}
           icon="close"
           variant="secondary"
