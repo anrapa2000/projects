@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  View,
   Alert,
   KeyboardAvoidingView,
   Platform,
@@ -8,7 +7,7 @@ import {
   Keyboard,
 } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../services/firebase";
+import { auth } from "../../services/firebase/firebase";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LoginStackParamList } from "../../types/navigationTypes";
@@ -17,8 +16,9 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 import LoginContent from "./LoginContent";
 import { loginScreenStyles as styles } from "./loginStyles";
 import Background from "../../components/Background/Background";
-import { sendEmailWithOtp } from "../../utils/authentication";
+import { sendEmailWithOtp } from "../../utils/authentication/authentication";
 import { resetToLogin } from "../../navigation/RootNavigation";
+import BackButton from "../../components/Button/BackButton";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   LoginStackParamList,
@@ -86,6 +86,7 @@ export default function LoginScreen() {
 
   return (
     <Background>
+      <BackButton onPress={() => navigation.navigate(LOGIN_SCREENS.Signup)} />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}

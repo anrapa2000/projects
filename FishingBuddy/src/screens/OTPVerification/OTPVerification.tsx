@@ -8,13 +8,14 @@ import {
 } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { LoginStackParamList } from "../types/navigationTypes";
-import { resetToMain } from "../navigation/RootNavigation";
-import Background from "../components/Background/Background";
-import Button from "../components/Button/Button";
-import Text from "../components/Text/Text";
-import { colors } from "../theme/colors";
-import { useProfile } from "../contexts/ProfileContext";
+import { LoginStackParamList } from "../../types/navigationTypes";
+import { resetToMain } from "../../navigation/RootNavigation";
+import Background from "../../components/Background/Background";
+import Button from "../../components/Button/Button";
+import Text from "../../components/Text/Text";
+import { colors } from "../../theme/colors";
+import { useProfile } from "../../contexts/ProfileContext";
+import BackButton from "../../components/Button/BackButton";
 
 type OtpVerificationRouteProp = RouteProp<
   LoginStackParamList,
@@ -45,6 +46,7 @@ export const OTPVerification = () => {
 
   return (
     <Background>
+      <BackButton />
       <View style={styles.container}>
         <Text variant="heading" style={styles.title}>
           Verify Your Email

@@ -23,12 +23,14 @@ export default function Welcome() {
       source={require("../../assets/images/kayakHero.jpg")}
       resizeMode="cover"
       style={styles.bg}
+      testID="imageBackground"
     >
       <StatusBar barStyle="light-content" />
       <View style={styles.swirlShape}>
         <LinearGradient
           colors={["transparent", "rgba(0,0,0,0.4)", "rgba(0,0,0,0.9)", "#000"]}
           style={styles.swirlGradient}
+          testID="swirlGradient"
         />
       </View>
 

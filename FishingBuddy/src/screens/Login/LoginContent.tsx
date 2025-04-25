@@ -54,7 +54,7 @@ const LoginContent: React.FC<LoginContentProps> = ({
       entering={FadeInUp.duration(600).delay(600).springify()}
       style={styles.buttonContainer}
     >
-      <Button onPress={handleLogin} />
+      <Button onPress={handleLogin} text="Login" />
 
       <Text variant="body" style={styles.signupText}>
         Don't have an account?{" "}
