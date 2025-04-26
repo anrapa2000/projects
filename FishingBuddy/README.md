@@ -36,7 +36,7 @@ A comprehensive mobile application built with React Native and Expo for fishing 
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone https://github.com/anrapa2000/projects.git
 cd FishingBuddy
 ```
 
