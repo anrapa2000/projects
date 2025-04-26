@@ -1,3 +1,4 @@
+// File for mocking firebase auth
 const mockAuth = {
   onAuthStateChanged: jest.fn(),
   signOut: jest.fn(),

@@ -6,6 +6,7 @@ interface BackButtonProps {
   onPress?: () => void;
 }
 
+// Back button component - used in the header of the app
 export default function BackButton({ onPress }: BackButtonProps) {
   const navigation = useNavigation();
   return (
@@ -21,6 +22,7 @@ export default function BackButton({ onPress }: BackButtonProps) {
   );
 }
 
+// Style definitions for the BackButton component
 const styles = StyleSheet.create({
   backButton: {
     position: "absolute",

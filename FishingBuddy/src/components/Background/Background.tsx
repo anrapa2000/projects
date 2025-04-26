@@ -1,11 +1,7 @@
-/**
- * Background Component
- *
- * A reusable background component that provides a consistent gradient background
- * with an SVG overlay for the entire application. This component is
- * memoized for performance optimization.
- *
- **/
+
+// A reusable background component that provides a consistent gradient background
+// with an SVG overlay for the entire application. This component is
+// memoized for performance optimization.
 import React from "react";
 import {
   View,
@@ -18,9 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { SvgXml } from "react-native-svg";
 import { backgroundSvg } from "../../assets/svg/backgroundSvg";
 
-/**
- * Style definitions for the Background component
- */
+// Style definitions for the Background component
 const styles = StyleSheet.create({
   container: { flex: 1 },
   background: {
@@ -40,7 +34,7 @@ const styles = StyleSheet.create({
 
 const GRADIENT_COLORS = ["#000000", "#0a2540", "#1a365d"] as const;
 
-// Memoized Background component
+// Used memoised react component for performance optimization
 const Background = React.memo(
   ({
     children,

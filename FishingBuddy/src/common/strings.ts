@@ -1,3 +1,5 @@
+// Strings for the app
+// TODO: Add more strings
 export const strings = {
   appName: "FishingBuddy",
   welcome: {

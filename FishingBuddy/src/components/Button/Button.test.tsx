@@ -2,6 +2,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import Button from "./Button";
 
+// Test for the Button component
 describe("Button Component", () => {
   it("renders correctly with default props", () => {
     const { getByText, getByTestId } = render(<Button onPress={() => {}} />);

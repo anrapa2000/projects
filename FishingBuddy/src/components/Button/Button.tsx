@@ -4,6 +4,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import Icon from "react-native-vector-icons/Ionicons";
 import Text from "../Text/Text";
 import { ButtonProps } from "../../types/types";
+
+// Button component - used in the app
+// TODO: Add more variants and sizes
 export const Button: React.FC<ButtonProps> = ({
   onPress,
   variant = "primary",
@@ -92,6 +95,7 @@ export const Button: React.FC<ButtonProps> = ({
   );
 };
 
+// Style definitions for the Button component
 const styles = StyleSheet.create({
   button: {
     width: "100%",

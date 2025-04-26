@@ -4,7 +4,7 @@ import WeatherCard from "./WeatherCard";
 import { strings } from "../../common/strings";
 
 const { weatherCard } = strings;
-
+  
 describe("WeatherCard", () => {
   const defaultProps = {
     location: "Test Location",

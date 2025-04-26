@@ -3,6 +3,7 @@ import { render } from "@testing-library/react-native";
 import { View } from "react-native";
 import Background from "./Background";
 
+// Test for the Background component
 describe("Background", () => {
   it("renders correctly with default props", () => {
     const { getByTestId } = render(
