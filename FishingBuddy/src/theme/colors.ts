@@ -1,3 +1,6 @@
+// Configures the colors used in the app
+// TODO: More colors to be added and organised
+// TODO: Theme support
 export const colors = {
   primary: "#00b4d8",
   background: {

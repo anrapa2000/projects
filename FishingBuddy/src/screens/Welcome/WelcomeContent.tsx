@@ -8,6 +8,7 @@ import Animated, { FadeInUp } from "react-native-reanimated";
 
 const welcomeStrings = strings.welcome.intro;
 
+// WelcomeContent component renders the content of the welcome screen with a title, subtitle, and buttons for signing in and creating a profile.
 const WelcomeContent: React.FC<WelcomeContentProps> = ({
   onSignIn,
   onCreateProfile,

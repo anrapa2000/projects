@@ -7,6 +7,7 @@ import { LOGIN_SCREENS } from "../../constants/screens";
 import WelcomeContent from "./WelcomeContent";
 import { welcomeStyles as styles } from "./welcomeStyles";
 
+// Welcome compoenent renders the welcome screen with a background image and a gradient overlay.
 export default function Welcome() {
   const navigation = useNavigation<SignupScreenNavigationProp>();
 

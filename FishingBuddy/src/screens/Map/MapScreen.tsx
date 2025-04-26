@@ -18,6 +18,9 @@ const FAVORITES_KEY = "favouriteSpots";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
+// MapScreen component displays a map with the user's current location and nearby fishing spots.
+// todo: Add error handling for location permissions
+// Can the Mapview and the Marker components be moved to a separate base component?
 export default function MapScreen() {
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null

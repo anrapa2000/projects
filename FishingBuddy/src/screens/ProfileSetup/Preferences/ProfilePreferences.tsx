@@ -14,6 +14,8 @@ import { preferencesStyles as styles } from "../styles";
 import Button from "../../../components/Button/Button";
 import Background from "../../../components/Background/Background";
 import BackButton from "../../../components/Button/BackButton";
+
+// TODO: Move types to a separate file
 type PreferencesScreenNav = NativeStackNavigationProp<
   LoginStackParamList,
   typeof LOGIN_SCREENS.ProfileSetupPreferences
@@ -24,6 +26,8 @@ type PreferencesRouteProp = RouteProp<
   typeof LOGIN_SCREENS.ProfileSetupPreferences
 >;
 
+// ProfilePreferences component allows users to set their fishing preferences by 
+// selecting options for experience level, favorite fish species, preferred fishing type, gear used, and fishing goals.
 export default function ProfilePreferences() {
   const navigation = useNavigation<PreferencesScreenNav>();
   const route = useRoute<PreferencesRouteProp>();

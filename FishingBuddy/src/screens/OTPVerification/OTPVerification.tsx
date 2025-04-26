@@ -25,7 +25,7 @@ type OtpVerificationNavigationProp = NativeStackNavigationProp<
   LoginStackParamList,
   "OtpVerification"
 >;
-
+// OTPVerification component handles the verification of the OTP sent to the user's email.
 export const OTPVerification = () => {
   const navigation = useNavigation<OtpVerificationNavigationProp>();
   const route = useRoute<OtpVerificationRouteProp>();

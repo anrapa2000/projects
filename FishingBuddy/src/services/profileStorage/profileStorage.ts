@@ -6,10 +6,12 @@ import { encryptData, decryptData } from "../../utils/encryption/encryption";
 // TODO: Replace with a secure env var or string
 const PROFILE_KEY = "user_profile";
 
+// This function deleted the user's profile from AsyncStorage.
 export const deleteProfile = async () => {
   await AsyncStorage.removeItem(PROFILE_KEY);
 };
 
+// This function saves the user's profile to AsyncStorage.
 export const saveProfile = async (profile: any) => {
   const user = await waitForAuthUser();
   if (!user) {
@@ -36,6 +38,7 @@ export const saveProfile = async (profile: any) => {
   }
 };
 
+// This function loads the user's profile from AsyncStorage.
 export const loadProfile = async () => {
   const user = await waitForAuthUser();
 

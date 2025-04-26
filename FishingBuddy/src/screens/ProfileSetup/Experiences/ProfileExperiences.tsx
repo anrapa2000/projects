@@ -16,6 +16,7 @@ import { waitForAuthUser } from "../../../utils/authentication/authentication";
 import BackButton from "../../../components/Button/BackButton";
 import { useProfile } from "../../../contexts/ProfileContext";
 
+// Move types to a separate file
 type ExperienceRouteProp = RouteProp<
   LoginStackParamList,
   "ProfileSetupExperience"
@@ -23,6 +24,8 @@ type ExperienceRouteProp = RouteProp<
 
 type NavigationProp = NativeStackNavigationProp<MainStackParamList>;
 
+// ProfileSetupExperienceScreen component allows users to set up their fishing experience by providing details such as total catches, biggest catch, and locations fished.
+// It includes functionality for saving the profile and handling errors during the process.
 export default function ProfileSetupExperienceScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<ExperienceRouteProp>();

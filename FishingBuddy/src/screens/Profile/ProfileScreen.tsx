@@ -24,6 +24,9 @@ import { auth } from "../../services/firebase/firebase";
 import { supabase } from "../../services/supabase/supabase";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// TODO: License can be viewed in the profile screen
+
+// profile screen displays the user's profile information, including personal details, preferences, and experience.
 export default function ProfileScreen() {
   const { profile, loading, clearProfile } = useProfile();
 
@@ -88,6 +91,7 @@ export default function ProfileScreen() {
     );
   }
 
+  // No profile data found
   if (!profile) {
     return (
       <Background>

@@ -16,6 +16,7 @@ type LoginContentProps = {
   navigateToResetPassword: () => void;
 };
 
+// LoginContent component handles the login form and actions
 const LoginContent: React.FC<LoginContentProps> = ({
   email,
   setEmail,

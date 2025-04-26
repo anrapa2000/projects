@@ -2,6 +2,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LOGIN_SCREENS, SCREENS } from "../constants/screens";
 import { TRIP_SCREENS } from "../constants/screens";
 
+// Contains all the navigation types for the app
 export type TripStackParamList = {
   [TRIP_SCREENS.TripIntro]: undefined;
   [TRIP_SCREENS.TripChecklist]: undefined;

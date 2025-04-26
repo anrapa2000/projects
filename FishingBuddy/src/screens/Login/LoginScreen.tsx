@@ -30,6 +30,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
+  // Function to handle authentication errors and display appropriate messages
   const handleAuthError = (errorCode: string) => {
     const errorMessages: Record<string, string> = {
       "auth/user-not-found":
