@@ -5,6 +5,7 @@ import { getDistanceInKm } from "../location/locationUtils";
 
 export const FAVORITES_KEY = "favouriteSpots";
 
+// This function requests the user's location permission and returns the current location.
 export async function getCurrentLocation(): Promise<Location.LocationObject | null> {
   const { status } = await Location.requestForegroundPermissionsAsync();
   if (status !== "granted") {
@@ -14,6 +15,7 @@ export async function getCurrentLocation(): Promise<Location.LocationObject | nu
   return await Location.getCurrentPositionAsync({});
 }
 
+// Gets the nearby fishing spots within a specified radius from the user's current location.
 export function getNearbySpots(
   location: Location.LocationObject,
   radiusInKm: number = 20
@@ -27,6 +29,7 @@ export function getNearbySpots(
   });
 }
 
+// Saves the user's favorite fishing spots to AsyncStorage.
 export async function getFavoriteSpotIds(): Promise<string[]> {
   const saved = await AsyncStorage.getItem(FAVORITES_KEY);
   return saved ? JSON.parse(saved) : [];

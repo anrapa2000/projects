@@ -1,5 +1,6 @@
 import * as Location from "expo-location";
 
+// Gets the current location of the user and returns it as a string in reverse geocode format.
 export const getReversedAddress = async (
   latitude: number,
   longitude: number
@@ -26,6 +27,7 @@ export const getReversedAddress = async (
   }
 };
 
+// Calculates the distance in kilometers between two geographical coordinates using the Haversine formula.
 export const getDistanceInKm = (
   lat1: number,
   lon1: number,

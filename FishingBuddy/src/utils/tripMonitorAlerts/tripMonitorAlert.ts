@@ -1,6 +1,7 @@
 import { Alert, Linking, Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// This function checks if the trip has ended and alerts the user if necessary.
 export async function checkTripEndAndAlert() {
   const data = await AsyncStorage.getItem("trip_active");
   const emergencyContact = await AsyncStorage.getItem("emergency_contact");
@@ -12,8 +13,6 @@ export async function checkTripEndAndAlert() {
   const trip = JSON.parse(data);
   const now = Date.now();
 
-  console.log("trip.endTime", trip.endTime);
-  console.log("now", now);
   if (trip.endTime && now >= trip.endTime) {
     // Trip time has expired
     Alert.alert(

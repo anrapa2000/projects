@@ -1,6 +1,7 @@
 import { auth } from "../../services/firebase/firebase";
 import { User as FirebaseUser } from "firebase/auth";
 
+// This function returns a promise that resolves when the user is authenticated.
 export const waitForAuthUser = (): Promise<FirebaseUser> => {
   return new Promise((resolve, reject) => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -16,6 +17,7 @@ export const waitForAuthUser = (): Promise<FirebaseUser> => {
   });
 };
 
+// This function sends an OTP to the user's email using Formspree.
 export async function sendEmailWithOtp(email: string, otp: string) {
   const formData = new FormData();
   formData.append("email", email);

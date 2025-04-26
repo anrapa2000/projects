@@ -24,9 +24,13 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { MainStackParamList } from "../../types/navigationTypes";
 import { logCatchStyles as styles } from "./logCatchStyles";
 
+// TODO: Types can be moved to the types file
 type LogCatchScreenNavigationProp =
   NativeStackNavigationProp<MainStackParamList>;
 
+//   LogCatchScreen component allows users to log their fishing catches by providing details such as
+// a photo, fish type, size, timestamp, and location. It includes functionality for capturing or
+// selecting an image, entering catch details, and saving the data.
 export default function LogCatchScreen() {
   const navigation = useNavigation<LogCatchScreenNavigationProp>();
   const [image, setImage] = useState<string | null>(null);
