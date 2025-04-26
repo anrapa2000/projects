@@ -1,3 +1,6 @@
+// Fishing spots data
+// This is a list of fishing spots that are used in the app
+// This is a mock data and will be replaced with the actual data from the backend
 export const FISHING_SPOTS = [
   {
     id: "1",
@@ -61,6 +64,8 @@ export const FISHING_SPOTS = [
   },
 ];
 
+// Images for the fishing spots
+// This is a mock data and will be replaced with the actual data from the backend
 export const SPOT_IMAGES: Record<string, string> = {
   "Oak Creek Fishing Spot":
     "https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800&auto=format&fit=crop&q=60",

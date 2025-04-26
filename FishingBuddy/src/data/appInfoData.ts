@@ -1,6 +1,7 @@
 import { AppInfoFeatures } from "../types/types";
 import { strings } from "../common/strings";
 
+// App info features data
 const appInfoFeaturesStrings = strings.appInfo.features;
 export const appInfoFeatures: AppInfoFeatures[] = [
   {

@@ -2,19 +2,12 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { loadProfile } from "../services/profileStorage/profileStorage";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../services/firebase/firebase";
-
-type Profile = Awaited<ReturnType<typeof loadProfile>>;
-
-type ProfileContextType = {
-  profile: Profile | null;
-  loading: boolean;
-  refreshProfile: () => Promise<void>;
-  user: User | null;
-  clearProfile: () => void;
-};
+import { Profile, ProfileContextType } from "./profileContextTypes";
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
+// Provides the `ProfileContext` to its children, managing the user's profile, authentication state,
+// and loading state. This context is responsible for fetching, clearing, and refreshing the user's profile.
 export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -22,6 +15,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
+  // Fetches the user's profile from storage and updates the state.
   const fetchProfile = async () => {
     setLoading(true);
     try {
@@ -34,12 +28,13 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
       setLoading(false);
     }
   };
-
+  // Clears the user's profile from the state.
   const clearProfile = () => {
     setProfile(null);
   };
 
   useEffect(() => {
+    // Sets up an authentication state listener to update the user state
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       if (firebaseUser) {
@@ -67,6 +62,7 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
+// Custom hook to access the `ProfileContext`. It throws an error if used outside of a `ProfileProvider`.
 export const useProfile = () => {
   const context = useContext(ProfileContext);
   if (!context) {
