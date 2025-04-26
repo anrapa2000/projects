@@ -1,3 +1,5 @@
+// This is the app information component
+// It is used to display the gist of all the features created for the app
 import React from "react";
 import { View, SafeAreaView, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";

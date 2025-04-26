@@ -36,8 +36,9 @@ describe("AppInformation", () => {
 
   it("navigates to ProfileSetupUserAccount when Get Started button is pressed", () => {
     const { getByText } = render(<AppInformation />);
-
+    // Get the get started button
     const getStartedButton = getByText("Get Started");
+    // Press the get started button
     fireEvent.press(getStartedButton);
 
     expect(mockNavigate).toHaveBeenCalledWith(
@@ -47,14 +48,15 @@ describe("AppInformation", () => {
 
   it("renders feature icons correctly", () => {
     const { getAllByTestId } = render(<AppInformation />);
-
+    // Get all the feature icons
     const iconContainers = getAllByTestId("feature-icon");
+    // Check if the number of feature icons is equal to the number of features
     expect(iconContainers.length).toBe(appInfoFeatures.length);
   });
 
   it("renders scrollable content", () => {
     const { getByTestId } = render(<AppInformation />);
-
+    // Get the scroll view
     const scrollView = getByTestId("features-scrollview");
     expect(scrollView.props.showsVerticalScrollIndicator).toBe(false);
   });

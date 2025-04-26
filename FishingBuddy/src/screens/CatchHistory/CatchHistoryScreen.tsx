@@ -1,3 +1,8 @@
+// CatchHistoryScreen component displays a list of the user's fishing catches.
+// It fetches the catch data from storage, displays it in a list, and provides
+// a loading state while the data is being retrieved.
+
+//TODO: Types can be moved to types file and strings can be moved to strings.ts for common use and organisation
 import React, { useEffect, useState } from "react";
 import {
   View,

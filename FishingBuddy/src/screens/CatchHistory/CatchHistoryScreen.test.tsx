@@ -4,12 +4,15 @@ import CatchHistoryScreen from "./CatchHistoryScreen";
 import { getCatches } from "../../services/storage/storage";
 import { colors } from "../../theme/colors";
 
+// Mock the getCatches function
 jest.mock("../../services/storage/storage", () => ({
   getCatches: jest.fn(),
 }));
 
+// Mock the MaterialCommunityIcons icon
 jest.mock("react-native-vector-icons/MaterialCommunityIcons", () => "Icon");
 
+// Mock the navigation function
 const mockNavigate = jest.fn();
 jest.mock("@react-navigation/native", () => ({
   useNavigation: () => ({
@@ -17,6 +20,7 @@ jest.mock("@react-navigation/native", () => ({
   }),
 }));
 
+// Clear all mocks before each test
 beforeEach(() => {
   jest.clearAllMocks();
 });

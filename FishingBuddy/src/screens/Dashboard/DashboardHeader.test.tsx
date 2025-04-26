@@ -4,23 +4,26 @@ import DashboardHeader from "./DashboardHeader";
 import { useProfile } from "../../contexts/ProfileContext";
 import { mockUser } from "../../data/mockData";
 
+// Mocking the ProfileContext
 jest.mock("../../contexts/ProfileContext", () => ({
   useProfile: jest.fn(),
 }));
 
+// Mocking react-native-async-storage
 jest.mock("react-native-reanimated", () => ({
-    ...jest.requireActual("react-native-reanimated"),
-    useSharedValue: jest.fn(),
-    useAnimatedStyle: jest.fn(),
-    withTiming: jest.fn(),
-    withSpring: jest.fn(),
-    withDecay: jest.fn(),
-    Easing: {
-      linear: jest.fn(),
-      ease: jest.fn(),
-    },
-  }));
+  ...jest.requireActual("react-native-reanimated"),
+  useSharedValue: jest.fn(),
+  useAnimatedStyle: jest.fn(),
+  withTiming: jest.fn(),
+  withSpring: jest.fn(),
+  withDecay: jest.fn(),
+  Easing: {
+    linear: jest.fn(),
+    ease: jest.fn(),
+  },
+}));
 
+// Mocking react-native-vector-icons
 jest.mock("react-native-vector-icons/Ionicons", () => "Ionicons");
 
 describe("DashboardHeader", () => {
@@ -102,29 +105,29 @@ describe("DashboardHeader", () => {
     expect(mockNavigation.navigate).toHaveBeenCalledWith("Profile");
   });
 
-//   it("renders the profile image with the correct source from the profile context", () => {
-//     (useProfile as jest.Mock).mockReturnValue({
-//       profile: { name: "John Doe", photo: "https://example.com/photo.jpg" },
-//     });
-  
-//     const { getByTestId } = render(
-//       <DashboardHeader navigation={mockNavigation as any} />
-//     );
-  
-//     const profileImage = getByTestId("profile-image");
-//     expect(profileImage.props.source.uri).toBe("https://example.com/photo.jpg");
-//   });
+  //   it("renders the profile image with the correct source from the profile context", () => {
+  //     (useProfile as jest.Mock).mockReturnValue({
+  //       profile: { name: "John Doe", photo: "https://example.com/photo.jpg" },
+  //     });
 
-//   it("renders the profile image with the mock user's photo if profile is not available", () => {
-//     (useProfile as jest.Mock).mockReturnValue({
-//       profile: null,
-//     });
+  //     const { getByTestId } = render(
+  //       <DashboardHeader navigation={mockNavigation as any} />
+  //     );
 
-//     const { getByTestId } = render(
-//       <DashboardHeader navigation={mockNavigation as any} />
-//     );
+  //     const profileImage = getByTestId("profile-image");
+  //     expect(profileImage.props.source.uri).toBe("https://example.com/photo.jpg");
+  //   });
 
-//     const profileImage = getByTestId("profile-image");
-//     expect(profileImage.props.source.uri).toBe(mockUser.photo);
-//   });
+  //   it("renders the profile image with the mock user's photo if profile is not available", () => {
+  //     (useProfile as jest.Mock).mockReturnValue({
+  //       profile: null,
+  //     });
+
+  //     const { getByTestId } = render(
+  //       <DashboardHeader navigation={mockNavigation as any} />
+  //     );
+
+  //     const profileImage = getByTestId("profile-image");
+  //     expect(profileImage.props.source.uri).toBe(mockUser.photo);
+  //   });
 });

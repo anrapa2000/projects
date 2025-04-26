@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-
+// TODO: Move all the colors to a theme file
 export const dashboardStyles = StyleSheet.create({
   container: {
     flex: 1,

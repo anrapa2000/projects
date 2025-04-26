@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors } from "../../theme/colors";
-
+// TODO: Colors can be moved to the theme folder
 export const appInfoStyles = StyleSheet.create({
   overlay: {
     flex: 1,

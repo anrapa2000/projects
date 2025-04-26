@@ -6,6 +6,9 @@ import { mockUser } from "../../data/mockData";
 import { Image, Text } from "react-native";
 import { DashboardScreenNavigationProp } from "../../types/navigationTypes";
 import { useProfile } from "../../contexts/ProfileContext";
+
+// DashboardHeader component renders the header section of the dashboard screen.
+// It includes a greeting message based on the current time, a hamburger menu button, and a profile image for the user's profile picture.
 export default function DashboardHeader({
   navigation,
 }: {
@@ -19,6 +22,7 @@ export default function DashboardHeader({
     transform: [{ scale: scale.value }],
   }));
 
+  // Greeting message based on the current time
   const currentHour = new Date().getHours();
   const greeting =
     currentHour < 12

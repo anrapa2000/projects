@@ -9,6 +9,7 @@ import { checkTripEndAndAlert } from "../../utils/tripMonitorAlerts/tripMonitorA
 import { ProfileProvider } from "../../contexts/ProfileContext";
 import { Alert } from "react-native";
 
+// Mocking async-storage, navigation, and weather service
 jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -24,10 +25,12 @@ jest.mock("../../services/weather/weather", () => ({
   getWeatherForCoordinatesWithCache: jest.fn(),
 }));
 
+// Mocking trip end alert utility
 jest.mock("../../utils/tripMonitorAlerts/tripMonitorAlert", () => ({
   checkTripEndAndAlert: jest.fn(),
 }));
 
+// Mocking react-native-reanimated
 jest.mock("react-native-reanimated", () => {
   const Reanimated = require("react-native-reanimated/mock");
   Reanimated.default.call = () => {};
@@ -62,6 +65,7 @@ jest.mock("react-native-reanimated", () => {
   };
 });
 
+// Mocking expo linear-gradient
 jest.mock("expo-linear-gradient", () => ({
   LinearGradient: jest.fn(({ children }) => children),
 }));

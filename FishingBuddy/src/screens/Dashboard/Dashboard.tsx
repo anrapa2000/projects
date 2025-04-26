@@ -1,3 +1,4 @@
+// TODO: Strings can be moved to it's own separate file
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -38,6 +39,9 @@ import { useIsFocused } from "@react-navigation/native";
 import { checkTripEndAndAlert } from "../../utils/tripMonitorAlerts/tripMonitorAlert";
 import Text from "../../components/Text/Text";
 
+// HomeDashboardScreen component is the main dashboard screen for the FishingBuddy app.
+// It displays the user's favorite fishing spots with weather information, allows navigation
+//  to start the Trip Assistant flow, and provides a banner for an ongoing trip.
 export default function HomeDashboardScreen() {
   const [favoritesWithWeather, setFavoritesWithWeather] = useState<
     {
@@ -74,6 +78,7 @@ export default function HomeDashboardScreen() {
           const spot = FISHING_SPOTS.find((s) => s.id === id);
           if (!spot) return null;
 
+          // Util that fetches weather data for the given coordinates and caches it
           const weather = await getWeatherForCoordinatesWithCache(
             spot.lat,
             spot.lon,
@@ -92,7 +97,7 @@ export default function HomeDashboardScreen() {
           }
         })
       );
-
+      // Filter out null values and ensure correct typing
       const filtered = results.filter(Boolean) as {
         id: string;
         name: string;
@@ -118,6 +123,7 @@ export default function HomeDashboardScreen() {
     loadWeatherForFavorites();
   }, [isFocused]);
 
+  // This effect checks if the trip has ended every hour and alerts the user.
   useEffect(() => {
     if (tripStarted) {
       const interval = setInterval(async () => {
@@ -135,6 +141,7 @@ export default function HomeDashboardScreen() {
     }
   }, [tripStarted]);
 
+  // This function checks if the weather is amazing based on specific criteria.
   const isAmazingWeather = (weather: WeatherData) => {
     return (
       ["clear sky", "few clouds"].includes(weather.description.toLowerCase()) &&
@@ -205,7 +212,6 @@ export default function HomeDashboardScreen() {
                 />
               </>
             )}
-
             <WeatherCard
               location={mockWeather.location}
               temperature={mockWeather.temp}
