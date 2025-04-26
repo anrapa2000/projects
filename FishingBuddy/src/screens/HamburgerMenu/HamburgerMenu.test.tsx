@@ -78,7 +78,6 @@ describe("HamburgerMenu", () => {
 
     // Check footer buttons
     expect(getByText(strings.hamburgerMenu.logout)).toBeTruthy();
-    expect(getByText("Reset Storage")).toBeTruthy();
   });
 
   it("navigates to correct screens when menu items are pressed", () => {

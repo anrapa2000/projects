@@ -3,9 +3,8 @@ import { View, SafeAreaView } from "react-native";
 import { signOut } from "firebase/auth";
 import { auth } from "../../services/firebase/firebase";
 import { HamburgerMenuNavProp } from "../../types/navigationTypes";
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { SCREENS } from "../../constants/screens";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { resetToLogin } from "../../navigation/RootNavigation";
 import { deleteProfile } from "../../services/profileStorage/profileStorage";
 import { hamburgerMenuStyles as styles } from "./hamburgerMenuStyles";
@@ -16,7 +15,7 @@ import Text from "../../components/Text/Text";
 import BackButton from "../../components/Button/BackButton";
 
 const hamburgerMenuStrings = strings.hamburgerMenu;
-
+// HamburgerMenu component renders a menu with various options for the user.
 export default function HamburgerMenu() {
   const navigation = useNavigation<HamburgerMenuNavProp>();
 

@@ -7,7 +7,7 @@ type TripStartedBannerProps = {
   routeParams: any;
   handleStopTrip: () => void;
 };
-
+// This component displays a banner when a trip is started, showing the trip details and a button to stop the trip.
 export default function TripStartedBanner({
   routeParams,
   handleStopTrip,

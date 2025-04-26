@@ -13,12 +13,15 @@ import { LoginStackParamList } from "../../types/navigationTypes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import BackButton from "../../components/Button/BackButton";
 
+// TODO: Types can be moved to the types file
 type LicenseUploadRouteProp = RouteProp<LoginStackParamList, "LicenseUpload">;
 type LicenseUploadNavigationProp = NativeStackNavigationProp<
   LoginStackParamList,
   "LicenseUpload"
 >;
 
+// Screen for uploading a fishing license image
+// TODO: Can display a line saying that this is optional
 export default function LicenseUpload() {
   const [image, setImage] = useState<string | null>(null);
   const navigation = useNavigation<LicenseUploadNavigationProp>();

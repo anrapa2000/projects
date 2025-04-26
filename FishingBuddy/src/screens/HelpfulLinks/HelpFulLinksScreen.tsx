@@ -13,9 +13,10 @@ import Text from "../../components/Text/Text";
 import { colors } from "../../theme/colors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+// HelpfulLinksScreen component renders a screen with various helpful links for the user.
 export default function HelpfulLinksScreen() {
   const openLink = (url: string) => Linking.openURL(url);
-
+  // Array of helpful links with titles, icons, and URLs
   const helpFulLinks = [
     {
       title: "Tutorial Videos",
