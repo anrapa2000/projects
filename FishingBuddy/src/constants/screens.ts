@@ -1,3 +1,4 @@
+// Constants for the screens
 export const SCREENS = {
   Welcome: "Welcome",
   HamburgerMenu: "HamburgerMenu",
@@ -10,6 +11,7 @@ export const SCREENS = {
   LicenseUpload: "LicenseUpload",
 };
 
+// Constants for the login screens
 export const LOGIN_SCREENS = {
   OtpVerification: "OtpVerification",
   ProfileSetupUserAccount: "ProfileSetupUserAccount",
@@ -23,11 +25,13 @@ export const LOGIN_SCREENS = {
   Welcome: "Welcome",
 } as const;
 
+// Constants for the root screens
 export const ROOT_SCREENS = {
   Entry: "Entry",
   Main: "Main",
 };
 
+// Constants for the trip assistant screens
 export const TRIP_SCREENS = {
   TripIntro: "TripIntro",
   TripChecklist: "TripChecklist",
@@ -38,6 +42,7 @@ export const TRIP_SCREENS = {
   TripStart: "TripStart",
 } as const;
 
+// Constants for the trip flow steps
 export const TRIP_FLOW_STEPS = [
   "TripIntro",
   "TripChecklist",
