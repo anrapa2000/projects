@@ -1,3 +1,6 @@
+// Trip stack navigator
+// This is the trip stack navigator for the app
+// It is used to navigate through the trip assistant screens
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { TripIntro } from "../screens/TripAssistant/TripIntro/TripIntro";

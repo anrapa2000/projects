@@ -5,6 +5,8 @@ import {
 
 export const navigationRef = createNavigationContainerRef();
 
+// Reset to main screen
+// After authentication, the user will be redirected to the main screen
 export function resetToMain() {
   if (navigationRef.isReady()) {
     navigationRef.dispatch(
@@ -16,6 +18,8 @@ export function resetToMain() {
   }
 }
 
+// Reset to login screen
+// When the user is not logged in, the user will be redirected to the login screen
 export function resetToLogin() {
   if (navigationRef.isReady()) {
     navigationRef.dispatch(

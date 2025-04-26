@@ -1,3 +1,7 @@
+// Main stack navigator
+// This is the main stack navigator for the app
+// It is used to navigate through the main screens
+// TODO: Code can be refactored and made more organised
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SCREENS } from "../constants/screens";
 
@@ -29,6 +33,7 @@ export default function MainStackNavigator() {
         component={CatchHistoryScreen}
       />
       <Stack.Screen name={SCREENS.Profile} component={ProfileScreen} />
+      {/* Trip flow stack navigator  is part of the main stack navigator */}
       <Stack.Screen name="TripFlow" component={TripStackNavigator} />
     </Stack.Navigator>
   );

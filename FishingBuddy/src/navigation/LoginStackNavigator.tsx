@@ -1,3 +1,7 @@
+// This is the login stack navigator
+// It is used to navigate through the login screens and the profile setup screens
+
+// TODO: Code can be refactored and made more organised
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LOGIN_SCREENS } from "../constants/screens";
 import ProfilePreferences from "../screens/ProfileSetup/Preferences/ProfilePreferences";
