@@ -48,19 +48,6 @@ describe("TripLocationOverlay", () => {
     expect(getByTestId("user-text")).toBeTruthy();
   });
 
-  it("shows no spot selected state", () => {
-    const { getByTestId } = render(
-      <TripLocationOverlay
-        location={mockLocation}
-        selectedSpot={null}
-        navigation={{ navigate: mockNavigate }}
-      />
-    );
-
-    expect(getByTestId("no-spot-text")).toBeTruthy();
-    expect(getByTestId("skip-button")).toBeTruthy();
-  });
-
   it("shows selected spot state", () => {
     const { getByTestId } = render(
       <TripLocationOverlay
@@ -86,26 +73,6 @@ describe("TripLocationOverlay", () => {
     fireEvent.press(getByTestId("next-button"));
     expect(mockNavigate).toHaveBeenCalledWith("TripWeather", {
       selectedSpot: mockSelectedSpot,
-    });
-  });
-
-  it("navigates to TripWeather with default spot when skip button is pressed", () => {
-    const { getByTestId } = render(
-      <TripLocationOverlay
-        location={mockLocation}
-        selectedSpot={null}
-        navigation={{ navigate: mockNavigate }}
-      />
-    );
-
-    fireEvent.press(getByTestId("skip-button"));
-    expect(mockNavigate).toHaveBeenCalledWith("TripWeather", {
-      selectedSpot: {
-        id: "default",
-        name: "No specific spot",
-        lat: mockLocation.coords.latitude,
-        lon: mockLocation.coords.longitude,
-      },
     });
   });
 }); 

@@ -4,6 +4,7 @@ import { TripLocationScreenNavigationProp } from "./navigationTypes";
 import { variants } from "../components/Text/Text";
 import { Ionicons } from "@expo/vector-icons";
 
+// This file contains type definitions for various components and screens in the application.
 export type TripLocationOverlayProps = {
   location: {
     coords: {
