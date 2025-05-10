@@ -15,8 +15,6 @@ import Background from "../../components/Background/Background";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import BackButton from "../../components/Button/BackButton";
 import Text from "../../components/Text/Text";
-import { MainStackParamList } from "../../types/navigationTypes";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useProfile } from "../../contexts/ProfileContext";
 import { resetToLogin } from "../../navigation/RootNavigation";
 import { deleteUser } from "firebase/auth";
@@ -109,8 +107,17 @@ export default function ProfileScreen() {
       <SafeAreaView style={styles.safeArea}>
         <ScrollView contentContainerStyle={styles.container}>
           <View style={styles.header}>
-            <Icon name="account-circle" size={80} color={colors.primary} />
-            <Text variant="heading2">{profile.name}</Text>
+            {profile.photo ? (
+              <Image
+                source={{ uri: profile.photo }}
+                style={{ width: 80, height: 80, borderRadius: 40 }}
+              />
+            ) : (
+              <Icon name="account-circle" size={80} color={colors.primary} />
+            )}
+            <Text variant="heading2" style={{ paddingTop: 10 }}>
+              {profile.name}
+            </Text>
           </View>
 
           <View style={styles.section}>
@@ -151,12 +158,30 @@ export default function ProfileScreen() {
                 </Text>
               </View>
             )}
+            {profile.experience.biggestCatch && (
+              <View style={styles.infoRow}>
+                <Text variant="body">
+                  Biggest Catch: {profile.experience.biggestCatch}
+                </Text>
+              </View>
+            )}
+            {profile.experience.locationsFished && (
+              <View style={styles.infoRow}>
+                <Text variant="body">
+                  Locations Fished: {profile.experience.locationsFished}
+                </Text>
+              </View>
+            )}
           </View>
-          {profile.license && (
+          {profile.licenseImage && (
             <View style={styles.section}>
               <Text variant="title">License</Text>
-              <View style={styles.infoRow}>
-                <Image source={{ uri: profile.license }} />
+              <View style={styles.licenseImageContainer}>
+                <Image
+                  source={{ uri: profile.licenseImage }}
+                  style={styles.licenseImage}
+                  resizeMode="contain"
+                />
               </View>
             </View>
           )}
@@ -204,5 +229,17 @@ const styles = StyleSheet.create({
   },
   actions: {
     marginTop: 20,
+  },
+  licenseImageContainer: {
+    width: "100%",
+    height: 200,
+    marginTop: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    borderRadius: 8,
+    overflow: "hidden",
+  },
+  licenseImage: {
+    width: "100%",
+    height: "100%",
   },
 });
